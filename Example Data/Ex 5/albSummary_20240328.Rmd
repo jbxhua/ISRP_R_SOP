@@ -1,0 +1,840 @@
+---
+title: "Bellows Falls Union High School PCB Summary"
+author: 
+  - "Principal Investigator: Keri Hornbuckle Ph.D."
+  - "Department of Civil & Environmental Engineering and IIHR - Hydroscience and Engineering"
+  - "Email: keri-hornbuckle@uiowa.edu"
+  - "Phone: (319) 384-0789"
+subtitle: Prepared by the University of Iowa for the Vermont Department of Environmental
+  Conservation
+date: "Revised `r format(Sys.Date(), '%B %d, %Y')`"
+output:
+  pdf_document: 
+    fig_width: 7
+    fig_height: 4
+  word_document: default
+header-includes:
+  - \usepackage{placeins}
+---
+
+
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+```{r libraries, include=FALSE}
+
+rm(list=ls(all=TRUE))
+options(tinytex.verbose=TRUE)
+library(ggplot2)
+library(reshape2)
+library(scales)
+library(dplyr)
+library(ggpubr)
+library(RColorBrewer)
+library(ztable)
+library(tinytex)
+library(kableExtra)
+library(knitr)
+library(png)
+library(docxtools)
+library(lsa)
+#knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+```{r names, include=FALSE}
+
+# school name
+
+sch.name <- 'Bellows Falls Union High School'
+city <- 'Westminster'
+
+# school abbreviation
+
+sch.ab <- 'BF'
+
+# school specific parameters
+
+t.days <- 26               # deployment time in days
+temp.c = 24                # average temp in Celsius 
+
+
+```
+
+```{r readIn, include=FALSE}
+
+
+#######################################################
+# READ IN DATA FILES AND FIXED FOR USE
+#######################################################
+# CHANGE AS NEEDED
+
+cong.list <- read.csv('//kchResearch.drive.engineering.uiowa.edu/kchresearch/Jason Hua/Vermont Schools Project/Data/bellowsFalls/bf_ssMass_20240124.csv', header = FALSE)
+
+mass <- read.csv('//kchResearch.drive.engineering.uiowa.edu/kchresearch/Jason Hua/Vermont Schools Project/Data/bellowsFalls/bf_ssMass_20240124.csv',
+                 header = TRUE, fileEncoding="UTF-8-BOM", check.names = FALSE)
+sch.ssMass <- read.csv('//kchResearch.drive.engineering.uiowa.edu/kchresearch/Jason Hua/Vermont Schools Project/Data/bellowsFalls/bf_ssMass_20240124.csv',
+                      header = TRUE, fileEncoding="UTF-8-BOM", check.names = FALSE)  # ss corrected mass, back up data frame
+samp.type <- read.csv('//kchResearch.drive.engineering.uiowa.edu/kchresearch/Jason Hua/Vermont Schools Project/Data/bellowsFalls/bfSampleType_20240124.csv',
+                      header = TRUE, fileEncoding="UTF-8-BOM", check.names = FALSE)   # sample type and materials
+samp.type2 <- read.csv('//kchResearch.drive.engineering.uiowa.edu/kchresearch/Jason Hua/Vermont Schools Project/Data/bellowsFalls/bfSampleType_20240124.csv',
+                      header = TRUE, fileEncoding="UTF-8-BOM", check.names = FALSE)   # sample type and materials
+sch.blanks <- read.csv('//kchResearch.drive.engineering.uiowa.edu/kchresearch/Jason Hua/Vermont Schools Project/Data/bellowsFalls/bf_blanks_20240124.csv',
+                      header = TRUE, fileEncoding="UTF-8-BOM", check.names = FALSE)    # SS corrected mass
+sch.uncMass <- read.csv('//kchResearch.drive.engineering.uiowa.edu/kchresearch/Jason Hua/Vermont Schools Project/Data/bellowsFalls/bf_uncMass_20240124.csv',
+                       header = TRUE, fileEncoding="UTF-8-BOM", check.names = FALSE) # uncorrected mass
+
+ss.rcv <- read.csv('//kchResearch.drive.engineering.uiowa.edu/kchresearch/Jason Hua/Vermont Schools Project/Data/bellowsFalls/bf_ssRecoveries_20240124.csv',
+                      header = TRUE, fileEncoding="UTF-8-BOM", check.names = FALSE)   #surrogate recoveries as decimals
+# srm <- read.csv('Z:/Jason Hua/Vermont Schools Project/Data/srm_20220817.csv',
+#                       header = TRUE, fileEncoding="UTF-8-BOM", check.names = FALSE)
+
+pcb <- read.csv("//kchResearch.drive.engineering.uiowa.edu/kchresearch/Jason Hua/Vermont Schools Project/Data/koaCalc.csv", header = TRUE,
+                fileEncoding="UTF-8-BOM", check.names = FALSE)   # pcb koa values/info for calculation
+# pcb info: congener, orthos, MW, RRT, koa @ 25C
+# columns MUST be in this order for script to work
+aroclor <- read.csv('//kchResearch.drive.engineering.uiowa.edu/kchresearch/Jason Hua/Vermont Schools Project/Data/aroclorProfiles_20221025.csv',
+                    header = TRUE, fileEncoding="UTF-8-BOM", check.names = FALSE)
+aroclor.v <- read.csv('//kchResearch.drive.engineering.uiowa.edu/kchresearch/Jason Hua/Vermont Schools Project/Data/aroclorVapProfiles_20221025.csv',
+                    header = TRUE, fileEncoding="UTF-8-BOM", check.names = FALSE)
+
+
+```
+
+```{r setup, include=FALSE}
+
+# FIXED DATA FILES FOR USE
+#######################################################
+
+sid <- mass[,2]
+names(sid) <- 'sid'
+bid <- mass[,1]
+cong.list <- cong.list[1,]
+cong.list <- cong.list[,-(1:2)]
+cong.list <- as.data.frame(t(cong.list))
+names(cong.list) <- 'Congener'
+samp.list <- mass[,1:2] 
+mass <- mass[,-(1:2)] 
+# sch.uncMass <- sch.uncMass[,-(1:2)]
+materials <- samp.type[,5]
+bid.list <- as.data.frame(t(bid))
+names(bid) <- 'bid'
+samp.mass <- mass[1:(nrow(mass)),]        ######### CHANGE FOR EACH SCHOOL
+ae.samp <- samp.list[1:(nrow(mass)),]
+clist <- cong.list
+names(clist) <- 'congener'
+title <- samp.type[,1]
+
+
+```
+
+
+```{r functions, include=FALSE}
+
+# FUNCTION USED IN THIS SCRIPT
+#######################################################
+
+
+# mass fraction
+##################################################
+
+mass.fraction <- function(sums, cong.list){
+r <- nrow(sums)
+c <- ncol(sums)
+sums.t <- as.data.frame(rowSums(sums))
+mass.f <- as.data.frame(matrix(nrow = r, ncol = c))
+for (i in 1:r) {
+for (j in 1:c) {
+mass.f[i,j] <- sums[i,j] / sums.t[i,]
+}
+}
+colnames(mass.f) <- t(cong.list)
+#print(rowSums(mass.f))
+return(mass.f)
+}
+
+
+
+# multiple profile plots w/ top ten labels
+##################################################
+
+# plots profile
+# read data in as .csv with heading = TRUE
+
+profile.plots <- function(data, top, title){
+  
+#setwd("Z:/Jason Hua/Vermont Schools Project/School Data/Oak Grove Brattleboro school/Results/Labeled Profiles")   #SET DIRECTORY: WHERE FIGURES WILL BE SAVED
+data[,1] <- factor(data[,1], level = data[,1])                                           #CHANGE DIRECTORY IF NEEDED
+  
+for (i in 2:ncol(data)) {
+
+  gtmp <- as.data.frame(top[,i-1])
+  names(gtmp) <- 'congener'
+  dat.temp <- data.frame(matrix(nrow = nrow(data), ncol = 2))
+  mf.tmp <- data[,i]
+  names(mf.tmp) <- 'mass.fraction'
+  dat.temp <- cbind(clist, mf.tmp)
+  dat.temp[,1] <- factor(dat.temp[,1], level = dat.temp[,1]) 
+  lab.idx <- data.frame(matrix(nrow = nrow(gtmp), ncol = ncol(gtmp)))
+  names(lab.idx) <- 'index'
+  lab.idx$index <- 'TRUE'
+  lab.idx <- cbind(gtmp, lab.idx)
+  data.merge <- merge(x = dat.temp, y = lab.idx, by = 'congener', all = TRUE)
+  
+  temp.plot <- ggplot(data = data.merge, aes(x = congener, y = mf.tmp)) +    #graph
+  geom_bar(stat = "identity", width = .3, position = position_dodge(width = 0.5)) +
+  geom_text(data = subset(data.merge, index %in% 'TRUE'), aes(label = congener),
+  size = 4.7, vjust = -0.6, check_overlap = TRUE, angle = 45, family = 'serif') +
+  ggtitle(title[i-1]) +
+  scale_x_discrete(expand = expansion(add=c(2,2))) +
+  scale_y_continuous(expand = c(0,0), limits = c(0,30)) +
+  xlab(expression(bold("Congener"))) +
+  theme_classic() +
+  theme(text = element_text(size = 11, family = 'serif')) +
+  theme(aspect.ratio = 2/5) +
+  theme(axis.text.x = element_blank(),
+  axis.ticks.x = element_blank(),
+  axis.line.x = element_blank(),
+  axis.line.y = element_blank()) +
+  theme(panel.border = element_rect(color =  'black', fill = NA, size = 1.1)) +
+  ylab(expression(bold("Mass Fraction (%)")))
+  ggsave(paste(title[i-1],".png",sep=""),temp.plot)
+  print(temp.plot)
+}
+}
+
+
+# profile plot w/ top ten labels
+##################################################
+
+# plots one profile
+# read data in as .csv with heading = TRUE
+
+profile.plot <- function(data, top, congener.list, title){
+
+  # clr <- "#2C4E74"
+data[,1] <- factor(data[,1], level = data[,1])                                           
+  names(congener.list) <- 'congener'
+  gtmp <- as.data.frame(top)
+  names(gtmp) <- 'congener'
+  dat.temp <- data.frame(matrix(nrow = nrow(data), ncol = 2))
+  mf.tmp <- data[,2]
+  names(mf.tmp) <- 'mass.fraction'
+  dat.temp <- cbind(congener.list, mf.tmp)
+  dat.temp[,1] <- factor(dat.temp[,1], level = dat.temp[,1]) 
+  lab.idx <- data.frame(matrix(nrow = nrow(gtmp), ncol = ncol(gtmp)))
+  names(lab.idx) <- 'index'
+  lab.idx$index <- 'TRUE'
+  lab.idx <- cbind(gtmp, lab.idx)
+  data.merge <- merge(x = dat.temp, y = lab.idx, by = 'congener', all = TRUE)
+  
+  temp.plot <- ggplot(data = data.merge, aes(x = congener, y = mf.tmp)) +    #graph
+  geom_bar(stat = "identity", width = .5, position = position_dodge(width = 0.5)) +
+  geom_text(data = subset(data.merge, index %in% 'TRUE'), aes(label = congener), colour='black',
+  size = 3.65,  hjust = -0.3, check_overlap = TRUE, angle = 90, family = 'serif') +
+  ggtitle(title) +
+  scale_x_discrete(expand = expansion(add=c(2,2))) +
+  scale_y_continuous(expand = c(0,0), limits = c(0,25)) +
+  xlab(expression(bold("Congener"))) +
+  theme_classic() +
+  theme(text = element_text(size = 14, family = 'serif')) +
+  theme(aspect.ratio = 3/7) +
+  theme(plot.title=element_text(hjust=0.05,vjust=3,size=11,margin = margin(t=40,b=-25)),
+  axis.text.x = element_blank(),
+  legend.position = "none",
+  axis.ticks.x = element_blank(),
+  axis.line.x = element_blank(),
+  axis.line.y = element_blank()) +
+  theme(panel.border = element_rect(color =  'black', fill = NA, size = 1.1)) +
+  ylab(expression(bold("Mass Fraction (%)")))
+
+return(temp.plot)
+}
+
+
+# profile plot w/ top ten labels and error bars
+##################################################
+
+# plots one profile
+# read data in as .csv with heading = TRUE
+
+average.plot <- function(data, top, congener.list, title, sd){
+
+  # clr <- "#2C4E74"
+data[,1] <- factor(data[,1], level = data[,1])                                           
+  names(congener.list) <- 'congener'
+  gtmp <- as.data.frame(top)
+  names(gtmp) <- 'congener'
+  dat.temp <- data.frame(matrix(nrow = nrow(data), ncol = 2))
+  mf.tmp <- data[,2]
+  names(mf.tmp) <- 'mass.fraction'
+  dat.temp <- cbind(congener.list, mf.tmp)
+  dat.temp[,1] <- factor(dat.temp[,1], level = dat.temp[,1]) 
+  lab.idx <- data.frame(matrix(nrow = nrow(gtmp), ncol = ncol(gtmp)))
+  names(lab.idx) <- 'index'
+  lab.idx$index <- 'TRUE'
+  lab.idx <- cbind(gtmp, lab.idx)
+  data.merge <- merge(x = dat.temp, y = lab.idx, by = 'congener', all = TRUE)
+  
+  temp.plot <- ggplot(data = data.merge, aes(x = congener, y = mf.tmp)) +    #graph
+  geom_bar(stat = "identity", width =0.5, position = position_dodge(width = 0.5)) +
+  geom_errorbar(aes(ymin=mf.tmp-sd,ymax=mf.tmp+sd),width=2,colour="black",size=0.15)+
+  geom_text(data = subset(data.merge, index %in% 'TRUE'), aes(label = congener), colour="black",
+  size = 3.65,  hjust = -0.6, check_overlap = TRUE, angle = 90, family = 'serif',position=position_dodge(0.9)) +
+  ggtitle(title) +
+  scale_x_discrete(expand = expansion(add=c(2,2))) +
+  scale_y_continuous(expand = c(0,0), limits = c(0,30)) +
+  xlab(expression(bold("Congener"))) +
+  theme_classic() +
+  theme(text = element_text(size = 14, family = 'serif')) +
+  theme(aspect.ratio = 3/7) +
+  theme(plot.title=element_text(hjust=0.05,vjust=3,size=11,margin = margin(t=40,b=-25)),
+  axis.text.x = element_blank(),
+  legend.position = "none",
+  axis.ticks.x = element_blank(),
+  axis.line.x = element_blank(),
+  axis.line.y = element_blank()) +
+  theme(panel.border = element_rect(color =  'black', fill = NA, size = 1.1)) +
+  ylab(expression(bold("Mass Fraction (%)")))
+
+return(temp.plot)
+}
+
+
+# profile plots no labels
+##################################################
+
+# plots profile
+# read data in as .csv with heading = TRUE
+
+plain.plot <- function(data, title){
+
+# setwd("Z:/Jason Hua/Vermont Schools Project/School Data/Oak Grove Brattleboro school/Results/Unlabeled Profiles")   #SET DIRECTORY: WHERE FIGURES WILL BE SAVED
+data[,1] <- factor(data[,1], level = data[,1])                                           #CHANGE DIRECTORY IF NEEDED
+
+  for (i in 2:ncol(data)) {
+    temp.plot <-  ggplot(data = data, aes(x = data[,1], y = data[,i])) +    # profile graph
+    geom_bar(stat = "identity", width = .5, position = position_dodge(width = 0.5)) +
+    ggtitle(title[i-1]) +
+    scale_x_discrete(expand = expansion(add=c(1,1))) +
+    scale_y_continuous(expand = c(0,0), limits = c(0,35)) +
+    xlab(expression(bold("Congener"))) +
+    theme_classic() +
+    theme(text = element_text(size = 14, family = 'serif')) +
+    theme(aspect.ratio = 2/5) +
+    theme(axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.line.x = element_blank(),
+    axis.line.y = element_blank()) +
+    theme(panel.border = element_rect(color =  'black', fill = NA, size = 1.1)) +
+    ylab(expression(bold("Mass Fraction (%)")))
+    # ggsave(paste(title[i-1],".png",sep=""),temp.plot)
+    print(temp.plot)
+  }
+}
+
+
+# kpuf calculations
+##################################################
+kpuf.calc <- function(pcb, R, temp.c) {
+  duoa <- data.frame(matrix(nrow = nrow(pcb), ncol = 1))
+  koa <- data.frame(matrix(nrow = nrow(pcb), ncol = 1))
+    for (i in 1:nrow(pcb)) {
+      duoa[i,1] <- (-0.13 * pcb[i,3] + 2.9 * pcb[i,2] - 47.8) * 1000
+    }
+    for (j in 1:nrow(pcb)) {
+      koa[j,1] <- pcb[j,5] - (duoa[j,1] / (2.303 * R)) * ((1 / (273.15 + temp.c)) - (1 / 298.15))
+    }
+  l.kpuf <- (0.6366 * koa) - 3.1774
+  kpuf <- 10^(l.kpuf)
+  return(kpuf)
+}
+
+```
+
+\newpage
+
+# Executive Summary
+
+The purpose of this document is to present results of PCB analyses of `r sch.name`, `r city`, Vermont. 
+
+The University of Iowa team, in collaboration with Vermont and school officials, deployed 19 polyurethane foam passive air samplers (PUF-PAS), 26 polyurethane foam passive emission samplers (PUF-PES), and 7 field blanks across 6 rooms in `r sch.name` (`r sch.ab`) for `r t.days` days, from October 21, 2023, to November 17, 2023 (Table 1).     
+
+Methods used for this study are research methods previously reported (Hua et al., 2023; Bannavti, Jahnke et al., 2021; Herkert et al 2018). Briefly, samples, field blanks, and laboratory blanks were extracted with acetone and hexane, purified and concentrated, and then analyzed using a gas chromatograph with triple quadrupole mass spectrometry. The method produces mass (ng) values for all 209 possible PCB congeners minus one congener (PCB 204) used for quality control purposes. Some PCBs cannot be individually separated, and the method reports congener results as 173 congeners or coeluting congeners. Quality assurance and control protocols address accuracy, precision, representativeness, reproducibility and comparability.  
+
+
+```{r execSum, echo=FALSE}
+
+
+#samp.type <- samp.type[order(samp.type$room,samp.type$sample.type),]
+
+tbl1.1 <- samp.type2[samp.type2$materials != 'Blank',]
+tbl1.2 <- samp.type2[samp.type2$materials == 'Blank',]
+
+knitr::kable(tbl1.1, row.names=F,caption = 'Summary of samples analyzed.',col.names = c('Batch (BID)','Sample ID (SID)','Sample Type', 'Room Number','Material Sampled'), align = 'ccccc', booktabs=TRUE) %>%
+  kable_styling(latex_options = "HOLD_position")
+knitr::kable(tbl1.2, row.names=F,caption = 'Summary of blank samples analyzed.',col.names = c('Batch (BID)','Sample ID (SID)','Sample Type', 'Room Number','Material Sampled'), align = 'ccccc', booktabs=TRUE) %>%
+  kable_styling(latex_options = "HOLD_position")
+```
+
+## Sampler Deployment Locations 
+
+![](//kchResearch.drive.engineering.uiowa.edu/kchresearch/Jason Hua/Vermont Schools Project/School Data/Bellows Falls/Figures and Images/bfSampleMap.png)
+
+\newpage
+
+# Results
+
+```{r echo=FALSE}
+##############################################################################
+
+# EFFECTIVE VOLUME, VEFF
+
+##############################################################################
+# VEFF ASSUMPTIONS AND CONSTANTS - CHANGE AS NEEDED
+##################################################
+
+
+ws.on <- 0.11   #m/s
+ws.off <- 0.07  #m/s
+f.on <- 0.36
+f.off <- 1 - f.on
+c <- 1.326
+puf.sa = 0.0153 #m2
+v.puf <- 2.295e-04 #m3 
+v.puf.t <- as.character(v.puf)
+den.puf <- 21300 #g/m3 
+
+R = 8.3144               # gas constant
+cong <- pcb[,1]
+names(cong) <- 'Congener'
+###################################################
+
+v.const <- as.character(rbind(t.days,ws.on,ws.off,f.on,f.off,temp.c,R,c,puf.sa,v.puf.t))
+const.name <- c('Deployment Time (days)', 'Windspeed, Vent On (m s\\textsuperscript{-1})', 'Windspeed, Vent Off (m s\\textsuperscript{-1})', 'Fraction Vent On','Fraction Vent Off','Room Temperature (\\textsuperscript{o}C)',
+                'Gas Constant (J K\\textsuperscript{-1} mol\\textsuperscript{-1})','Sampler Constant',
+                'PUF Surface Area (m\\textsuperscript{2})','PUF Volume (m\\textsuperscript{3})')
+const.name <- as.data.frame(const.name)
+vari.v <- c('d','WS\\textsubscript{on}','WS\\textsubscript{off}','f\\textsubscript{on}','f\\textsubscript{off}','T','R','c','SA','V\\textsubscript{PUF}')
+v.const.t <- cbind(const.name,vari.v,v.const)
+
+
+```
+
+## Effective Air Sampling Volume for PUF-PAS
+
+The effective sampling volume ($V_{eff}$, m^3^) is the congener specific volume of air passing through the PUF-PAS during the deployment time (Table 2). The effective volume is calculated as a function of the partitioning coefficient ($K_{PUF},\text{ } unitless$), the deployment time ($d,\text{ } days$), the PUF volume ($V_{PUF},\text{ } m^3$), and the sampling rate ($R_{s},\text{ } m^3 d^{-1}$) (Herkert and Hornbuckle, 2018). The indoor $R_{S}$ is a function of the fraction of the day when the ventilation is on or off ($f_{on}/f_{off},\text{ } unitless$), the windspeed when the ventilation is on/off ($WS_{on}/WS_{off},\text{ } m s^{-1}$), the molecular weight of each congener ($MW,\text{ } g\text{ } mol^{-1}$), the air temperature ($T,\text{ } ^{o}C$), and the empirical constant of the air samplers ($c,\text{ } unitless$). Effective air sampling volumes are provided in Table 4.
+
+Five temperature sensors were deployed in five rooms (auditorium, girlsLocker, lockerOffice, dWing, utility). Temperature profiles in all rooms were similar throughout the deployment period. Therefore, one temperature (`r temp.c` C) was used for calculating the effective volume. Average temperatures were calculated for each temperature sensor. Then the averages were averaged again to get the final value. 
+
+```{r echo=FALSE}
+
+knitr::kable(v.const.t, format.args= list(big.mark=','), row.names = FALSE, col.names = c('','',''), caption='Assumptions used for calculating effective volume and sampling rate.', escape=F, digits = , valign='t', align='lcr', booktabs=TRUE) %>% 
+  kable_styling(latex_options = "HOLD_position") %>%
+  column_spec(1,width='2.5in') %>%
+  column_spec(2,width = '1.5in') %>%
+  column_spec(3,width = '1.5in')
+
+
+```
+
+### Sampling Rate
+
+<!-- The air temperature of the room during sampler deployment was approximately 22.8$^{o}C$ (73$^{o}F$). We assumed that the air temperature of the room was constant throughout the deployment time.  -->
+$$ R_{s} = (f_{on}\sqrt{WS_{on}}+f_{off}\sqrt{WS_{off}})({1\over \root 3\of{MW}})10^{[0.0012T+c]}$$
+
+### Effective Volume
+
+$$V_{eff} = (V_{PUF}K_{PUF})[1-e^{-R_{S}t\over V_{PUF}K_{PUF}}]$$
+
+```{r veff, echo=FALSE}
+
+##############################################################################
+
+# EFFECTIVE VOLUME, VEFF
+
+##############################################################################
+# koa to kpuf based on temperature
+
+kpuf <- kpuf.calc(pcb,R,temp.c)
+kpuf <- kpuf * den.puf
+##################################################
+# Rs and Veff calculations
+
+rs <- data.frame(matrix(nrow = nrow(pcb), ncol = 1))
+
+for (l in 1:nrow(pcb)) {
+  
+rs[l,1] <- ((f.on * (sqrt(ws.on))) + (f.off * (sqrt(ws.off))))*(1/(pcb[l,3]^(1/3)))*(10^((0.0012*t.days)+c))
+
+}
+
+v.eff <- data.frame(matrix(nrow = nrow(pcb), ncol = 1))
+for (ii in 1:nrow(pcb)) {
+v.eff[ii,1] <- (v.puf * kpuf[ii,1]) * (1 - (exp((-(rs[ii,1] / (v.puf * kpuf[ii,1]))* t.days))))
+}
+names(v.eff) <- 'V_eff'
+V.eff <- v.eff[-c(13,28,29,30,33,47,53,62,65,69,70,71,74,75,76,97,100,101,109,113,116,119,124,125,138,140,149,151,157,163,166,168,173,193,199,204),]
+V.eff <- cbind(cong.list,V.eff)
+
+v.eff1 <- V.eff[1:44,]
+v.eff2 <- V.eff[45:88,]
+v.eff3 <- V.eff[89:132,]
+v.eff4 <- V.eff[133:176,]
+v.eff.t <- cbind(v.eff1,v.eff2,v.eff3,v.eff4)
+options(knitr.kable.NA='')
+knitr::kable(v.eff.t, row.names = FALSE, caption='Calculated effective volume (V$_{eff}$, m$^{3}$) for each congener.', digits = 2, valign='t', align='cc', booktabs=TRUE) %>%
+  kable_styling(latex_options = "HOLD_position")
+
+```
+
+## Sample Summary
+
+Concentrations and emissions of airborne PCBs are determined for each congener or coeluting congener group. Table 5 provides the sum of the congener air concentrations $(ng \text{ } m^{-3})$ or emissions $(ng \text{ } m^{-2} \text{ } day^{-1})$. Individual congener air concentrations and emissions are provided in a separate database. Air concentrations are calculated as the sum of each congener's mass divided by the respective $V_{eff}$ (Table 4). Emissions are calculated as the total mass divided by the PUF surface area (0.0153 m^2^) divided by the deployment time (`r t.days` days). More details about blanks are provided in the "Laboratory Blanks and Field Blanks" section. Air samples and emission samples were well above the values measured in the blanks. 
+
+```{r school, echo=FALSE}
+
+
+# mass fraction calculation
+mass.frac <- mass.fraction(mass,cong.list)
+mass.frac <- mass.frac*100
+mass.frac <- as.data.frame(t(mass.frac))
+mass.frac <- cbind(cong.list, mass.frac)
+
+# air concentration calculation
+sch.mass.idx <- sch.ssMass
+sch.air.t <- merge.data.frame(sch.mass.idx, samp.type)
+sch.air <- sch.air.t[sch.air.t$sample.type == 'Air',1:176]
+sch.air.list <- as.data.frame(sch.air[,1])
+names(sch.air.list) <- 'bid'
+sch.air <- sch.air[,-(c(1,2,176))]
+
+sch.air.lb <- sch.air.t[sch.air.t$sample.type == 'Lab Blank',1:176]
+sch.air.llist <- as.data.frame(sch.air.lb[,1])
+names(sch.air.llist) <- 'bid'
+sch.air.lb <- sch.air.lb[,-(c(1,2,176))]
+
+sch.air.fb <- sch.air.t[sch.air.t$sample.type == 'Field Blank',1:176]
+sch.air.flist <- as.data.frame(sch.air.fb[,1])
+names(sch.air.flist) <- 'bid'
+sch.air.fb <- sch.air.fb[,-(c(1,2,176))] 
+
+conc.calc <- function(fsch.air,veff,flist){
+  
+sch.conc <- data.frame(matrix(nrow = nrow(fsch.air), ncol = ncol(fsch.air)))
+for (c.i in 1:nrow(fsch.air)) {
+  for (c.j in  1:ncol(fsch.air)) {
+    sch.conc[c.i,c.j] <- fsch.air[c.i,c.j] / veff[c.j,2]
+  }
+}
+
+sch.conc.t <- as.data.frame(rowSums(sch.conc))
+sch.conc.t <- signif(sch.conc.t,2)        # significant figures
+names(sch.conc.t) <- 'Concentration'
+sch.conc.t <- cbind(flist, sch.conc.t)   # final concentrations ng/m3
+
+return(sch.conc.t)
+}
+
+sch.air.conc <- conc.calc(sch.air,V.eff,sch.air.list)
+sch.lb.conc <- conc.calc(sch.air.lb,V.eff,sch.air.llist)
+sch.fb.conc <- conc.calc(sch.air.fb,V.eff,sch.air.flist)
+
+conc.sum <- rbind(sch.air.conc,sch.lb.conc,sch.fb.conc)
+
+sum.conc <- merge(samp.type,conc.sum,all=TRUE)
+
+##########################################
+# emissions calculation
+##########################################
+# sample emissions
+sch.em <- merge.data.frame(sch.mass.idx, samp.type)
+sch.em.s <- sch.em[sch.em$sample.type == 'Emissions',1:176]
+sch.em.list <- as.data.frame(sch.em.s[,1])
+names(sch.em.list) <- 'bid'
+sch.em.s <- sch.em.s[,-(c(1,2,176))]
+
+sch.em.t <- as.data.frame(rowSums(sch.em.s))
+sch.em.t <- sch.em.t / puf.sa  # ng/m2
+sch.em.d <- sch.em.t / t.days  # ng/m2/d
+sch.em.d <- signif(sch.em.d,2)       # significant figures
+names(sch.em.d) <- 'Emissions'
+sch.em.final <- cbind(sch.em.list, sch.em.d)    # final emissions ng/m2/d
+
+# lab blank emissions
+sch.em.l <- sch.em[sch.em$sample.type == 'Lab Blank',1:176]
+sch.em.llist <- as.data.frame(sch.em.l[,1])
+names(sch.em.llist) <- 'bid'
+sch.em.l <- sch.em.l[,-(c(1,2,176))]
+
+sch.em.tl <- as.data.frame(rowSums(sch.em.l))
+sch.em.tl <- sch.em.tl / puf.sa  # ng/m2
+sch.em.dl <- sch.em.tl / t.days  # ng/m2/d
+sch.em.dl <- signif(sch.em.dl,1)       # significant figures
+names(sch.em.dl) <- 'Emissions'
+sch.em.lf <- cbind(sch.em.llist, sch.em.dl)    # final emissions ng/m2/d
+
+# field blank emissions
+sch.em.f <- sch.em[sch.em$sample.type == 'Field Blank',1:176]
+sch.em.flist <- as.data.frame(sch.em.f[,1])
+names(sch.em.flist) <- 'bid'
+sch.em.f <- sch.em.f[,-(c(1,2,176))]
+
+sch.em.tf <- as.data.frame(rowSums(sch.em.f))
+sch.em.tf <- sch.em.tf / puf.sa  # ng/m2
+sch.em.df <- sch.em.tf / t.days  # ng/m2/d
+sch.em.df <- signif(sch.em.df,1)       # significant figures
+names(sch.em.df) <- 'Emissions'
+sch.em.ff <- cbind(sch.em.flist, sch.em.df)    # final emissions ng/m2/d
+
+# negative control emissions
+# sch.em.nc <- sch.em[sch.em$sample.type == 'Negative Control',1:176]
+# sch.em.nclist <- as.data.frame(sch.em.nc[,1])
+# names(sch.em.nclist) <- 'bid'
+# sch.em.nc <- sch.em.nc[,-(c(1,2,176))]
+# 
+# sch.em.tn <- as.data.frame(rowSums(sch.em.nc))
+# sch.em.tn <- sch.em.tn / puf.sa  # ng/m2
+# sch.em.dn <- sch.em.tn / t.days  # ng/m2/d
+# sch.em.dn <- signif(sch.em.dn,1)       # significant figures
+# names(sch.em.dn) <- 'Emissions'
+# sch.em.ncf <- cbind(sch.em.nclist, sch.em.dn)    # final emissions ng/m2/d
+
+#,sch.em.ncf
+
+sum.em <- rbind(sch.em.final,sch.em.lf,sch.em.ff)
+
+summary.f <- merge(sum.conc,sum.em,all=TRUE)
+
+mat.list <- summary.f[,5]
+bl.sum <- summary.f[summary.f$materials == 'Blank',]
+bl.id <- bl.sum[,1]
+sb.order <- sch.blanks[order(sch.blanks[,1]),]
+bl.tot <- rowSums(sb.order[,-1])
+names(bl.tot) <- 'Total Mass'
+bl.sum <- cbind(bl.sum,bl.tot)
+summary <- summary.f[,-c(1,2,3,5)]
+summary <- cbind(mat.list,summary)
+
+#########
+
+# summary.f: full summary with IDs
+
+full.summ <- summary
+blank.sum <- bl.sum[,c(4,3,6,7)]
+
+summary <- summary[summary$mat.list != 'Blank',] 
+summary <- summary[,c(2,1,3,4)]
+summary <- summary[order(summary$room,-(summary$Concentration),-(summary$Emissions)),]  # sort by __
+f.summary <- full.summ[order(full.summ$room,-(full.summ$Concentration),-(full.summ$Emissions)),]
+```
+
+```{r, echo=F}
+
+# conc.cong <- function(fsch.air,veff,flist){
+# 
+# sch.conc <- data.frame(matrix(nrow = nrow(fsch.air), ncol = ncol(fsch.air)))
+# for (c.i in 1:nrow(fsch.air)) {
+#   for (c.j in  1:ncol(fsch.air)) {
+#     sch.conc[c.i,c.j] <- fsch.air[c.i,c.j] / veff[c.j,2]
+#   }
+# }
+# 
+# return(sch.conc)
+# }
+# air.conc.cong <- conc.cong(sch.air,V.eff,sch.air.list)
+# air.conc.cong <- cbind(sch.air.list,air.conc.cong)
+# blks <- rbind(sch.air.lb,sch.air.fb)
+# blk.list <- rbind(sch.air.llist,sch.air.flist)
+# bl.conc.cong <- conc.cong(blks,V.eff,sch.air.list)
+# bl.conc.cong <- cbind(blk.list,bl.conc.cong)
+# final.conc <- rbind(air.conc.cong,bl.conc.cong)
+# write.csv(final.conc,"//kchResearch.drive.engineering.uiowa.edu/kchresearch/Jason Hua/Vermont Schools Project/Results and Reports/Bellows Falls/Final Data/bf_concentrations.csv",row.names=F)
+# 
+# s.em.cong <- sch.em.s / puf.sa / t.days
+# s.em.cong <- cbind(sch.em.list,s.em.cong)
+# l.em.cong <- sch.em.l / puf.sa / t.days
+# l.em.cong <- cbind(sch.em.llist,l.em.cong)
+# f.em.cong <- sch.em.f / puf.sa / t.days
+# f.em.cong <- cbind(sch.em.flist,f.em.cong)
+# final.em <- rbind(s.em.cong,l.em.cong,f.em.cong)
+# write.csv(final.em,"//kchResearch.drive.engineering.uiowa.edu/kchresearch/Jason Hua/Vermont Schools Project/Results and Reports/Bellows Falls/Final Data/bf_emissions.csv",row.names=F)
+
+
+```
+
+```{r tables, echo=FALSE}
+knitr::kable(summary,caption='Summary of air concentrations (ng m$^{-3}$) and emissions (ng m$^{-2}$ d$^{-1}$) of materials.',
+             format.args= list(big.mark=','), row.names=FALSE,
+             col.names = c('Room Number','Material','Air Concentration','Emissions'),align='c',
+             digits = 2, booktabs=TRUE) %>%
+  kable_styling(latex_options = 'HOLD_position') %>%
+  column_spec(1,width = '1in') %>%
+  column_spec(2,width = '2in') %>%
+  column_spec(3,width = '1in') %>%
+  column_spec(4,width = '1in') 
+
+# knitr::kable(blank.sum,caption='Summary of blank measurements as air concentrations (ng m$^{-3}$) and emissions (ng m$^{-2}$ d$^{-1}$).',
+#              format.args= list(big.mark=','), row.names=FALSE,
+#              col.names = c('Room Number','Material','Air Concentration','Emissions'),align='c',
+#              digits = 2, booktabs=TRUE) %>%
+#   kable_styling(latex_options = 'HOLD_position') %>%
+#   column_spec(1,width = '1in') %>%
+#   column_spec(2,width = '2in') %>%
+#   column_spec(3,width = '1in') %>%
+#   column_spec(4,width = '1in')
+
+```
+
+```{r fullSummary, echo=FALSE}
+# fig.show='hide'
+# full table with IDs:
+# 
+id.sum <- summary.f[summary.f$materials != 'Blank',]
+id.sum <- id.sum[order(id.sum$room,-(id.sum$Concentration),-(id.sum$Emissions)),]  # sort by __
+
+knitr::kable(id.sum,caption='Summary of air concentrations (ng m$^{-3}$) and emissions (ng m$^{-2}$ d$^{-1}$) of materials.',
+             format.args= list(big.mark=','), row.names=FALSE,
+             col.names = c('BID','SID','Sample Type','Room Number','Material','Air Concentration','Emissions'),align='c',
+             digits = 2, booktabs=TRUE) %>%
+  kable_styling(latex_options = 'HOLD_position') %>%
+  column_spec(1,width = '.3in') %>%
+  column_spec(2,width = '.3in') %>%
+  column_spec(3,width = '.7in') %>%
+  column_spec(4,width = '.7in')  %>%
+  column_spec(5,width = '.7in') %>%
+  column_spec(6,width = '.7in') %>%
+  column_spec(7,width = '.7in')
+
+
+```
+
+\newpage
+\FloatBarrier
+# Quality Assurance and Quality Control
+
+Quality assurance and control is evaluated for accuracy, precision, representativeness, reproducibility, and comparability to other methods (Tables 6, 7, 8, 9, 10).  Laboratory blanks (cleaned and stored PUF) and field blanks (cleaned PUF sealed and stored with deployed samples) are included to determine of limits of quantification (LOQ) for each congener.  Because the LOQ masses (ng) are very low, no LOQ subtraction is performed. For direct comparison with samples, LOQ values are reported as air concentrations by dividing the LOQ mass  by the average congener $V_{eff}$ in this study, and as emissions by dividing the LOQ mass by the surface area and deployment time of emission samples used at this school.  Isotopically labeled PCB congeners are injected in each sample and blank to quantify the extraction efficiency.  Congener masses measured in samples and blanks are corrected for surrogate recovery. Standard Reference Material from the National Institute of Standards and Technology (NIST SRM 2585 - Organic Contaminants in House Dust) was added to clean PUF and analyzed following the same methods for PCBs in PUF.  Results of this analysis has been previously reported and confirms the accuracy of the methods (Hua et al., Suppl. S1, 2023).
+
+## Laboratory Blanks and Field Blanks
+
+Laboratory blanks were extracted with each batch of samples following the same treatment and extraction procedure. Field blanks were transported with samples following the same process except for deployment in a sampler. Each set of field blanks were kept on location with the samplers until the deployment period was over. All blanks were shipped back to the University of Iowa and extracted for PCBs following the same procedure as deployed samples. Table 6 reports the mass, concentrations, and emissions for each blank sample. Concentrations were calculated as mass divided by effective volume, using the same $V_{eff}$ in Table 4. Emissions were calculated as mass divided by the PUF surface area divided by the deployment time. 
+
+```{r blanks, echo=FALSE}
+bl.sum2 <- bl.sum[,c(1,3,4,8,6,7)]
+
+knitr::kable(bl.sum2,caption='Summary of blank samples reported as mass (ng), air concentrations (ng m$^{-3}$), and emissions (ng m$^{-2}$ d$^{-1}$).', row.names=FALSE,
+             col.names = c('BID','Sample Type','Room Number','Total Mass','Concentration','Emissions'),align='c',
+             digits = 2, booktabs=TRUE) %>%
+  kable_styling(latex_options = 'HOLD_position')
+```
+
+## Limit of Quantification (LOQ)
+
+The limit of quantification (LOQ) was calculated as the upper limit of the 99th confidence interval of the log 10-transformed blank masses: average congener mass in blank PUF samples plus 2.325 times the standard deviation divided by the square root of n. Tables with LOQ reported as mass, equivalent concentrations, and equivalent emissions are included in the supplementary folder. The LOQ as concentration was calculated as mass divided by effective volume, using the same $V_{eff}$ in Table 4. The LOQ as emission is calculated as mass divided by the PUF surface area divided by the deployment time. 
+
+
+
+```{r loq, echo=FALSE}
+##################################################
+# loq
+##################################################
+sampb.list <- sch.blanks[,1]
+
+lab.b <- subset(sch.blanks, grepl("^LB",bid))
+field.b <- subset(sch.blanks, !grepl("^LB",bid))
+sch.blanks <- sch.blanks[,-1]
+
+bl.log <- sch.blanks
+bl.avg <- colMeans(bl.log)
+bl.std <- apply(bl.log,2,sd)
+
+bl.ub <- as.data.frame(bl.avg + (2.325*bl.std)) # LOQ method 2
+
+bl.loq <- bl.ub
+
+names(bl.loq) <- 'LOQ'
+bl.loq <- signif(bl.loq,digits=2)
+loq.m <- bl.loq          # lab and field blank loq
+
+names(loq.m) <- 'LOQ as Mass'
+loq.m <- cbind(cong.list,loq.m)
+loq.mass <- format_engr(loq.m, sigdig = 3, ambig_0_adj = T)
+loq.mass1 <- loq.mass[1:47,]
+loq.mass2 <- loq.mass[48:94,]
+loq.mass3 <- loq.mass[95:141,]
+loq.mass4 <- loq.mass[142:188,]
+options(knitr.kable.NA='')
+loq.f <- cbind(loq.mass1,loq.mass2,loq.mass3,loq.mass4)
+knitr::kable(loq.f, row.names = FALSE,  format.args = list(scientific = TRUE),caption='Calculated LOQ as mass (ng) for each congener.', escape = F, valign='t', align='cc', booktabs=TRUE)  %>%
+  kable_styling(latex_options = c("HOLD_position", "scale_down"))
+
+```
+
+\newpage
+
+## Surrogate Standard Recoveries
+
+We use ten, 13C PCBs as surrogate standards: 13C 3, 5, 15, 28, 52, 118, 153, 180, 194, 209. Known masses of surrogate standards are spiked into samples to allow for correction due to analytical losses during the extraction process. This also accounts for variability in each sample.
+
+```{r echo=FALSE}
+
+
+ss.rcv.m <- merge.data.frame(ss.rcv,samp.type)
+ss.samp <- ss.rcv.m[ss.rcv.m$materials != 'Blank',1:11] 
+ss.samp[,2:ncol(ss.samp)] <- ss.samp[,2:ncol(ss.samp)]*100
+ss.samp[,2:ncol(ss.samp)] <- round(ss.samp[,2:ncol(ss.samp)],0)
+
+ss.blank <- ss.rcv.m[ss.rcv.m$materials == 'Blank',1:11]
+ss.blank[,2:ncol(ss.blank)] <- ss.blank[,2:ncol(ss.blank)]*100
+ss.blank[,2:ncol(ss.blank)] <-round(ss.blank[,2:ncol(ss.blank)],0)
+
+rownames(ss.samp)<-NULL
+rownames(ss.blank)<-NULL
+
+ss.rcv.p <- rbind(ss.samp,ss.blank)
+ss.rcv.p <- ss.rcv.p[,-1]
+
+
+kable(ss.samp, align = 'c', col.names = c('BID','13C 3','13C 5','13C 15','13C 28', '13C 52','13C 118','13C 153','13C 180','13C 194','13C 209'), caption='Surrogate standard recoveries as percentages for samples.', booktabs=TRUE) %>%
+  kable_styling(latex_options = "HOLD_position")
+
+kable(ss.blank, align = 'c', col.names = c('BID','13C 3','13C 5','13C 15','13C 28', '13C 52','13C 118','13C 153','13C 180','13C 194','13C 209'), caption='Surrogate standard recoveries as percentages for blanks.', booktabs=TRUE) %>%
+  kable_styling(latex_options = "HOLD_position")
+
+
+ss.mean <- as.numeric(colMeans(ss.rcv.p))
+ss.mean <-round(ss.mean,0)
+ss.std <- as.numeric(apply(ss.rcv.p,2,sd))
+ss.std <- round(ss.std,0)
+ss.stat <- paste(ss.mean,'\u00b1',ss.std,sep = ' ')
+ss.cong <- c('13C 3','13C 15','13C 31', '13C 52','13C 118','13C 153','13C 180','13C 194','13C 206','13C 209')
+ss.stat <- as.data.frame(cbind(ss.cong,ss.stat))
+
+kable(ss.stat, align = 'c', col.names = c('PCB','Percent Recovery'), caption='Average surrogate standard recoveries as percentages by congener.', booktabs=TRUE, escape=F) %>%
+  kable_styling(latex_options = "HOLD_position") %>% 
+  column_spec(1,width = '2.5in') %>%
+  column_spec(2,width = '2.5in')
+
+
+```
+
+\newpage
+
+# References
+
+
+Bannavti, M. K.; Jahnke, J. C.; Marek, R. F.; Just, C. L.; Hornbuckle, K. C., Room-to-Room Variability of Airborne Polychlorinated Biphenyls in Schools and the Application of Air Sampling for Targeted Source Evaluation. Environmental Science & Technology 2021, 55, (14), 9460-9468. 10.1021/acs.est.0c08149
+
+Frame, G. M.; Cochran, J. W.; Bøwadt, S. S., Complete PCB congener distributions for 17 aroclor mixtures determined by 3 HRGC systems optimized for comprehensive, quantitative, congener-specific analysis. J. High Resol. Chromatogr., 19: 657-668. 10.1002/jhrc.1240191202
+
+Herkert, N. J.; Jahnke, J. C.; Hornbuckle, K. C., Emissions of Tetrachlorobiphenyls (PCBs 47, 51, and 68) from Polymer Resin on Kitchen Cabinets as a Non-Aroclor Source to Residential Air. Environmental Science & Technology 2018, 52, (9), 5154-5160. 10.1021/acs.est.8b00966
+
+Herkert, N. J.; Hornbuckle, K. C., Effects of room airflow on accurate determination of PUF-PAS sampling rates in the indoor environment. Environ Sci-Proc Imp 2018, 20, (5), 757-766. 10.1039/c8em00082d
+
+Hua, J. B. X.; Marek, R. F.; Hornbuckle, K. C., Polyurethane Foam Emission Samplers to Identify Sources of Airborne Polychlorinated Biphenyls from Glass-Block Windows and Other Room Surfaces in a Vermont School. Environmental Science & Technology 2023, 57, (38), 14310-14318. 10.1021/acs.est.3c05195
+
+Marek, R. F.; Thorne, P. S.; Herkert, N. J.; Awad, A. M.; Hornbuckle, K. C., Airborne PCBs and OHPCBs Inside and Outside Urban and Rural U.S. Schools. Environmental Science & Technology  2017,  51 (14), 7853-7860. 10.1021/acs.est.7b01910
+
+
+

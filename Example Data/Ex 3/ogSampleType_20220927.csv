@@ -1,0 +1,31 @@
+﻿bid,sid,sample.type,room,materials
+OG01,S065,Air,205,Air
+OG02,S085,Emissions,205,Carpet
+OG03,S087,Emissions,205,Carpet
+OG04,S074,Emissions,203,Carpet
+OG05,S061,Emissions,203,Dry Wall
+OG06,S062,Emissions,203,Carpet
+OG07,S075,Emissions,201,Carpet
+OG08,S084,Emissions,205,Dry Wall
+OG09,S086,Emissions,205,Cinderblock Wall
+OG10,S088,Emissions,205,Carpet
+OG11,S063,Air,205,Air
+OG12,S067,Emissions,203,Covebase
+OG13,S069,Air,203,Air
+OG14,S070,Air,203,Air
+OG15,S076,Emissions,203,Glass Blocks
+OG16,S077,Emissions,201,Carpet
+OG17,S083,Air,205,Air
+OG18,S064,Emissions,203,Carpet
+OG19,S066,Emissions,203,Tile
+OG20,S068,Emissions,203,Cinderblock Wall
+OG21,S071,Emissions,203,Brick Wall
+OG22,S072,Air,203,Air
+OG23,S082,Emissions,201,Carpet
+OGB1,S079,Field Blank,203,Blank
+OGB2,S078,Field Blank,203,Blank
+OGB3,S073,Field Blank,203,Blank
+LB01,S309,Lab Blank,SC1246,Blank
+LB02,S308,Lab Blank,SC1246,Blank
+LB03,S276,Lab Blank,SC1246,Blank
+LB04,S277,Lab Blank,SC1246,Blank

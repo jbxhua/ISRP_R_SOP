@@ -1,0 +1,699 @@
+---
+title: "Standard Operation Procedure for PCB Analysis Using R"
+author: "Name Name"
+date: "Last Revised: `r format(Sys.Date(), '%B %d, %Y')`"
+output:
+  html_document:
+    toc: true 
+    toc_depth: 3
+    toc_float: true
+    theme: flatly
+    highlight: tango
+    number_sections: true
+  pdf_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  eval = FALSE,   # Set to TRUE when running interactively
+  comment = "#>",
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+---
+
+# Data Formatting and Organization
+
+## Setting Up CSVs
+
+- Samples in rows, data/categories in columns
+
+## Normalizing Data
+
+- Reducing redundancy
+
+---
+
+# Installing R and RStudio
+
+R and RStudio are sometimes used interchangeably, but they are actually different.
+**R** is an open-source programming language designed for statistical computing, data analysis, and data visualization.
+**RStudio** is an integrated development environment (IDE) for R — software that streamlines user experience by providing tools such as a user interface, code editor, and debugger.
+
+## Installing R
+
+1. Follow this link to install R and RStudio: <https://posit.co/download/rstudio-desktop/>
+2. Scroll down until you see two steps: **1. Install R** and **2. Install RStudio**
+
+![](./Pictures/ss1.png) 
+
+3. Click on the button **"Download and Install R"**
+4. Follow the instructions on the page. Click the download link that is correct for your operating system.
+
+![](./Pictures/ss2.png) 
+
+5. You will be sent to another page. Click on the link **"install R for the first time"**.
+
+![](./Pictures/ss3.png) 
+
+6. In the new page, click the download link at the top of the page. The download will begin after clicking this link.
+
+![](./Pictures/ss4.png) 
+
+7. Run the downloaded `.exe` file from the file explorer. Follow the prompts to install R.
+
+## Installing RStudio
+
+1. Go back to the first link: <https://posit.co/download/rstudio-desktop/>
+2. Scroll down and click on **"Download RStudio Desktop"**. This will start the download.
+3. Run the downloaded `.exe` file and follow the prompts to install RStudio.
+
+---
+
+# Getting Started with RStudio
+
+> *This section was adapted from [Data Carpentry's R for Social Scientists](https://datacarpentry.github.io/r-socialsci/00-intro.html#a-tour-of-rstudio) course.*
+
+## Starting a New Project in RStudio
+
+Creating and using Projects keeps your data, analyses, scripts, and related files in a single folder, also called a **working directory**. Keeping all files associated with a project in one location makes it easier to stay organized and share analyses with others.
+
+1. Under the **"File"** menu in the toolbar, click on **"New Project"**, choose **"New Directory"**, then **"New Project"**.
+2. Enter a name for the new folder under **"Directory name"** and click **"Browse"** to choose a save location.
+3. Click on **"Create Project"**.
+4. To start writing scripts, go to **File > New File > R Script**.
+
+## RStudio Interface
+
+RStudio is divided into **four panes**:
+
+| Pane | Location | Contents |
+|------|----------|----------|
+| **Source** | Top Left | Your scripts and documents |
+| **Console** | Bottom Left | Run commands and see output |
+| **Environment / History** | Top Right | Objects, functions, data frames, previous commands |
+| **Files / Plots / Packages** | Bottom Right | Working directory, plots, installed packages |
+
+## Installing Packages and Calling Libraries
+
+Packages and libraries are generally synonymous. A **package** (or **library**) is a set of code, functions, or data bundled together for specific tasks. Packages make analysis more efficient by allowing users to use code others have already developed.
+
+A comprehensive list of available R packages is available at:
+<https://cran.r-project.org/web/packages/available_packages_by_name.html>
+
+### Commonly Used Libraries
+
+| Package | Purpose |
+|---------|---------|
+| `ggplot2` | Customizing plots and figures |
+| `dplyr` | Data manipulation: subsetting, summarizing, joining |
+| `tidyr` | Editing the layout of datasets |
+| `car` | Data modeling |
+| `sp` | Loading and using spatial data |
+
+### Installing Packages
+
+There are two main ways to install packages:
+
+**Option 1 — Using the Packages Panel in RStudio:**
+
+1. Select the **Packages** tab in the lower right pane.
+2. Scroll through the list and click the checkbox next to the package you'd like to install. Installation begins automatically.
+
+> **Note:** More specialized libraries may not appear in this list and will need to be installed using code (Option 2).
+
+**Option 2 — Using R Code:**
+
+```{r install-packages}
+# Install a package from CRAN
+install.packages("package_name")
+```
+
+### Calling (Loading) Libraries
+
+Before using a package's functions in your script, you must load it with `library()`. This "activates" the library for your current session.
+
+```{r load-libraries}
+# Load a library at the top of your script
+library("package_name")
+```
+
+> **Best practice:** Add `library()` calls at the top of every script so you and collaborators know which packages are required to run the code.
+
+---
+
+# R Basics
+
+> *This section is adapted from [Data Carpentry's Introduction to R](https://datacarpentry.github.io/r-socialsci/01-intro-to-r.html). Visit the site for more tutorials.*
+
+## Objective: Key R Terminology
+
+Before diving in, make sure you can define the following terms:
+
+- **Variable** — a named storage location for a value
+- **Object** — anything stored in R's memory (values, data frames, functions, etc.)
+- **Data frame** — a table-like structure where columns are vectors of equal length
+- **Vector** — an ordered collection of values of the same data type
+- **Script** — a saved file containing R code
+- **Console** — the interactive command-line pane in RStudio
+- **Project** — an RStudio workspace that organizes files for a single analysis
+- **Working directory** — the folder R uses as the default location to read/write files
+- **Packages** — collections of functions and data bundled for a specific purpose
+
+---
+
+## Basic Operations
+
+### Assigning Values to Names
+
+In R, both operators below can be used for assignment:
+
+| Operator | Notes |
+|----------|-------|
+| `<-` | **Preferred** — makes direction of assignment explicit |
+| `=` | Valid but less common for assignment |
+
+These operators assign the value on the **right** to the name on the **left**.
+
+```{r assignment}
+Var <- 3 + 5   # Var = 8
+Var            # Print to confirm
+```
+
+> **Naming conventions:**
+> - Object names should be explicit and not too long.
+> - Names cannot start with a number (`2x` is invalid; `x2` is valid).
+> - R is **case sensitive** — `age` and `Age` are different objects.
+
+**Keyboard shortcut for `<-`:**
+
+- **PC:** `Alt` + `-`
+- **Mac:** `Option` + `-`
+
+---
+
+### Printing Values
+
+R does not print anything when a value is simply assigned. You can print using:
+
+```{r printing}
+area <- 2         # Silent assignment
+
+(area <- 2)       # Wrapping in parentheses prints immediately
+
+area              # Typing the object name prints its value
+
+print(area)       # Using the print() function
+```
+
+All three methods above produce the same output:
+```
+[1] 2
+```
+
+---
+
+### Arithmetic with Assigned Values
+
+Once an object is saved, R keeps it in memory and you can use it in calculations.
+
+```{r arithmetic}
+area <- 2                    # Area in hectares
+12 * area                    # Output: [1] 24
+
+area_acres <- area * 2.47    # Convert to acres
+area_acres                   # Output: [1] 4.94
+```
+
+> **Note:** Arithmetic on an object does not change the object's stored value unless you reassign it.
+
+---
+
+### Making Comments in R
+
+Comments help explain your reasoning and keep code readable — especially when collaborating or revisiting old code.
+
+Use the `#` character to start a comment. Everything to the right of `#` on a line is ignored by R.
+
+```{r comments}
+# This code converts land area from hectares to acres
+
+area <- 2          # Land area in hectares
+area_acres <- area * 2.47   # Convert to acres
+area_acres         # Print land area in acres
+# Output: [1] 4.94
+```
+
+**Keyboard shortcut to comment/uncomment:**
+
+- Select lines and press `Ctrl` + `Shift` + `C`
+
+---
+
+### Vectors and Data Types
+
+A **vector** is one of the most common data structures in R — a series of values of the **same type**, created with the `c()` function.
+
+```{r vectors}
+# Numeric vector
+hh_members <- c(3, 7, 10, 6)
+hh_members
+# Output: [1]  3  7 10  6
+
+# Character vector (strings must be in quotes)
+wall_types <- c("burntbricks", "muddaub", "sunbricks")
+wall_types
+# Output: [1] "burntbricks" "muddaub"     "sunbricks"
+```
+
+> **Important:** Without quotes, R will look for objects named `burntbricks`, etc., and throw an error.
+
+**Checking data type and structure:**
+
+```{r vector-types}
+typeof(hh_members)   # Returns: [1] "double"
+str(hh_members)      # Returns: num [1:4]  3  7 10  6
+```
+
+**Modifying vectors:**
+
+```{r modify-vectors}
+items <- c("bike", "radio", "television")
+items <- c(items, "phone")    # Add to end
+items <- c("car", items)      # Add to beginning
+print(items)
+# Output: [1] "car"  "bike"  "radio"  "television"  "phone"
+```
+
+**The 6 atomic vector types in R:**
+
+| Type | Description | Example |
+|------|-------------|---------|
+| `character` | Text strings | `"hello"` |
+| `numeric` / `double` | Decimal numbers | `3.14` |
+| `logical` | Boolean values | `TRUE`, `FALSE` |
+| `integer` | Whole numbers | `2L` |
+| `complex` | Complex numbers | `1 + 4i` |
+| `raw` | Raw bitstreams | (rarely used) |
+
+---
+
+### Subsetting Vectors
+
+**Subsetting** (also called indexing or extracting) accesses specific elements using square brackets `[]`. **R indices start at 1.**
+
+```{r subsetting}
+items <- c("bike", "radio", "television")
+print(items[2])
+# Output: [1] "radio"
+```
+
+---
+
+### Missing Data
+
+R uses `NA` to represent missing values. Most functions return `NA` if the input contains missing values — unless you explicitly tell them to ignore it.
+
+```{r missing-data}
+rooms <- c(2, 1, 1, NA, 7)
+
+mean(rooms)                  # Output: [1] NA
+mean(rooms, na.rm = TRUE)    # Output: [1] 2.75
+```
+
+The argument `na.rm = TRUE` tells R to **remove NA values** before computing.
+
+---
+
+### Getting Help in R
+
+```{r help}
+?round          # Opens documentation for the round() function
+help("mean")    # Alternative syntax
+```
+
+**Other ways to get help:**
+
+- Copy the last line of your error message and paste it into a search engine.
+- Search for `"R"` + a short description of what you want to do (e.g., `"R filter data frame by column value"`).
+
+---
+
+### Data Frames
+
+A **data frame** is the standard data structure for tabular data in R, analogous to a spreadsheet in Excel. Each column is a vector (all the same length), and each column must contain a single data type.
+
+Data frames are most commonly created by reading in data files:
+
+```{r data-frames}
+# Read a CSV file into a data frame
+my_data <- read.csv("data/my_file.csv")
+
+# Read a tab-delimited file
+my_data <- read.table("data/my_file.txt", header = TRUE, sep = "\t")
+```
+
+**Working with data frames:**
+
+- **Missing values** — use `na.rm = TRUE` or `na.omit()` to handle NAs
+- **Vector and matrix manipulations** — `cbind()`, `rbind()`, indexing with `[row, col]`
+- **Transforming data frames** — use `dplyr` and `tidyr` for reshaping and summarizing
+- **Matrix operations** — `t()` (transpose), `%*%` (matrix multiplication)
+
+---
+
+# R Markdown
+
+**R Markdown** is a file format that combines plain text, R code, and output (plots, tables, results) into a single reproducible document. Files are saved with the `.Rmd` extension and can be rendered ("knit") to HTML, PDF, or Word.
+
+**Key components of an R Markdown document:**
+
+- **YAML header** — at the top (between `---`), controls title, author, date, and output format
+- **Narrative text** — written in Markdown for headers, bold, lists, links, etc.
+- **Code chunks** — enclosed in ` ```{r} ` ... ` ``` ` blocks; contain executable R code
+
+**To knit this document:**
+Click the **"Knit"** button in RStudio, or run:
+
+```{r knit-example, eval=FALSE}
+rmarkdown::render("R_SOP_tutorial.Rmd")
+```
+
+---
+
+# Example 1: Statistics
+
+This and subsequent sections will build on the skills introduced in the previous sections. Example data is provided and will be used in the following examples. This example will cover basic statistics using PCB congener data from lab and field blanks.
+
+## Check Normality
+
+[edit]
+1. library: ggpubr
+2. how to import data
+3. explain qqplot
+4. shapiro test, what else to include
+
+```{r normality}
+library(ggpubr)
+
+my_data <- read.csv('./Example Data/EX 2/blanks_LOQ_20220919.csv', header = T, 
+                    encoding = 'UTC-8')
+
+# QQ plot to visually assess normality
+qq <- ggqqplot(my_data$X52)
+
+print(qq)
+# Shapiro-Wilk test (formal normality test)
+shapiro.test(my_data$x52)
+# p > 0.05 suggests data are approximately normal
+```
+
+## Summary Statistics
+
+```{r summary-stats}
+# Base R summary
+summary(my_data)
+
+# Using dplyr for more control
+library(dplyr)
+
+my_data %>%
+  summarize(
+    mean_val   = mean(variable_name, na.rm = TRUE),
+    sd_val     = sd(variable_name, na.rm = TRUE),
+    n          = n()
+  )
+```
+
+## Hypothesis Testing
+
+```{r hypothesis-testing}
+
+
+# Using dplyr for more control
+library(dplyr)
+
+my_data %>%
+  summarize(
+    mean_val   = mean(variable_name, na.rm = TRUE),
+    sd_val     = sd(variable_name, na.rm = TRUE),
+    n          = n()
+  )
+```
+
+---
+
+# Example 2: Calculate LOQ
+
+In this example, we calculate the Limit of Quantitation (LOQ) using method blanks.
+
+> **Note:** Some projects may require including field blank masses in the LOQ calculations.
+
+```{r loq}
+library(dplyr)
+
+# import data
+blank.mass <- read.csv('./Example Data/Ex 2/blanks_LOQ_20220919.csv', header = T)
+
+# extract congener list
+congener.list <- read.csv('./Example Data/Ex 2/blanks_LOQ_20220919.csv', header = F)
+
+# clean data frames so that they can be used for matrix operations
+blank.ids <- blank.mass[,1]
+blank.mass <- blank.mass[,-1]
+congener.list <- congener.list[1,-1]
+congener.list <- as.data.frame(t(congener.list))
+
+# ensure there are no zeroes in the data otherwise you cannot log10 transform
+blank.mass[blank.mass == 0] <- 1e-6
+
+# log 10
+log.mass <- log10(blank.mass)
+
+# LOQ calculation
+log.mass <- log10(blank.mass)
+log.mass <- as.data.frame(t(log.mass))
+log.avg <- rowMeans(log.mass)
+log.sd <- apply(log.mass, 1, sd)
+n <- nrow(blank.mass)
+log.loq <- log.avg + (2.325 * (log.sd/sqrt(n)))
+loq <- as.data.frame(10^log.loq)
+
+# rerrange into presentable table
+final.loq <- cbind(congener.list, loq)
+colnames(final.loq) <- c('Congener', 'LOQ')
+final.loq$Congener <- factor(final.loq$Congener, levels = final.loq$Congener)
+summary(final.loq)
+
+
+```
+
+---
+
+# Example 3: Calculate Air Concentration
+
+In this section, we calculate indoor air concentration using the sampling rate (R~s~) of a PUF-PAS and the effective volume (V~eff~).
+
+> **Note:** Outdoor air requires a different method for concentration determination.
+
+## Functions 
+
+add paragraph here explaining functions
+
+```{r air-functions}
+
+# kpuf calculations
+
+kpuf.calc <- function(pcb, R, temp.c) {
+  duoa <- data.frame(matrix(nrow = nrow(pcb), ncol = 1))
+  koa <- data.frame(matrix(nrow = nrow(pcb), ncol = 1))
+  for (i in 1:nrow(pcb)) {
+    duoa[i,1] <- (-0.13 * pcb[i,3] + 2.9 * pcb[i,2] - 47.8) * 1000
+  }
+  for (j in 1:nrow(pcb)) {
+    koa[j,1] <- pcb[j,5] - (duoa[j,1] / (2.303 * R)) * ((1 / (273.15 + temp.c)) - (1 / 298.15))
+  }
+  l.kpuf <- (0.6366 * koa) - 3.1774
+  kpuf <- 10^(l.kpuf)
+  return(kpuf)
+}
+
+# concentration calculation
+
+conc.calc <- function(fsch.air,veff,flist){
+  
+  sch.conc <- data.frame(matrix(nrow = nrow(fsch.air), ncol = ncol(fsch.air)))
+  for (c.i in 1:nrow(fsch.air)) {
+    for (c.j in  1:ncol(fsch.air)) {
+      sch.conc[c.i,c.j] <- fsch.air[c.i,c.j] / veff[c.j,2]
+    }
+  }
+  sch.conc.t <- as.data.frame(rowSums(sch.conc))
+  sch.conc.t <- signif(sch.conc.t,2)        # significant figures
+  names(sch.conc.t) <- 'Concentration'
+  sch.conc.t <- cbind(flist, sch.conc.t)   # final concentrations ng/m3
+  
+  return(sch.conc.t)
+}
+
+
+```
+
+## Import Data
+
+```{r import-air}
+
+pcb <- read.csv('./Example Data/Ex 3/koaCalc.csv', header = T)      # pcb values for calculation koa
+kpuf <- read.csv('./Example Data/Ex 3/kpuf.csv', header = T)
+sample.mass <- read.csv('./Example Data/Ex 3/ogMass_practice.csv', header = T)
+congener.list <- read.csv('./Example Data/Ex 3/ogMass_practice.csv', header = F)
+sample.type <- read.csv('./Example Data/Ex 3/ogSampleType_20220927.csv', header = T)
+
+congener.list <- as.data.frame(t(congener.list[1,-c(1:2)]))
+
+```
+
+## Set Indoor Air Parameters
+
+*(See paper YYY for parameter values.)*
+
+```{r air-params}
+
+t.days <- 29
+ws.on <- 0.11   #m/s
+ws.off <- 0.07  #m/s
+f.on <- 0.36
+f.off <- 1 - f.on
+c <- 1.326
+puf.sa = 0.0153 #m2
+v.puf <- 2.295e-04 #m3 
+v.puf.t <- as.character(v.puf)
+den.puf <- 21300 #g/m3 
+temp.c = 23                # enter temperature in C (73 F used)
+R = 8.3144               # gas constant
+cong <- pcb[,1]
+names(cong) <- 'Congener'
+
+
+# koa to kpuf based on temperature
+
+kpuf <- kpuf.calc(pcb,R,temp.c)
+kpuf <- kpuf * den.puf
+```
+
+## Calculate Sampling Rate (R~s~)
+
+```{r calc-rs}
+
+rs <- data.frame(matrix(nrow = nrow(pcb), ncol = 1))
+
+for (l in 1:nrow(pcb)) {
+  rs[l,1] <- ((f.on * (sqrt(ws.on))) + (f.off * (sqrt(ws.off))))*(1/(pcb[l,3]^(1/3)))*(10^((0.0012*t.days)+c))
+}
+
+```
+
+## Calculate Effective Volume (V~eff~)
+
+```{r calc-veff}
+
+v.eff <- data.frame(matrix(nrow = nrow(pcb), ncol = 1))
+
+for (ii in 1:nrow(pcb)) {
+  v.eff[ii,1] <- (v.puf * kpuf[ii,1]) * (1 - (exp((-(rs[ii,1] / (v.puf * kpuf[ii,1]))* t.days))))
+}
+names(v.eff) <- 'V_eff'
+
+v.eff <- as.data.frame(v.eff)
+V.eff <- v.eff[-c(13,28,29,30,33,47,53,62,65,69,70,71,74,75,76,97,100,101,109,113,116,119,124,125,138,140,149,
+                  151,157,163,166,168,173,193,199,204),]
+V.eff <- cbind(congener.list,V.eff)
+```
+
+## Calculate Total Air Concentration
+
+```{r calc-concentration}
+
+
+# subset only air samples
+
+sch.mass.idx <- sample.mass
+sch.air.t <- merge.data.frame(sch.mass.idx, sample.type)
+sch.air <- sch.air.t[sch.air.t$sample.type == 'Air',1:176]
+sch.air.list <- as.data.frame(sch.air[,1])
+names(sch.air.list) <- 'bid'
+sch.air <- sch.air[,-(c(1,2,176))]
+
+# concentration calculation - run function
+
+sch.air.conc <- conc.calc(sch.air,V.eff,sch.air.list)
+
+
+```
+
+---
+
+# Example 4: Plots and Figures
+
+## ggplot2
+
+```{r ggplot-example}
+library(ggplot2)
+
+ggplot(data = my_data, aes(x = variable_x, y = variable_y)) +
+  geom_point(color = "steelblue", size = 2, alpha = 0.7) +
+  geom_smooth(method = "lm", se = TRUE, color = "darkred") +
+  labs(
+    title = "My Plot Title",
+    x     = "X Axis Label",
+    y     = "Y Axis Label"
+  ) +
+  theme_bw()
+```
+
+## Plotly (Interactive Plots)
+
+```{r plotly-example}
+library(plotly)
+
+p <- ggplot(data = my_data, aes(x = variable_x, y = variable_y)) +
+  geom_point()
+
+ggplotly(p)   # Converts a ggplot to an interactive Plotly figure
+```
+
+---
+
+# Example 5: Generating Reports with R Markdown
+
+R Markdown reports allow you to integrate data, analysis, and text into a single reproducible document. When the data or analysis changes, simply re-knit the document to update all results automatically.
+
+**Useful chunk options:**
+
+| Option | Effect |
+|--------|--------|
+| `echo = FALSE` | Run code but hide it from output |
+| `eval = FALSE` | Show code but don't run it |
+| `include = FALSE` | Run code but hide both code and output |
+| `warning = FALSE` | Suppress warning messages |
+| `message = FALSE` | Suppress messages (e.g., from `library()`) |
+| `fig.width`, `fig.height` | Control figure dimensions |
+
+```{r report-example}
+# Example: inline R values in text
+# "The mean concentration was `r round(mean(concentration), 2)` pg/m³."
+
+# Example: auto-formatted table
+library(knitr)
+kable(loq_stats, digits = 3, caption = "LOQ Summary by Congener")
+```
+
+---
+
+*End of SOP Tutorial*
