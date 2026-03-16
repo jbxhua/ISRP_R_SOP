@@ -1,7 +1,21 @@
 ---
 title: "Standard Operation Procedure for PCB Analysis Using R"
-author: "Name Name"
 date: "Last Revised: `r format(Sys.Date(), '%B %d, %Y')`"
+author: |
+  Jason B.X. Hua (PhD Research Assiant)
+  
+  Matthew Rosonke (Undergraduate Research Assistant)
+  
+  Dr. Rachel F. Marek (title)
+  
+  Dr. Andres Martinez (title)
+  
+  4105 SC
+  Dept. Civil and Environmental Engineering
+  University of Iowa
+  Iowa City, IA 52240
+  Email: 
+affiliation: 
 output:
   html_document:
     toc: true 
@@ -30,12 +44,19 @@ knitr::opts_chunk$set(
 
 # Data Formatting and Organization
 
-## Setting Up CSVs
+[DMAC data management info here]
+
+## File and Metadata Naming Conventions
+
+- best practices and conventions
+
+## Organizing Folders and Files
+
+- best practices 
+
+## Spreadsheet Organization
 
 - Samples in rows, data/categories in columns
-
-## Normalizing Data
-
 - Reducing redundancy
 
 ---
@@ -183,7 +204,7 @@ These operators assign the value on the **right** to the name on the **left**.
 
 ```{r assignment}
 Var <- 3 + 5   # Var = 8
-Var            # Print to confirm
+Var            # Running the variable name will print the value 
 ```
 
 > **Naming conventions:**
@@ -200,10 +221,10 @@ Var            # Print to confirm
 
 ### Printing Values
 
-R does not print anything when a value is simply assigned. You can print using:
+In R, "printing" will show the variable, matrix, or plot on screen. R does not automatically show the value(s) when it is assigned to a variable or object. You can print using "print()":
 
 ```{r printing}
-area <- 2         # Silent assignment
+area <- 2         # Value assigned to variable
 
 (area <- 2)       # Wrapping in parentheses prints immediately
 
@@ -369,6 +390,8 @@ my_data <- read.table("data/my_file.txt", header = TRUE, sep = "\t")
 ---
 
 # R Markdown
+
+[where should this section go]
 
 **R Markdown** is a file format that combines plain text, R code, and output (plots, tables, results) into a single reproducible document. Files are saved with the `.Rmd` extension and can be rendered ("knit") to HTML, PDF, or Word.
 
@@ -641,6 +664,8 @@ sch.air.conc <- conc.calc(sch.air,V.eff,sch.air.list)
 
 # Example 4: Plots and Figures
 
+in progress
+
 ## ggplot2
 
 ```{r ggplot-example}
@@ -671,6 +696,8 @@ ggplotly(p)   # Converts a ggplot to an interactive Plotly figure
 ---
 
 # Example 5: Generating Reports with R Markdown
+
+in progress
 
 R Markdown reports allow you to integrate data, analysis, and text into a single reproducible document. When the data or analysis changes, simply re-knit the document to update all results automatically.
 
