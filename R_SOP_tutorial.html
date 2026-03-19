@@ -2164,24 +2164,437 @@ to do (e.g., <code>&quot;R filter data frame by column value&quot;</code>).</li>
 </div>
 <div id="r-markdown" class="section level1" number="5">
 <h1><span class="header-section-number">5</span> R Markdown</h1>
-<p>[where should this section go]</p>
-<p><strong>R Markdown</strong> is a file format that combines plain
-text, R code, and output (plots, tables, results) into a single
-reproducible document. Files are saved with the <code>.Rmd</code>
-extension and can be rendered (“knit”) to HTML, PDF, or Word.</p>
-<p><strong>Key components of an R Markdown document:</strong></p>
+<p>R Markdown is a file format that combines plain text, R code, and
+output (plots, tables, results) into a single document. Files are saved
+with the <code>.Rmd</code> extension and can be rendered (“knit”) to
+HTML, PDF, or Word. This makes R Markdown especially useful for writing
+reports, sharing analyses, and keeping a record of your workflow since
+the code, results, and written interpretation all live in the same
+file.</p>
+<div id="why-use-r-markdown" class="section level2" number="5.1">
+<h2><span class="header-section-number">5.1</span> Why Use R
+Markdown?</h2>
+<p>In a typical workflow, you might run your analysis in R, copy results
+into Word, paste figures in manually, and update everything by hand
+whenever the data changes. R Markdown eliminates that process. When you
+knit the document, R re-runs all the code and rebuilds the output
+automatically so your tables, figures, and statistics are always up to
+date with your data.</p>
+<p>This is particularly useful for:</p>
 <ul>
-<li><strong>YAML header</strong> — at the top (between
-<code>---</code>), controls title, author, date, and output format</li>
-<li><strong>Narrative text</strong> — written in Markdown for headers,
-bold, lists, links, etc.</li>
-<li><strong>Code chunks</strong> — enclosed in <code>```{r}</code> …
-<code>```</code> blocks; contain executable R code</li>
+<li><strong>Reproducibility</strong> — anyone with your
+<code>.Rmd</code> file and data can re-run the exact same analysis</li>
+<li><strong>Collaboration</strong> — share a single file instead of
+separate scripts, figures, and reports</li>
+<li><strong>Iteration</strong> — update the data or analysis and
+re-knit; the report updates itself</li>
+<li><strong>Documentation</strong> — write methods and interpretation
+alongside the code that produced the results</li>
 </ul>
-<p><strong>To knit this document:</strong> Click the
-<strong>“Knit”</strong> button in RStudio, or run:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>rmarkdown<span class="sc">::</span><span class="fu">render</span>(<span class="st">&quot;R_SOP_tutorial.Rmd&quot;</span>)</span></code></pre></div>
+</div>
+<div id="key-components" class="section level2" number="5.2">
+<h2><span class="header-section-number">5.2</span> Key Components</h2>
+<p>An R Markdown document has three main parts:</p>
+<p><strong>1. YAML Header</strong></p>
+<p>The YAML header sits at the very top of the document. It controls
+document-level settings like the title, author, date, and output
+format.</p>
+<!-- '--- -->
+<!-- title: "PCB Analysis Report" -->
+<!-- author: "Name Name" -->
+<!-- date: "2026-02-26" -->
+<!-- output: html_document -->
+<!-- ---' -->
+<p>Common output formats:</p>
+<table>
+<colgroup>
+<col width="38%" />
+<col width="61%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Output</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>html_document</code></td>
+<td>Webpage — easiest to style, supports interactive elements</td>
+</tr>
+<tr class="even">
+<td><code>pdf_document</code></td>
+<td>PDF via LaTeX — good for formal reports</td>
+</tr>
+<tr class="odd">
+<td><code>word_document</code></td>
+<td>Microsoft Word — useful when collaborators don’t use R</td>
+</tr>
+</tbody>
+</table>
 <hr />
+<p><strong>2. Narrative Text</strong></p>
+<p>Everything outside of code chunks is plain text written in
+<strong>Markdown</strong> — a lightweight formatting syntax. You don’t
+need to know HTML or LaTeX; Markdown handles the formatting.</p>
+<p>Common Markdown syntax:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Syntax</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code># Heading 1</code></td>
+<td>Large section header</td>
+</tr>
+<tr class="even">
+<td><code>## Heading 2</code></td>
+<td>Subsection header</td>
+</tr>
+<tr class="odd">
+<td><code>**bold**</code></td>
+<td><strong>bold</strong></td>
+</tr>
+<tr class="even">
+<td><code>*italic*</code></td>
+<td><em>italic</em></td>
+</tr>
+<tr class="odd">
+<td><code>`inline code`</code></td>
+<td><code>inline code</code></td>
+</tr>
+<tr class="even">
+<td><code>[link text](url)</code></td>
+<td>Hyperlink</td>
+</tr>
+<tr class="odd">
+<td><code>&gt; text</code></td>
+<td>Blockquote</td>
+</tr>
+</tbody>
+</table>
+<p><strong>3. Code Chunks</strong></p>
+<p>Code chunks contain executable R code. They are enclosed by triple
+backticks and <code>{r}</code>:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="co"># Your R code goes here</span></span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>))</span></code></pre></div>
+<p>When you knit the document, the code runs and the output appears
+directly below the chunk.</p>
+</div>
+<div id="chunk-options" class="section level2" number="5.3">
+<h2><span class="header-section-number">5.3</span> Chunk Options</h2>
+<p>Chunk options control how each chunk behaves when knitting. They are
+written inside the <code>{r}</code> header:</p>
+<p>Commonly used chunk options:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Option</th>
+<th>Default</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>echo</code></td>
+<td><code>TRUE</code></td>
+<td>Show the code in the output</td>
+</tr>
+<tr class="even">
+<td><code>eval</code></td>
+<td><code>TRUE</code></td>
+<td>Run the code</td>
+</tr>
+<tr class="odd">
+<td><code>include</code></td>
+<td><code>TRUE</code></td>
+<td>Include code and output in the document</td>
+</tr>
+<tr class="even">
+<td><code>warning</code></td>
+<td><code>TRUE</code></td>
+<td>Show warning messages</td>
+</tr>
+<tr class="odd">
+<td><code>message</code></td>
+<td><code>TRUE</code></td>
+<td>Show messages (e.g. from <code>library()</code>)</td>
+</tr>
+<tr class="even">
+<td><code>fig.width</code></td>
+<td><code>7</code></td>
+<td>Figure width in inches</td>
+</tr>
+<tr class="odd">
+<td><code>fig.height</code></td>
+<td><code>5</code></td>
+<td>Figure height in inches</td>
+</tr>
+<tr class="even">
+<td><code>fig.cap</code></td>
+<td><code>&quot;&quot;</code></td>
+<td>Add a caption below a figure</td>
+</tr>
+</tbody>
+</table>
+<p>To apply options globally to all chunks, set them in a setup chunk at
+the top of your document:</p>
+</div>
+<div id="in-text-formatting" class="section level2" number="5.4">
+<h2><span class="header-section-number">5.4</span> In-Text
+Formatting</h2>
+<p>Beyond basic Markdown, R Markdown supports a range of formatting
+options useful for scientific writing.</p>
+<div id="superscripts-and-subscripts" class="section level3" number="5.4.1">
+<h3><span class="header-section-number">5.4.1</span> Superscripts and
+Subscripts</h3>
+<p>Use <code>^</code> for superscripts and <code>~</code> for subscripts
+directly in your text:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Syntax</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>m^2^</code></td>
+<td>m<sup>2</sup></td>
+</tr>
+<tr class="even">
+<td><code>R^2^ = 0.98</code></td>
+<td>R<sup>2</sup> = 0.98</td>
+</tr>
+<tr class="odd">
+<td><code>CO~2~</code></td>
+<td>CO<sub>2</sub></td>
+</tr>
+<tr class="even">
+<td><code>V~eff~</code></td>
+<td>V<sub>eff</sub></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="inline-r-variables" class="section level3" number="5.4.2">
+<h3><span class="header-section-number">5.4.2</span> Inline R
+Variables</h3>
+<p>Any R object can be printed inline in text using <code>`r `</code>.
+This is one of the most powerful features of R Markdown — values update
+automatically when your data or code changes, so you never have to
+manually edit numbers in a report.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a>mean_conc <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">mean</span>(<span class="fu">c</span>(<span class="fl">12.1</span>, <span class="fl">10.4</span>, <span class="fl">11.8</span>, <span class="fl">9.7</span>)), <span class="dv">2</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>sample_n  <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>test_date <span class="ot">&lt;-</span> <span class="fu">format</span>(<span class="fu">Sys.Date</span>(), <span class="st">&quot;%B %d, %Y&quot;</span>)</span></code></pre></div>
+<p>Writing this in your text:</p>
+<pre><code>A total of ` r sample_n` samples were collected. The mean concentration was ` r mean_conc` ng/m^3^.</code></pre>
+<p>Renders as:</p>
+<blockquote>
+<p>A total of 10 samples were collected. The mean concentration was 11.0
+ng/m<sup>3</sup>.</p>
+</blockquote>
+</div>
+<div id="dates" class="section level3" number="5.4.3">
+<h3><span class="header-section-number">5.4.3</span> Dates</h3>
+<p>You can insert a static or auto-updating date anywhere in the
+document:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="co"># In the YAML header — updates every time you knit:</span></span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>date<span class="sc">:</span> <span class="st">&quot;`r format(Sys.Date(), &#39;%B %d, %Y&#39;)`&quot;</span></span>
+<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a><span class="co"># In the body of the document:</span></span>
+<span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a><span class="co"># Report generated on `r format(Sys.Date(), &quot;%B %d, %Y&quot;)`</span></span>
+<span id="cb26-6"><a href="#cb26-6" tabindex="-1"></a><span class="co"># Outputs: Report generated on March 19, 2026</span></span></code></pre></div>
+<p>Common date format codes:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Code</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>%B</code></td>
+<td>Full month name (March)</td>
+</tr>
+<tr class="even">
+<td><code>%b</code></td>
+<td>Abbreviated month (Mar)</td>
+</tr>
+<tr class="odd">
+<td><code>%m</code></td>
+<td>Month as number (03)</td>
+</tr>
+<tr class="even">
+<td><code>%d</code></td>
+<td>Day with leading zero (09)</td>
+</tr>
+<tr class="odd">
+<td><code>%Y</code></td>
+<td>Four-digit year (2026)</td>
+</tr>
+<tr class="even">
+<td><code>%y</code></td>
+<td>Two-digit year (26)</td>
+</tr>
+</tbody>
+</table>
+<p>So <code>format(Sys.Date(), &quot;%m/%d/%Y&quot;)</code> gives
+<code>03/19/2026</code>, and
+<code>format(Sys.Date(), &quot;%B %d, %Y&quot;)</code> gives
+<code>March 19, 2026</code>.</p>
+</div>
+<div id="inserting-images" class="section level3" number="5.4.4">
+<h3><span class="header-section-number">5.4.4</span> Inserting
+Images</h3>
+<p><strong>External images</strong> (from a file) can be inserted with
+standard Markdown syntax or with <code>knitr</code>:</p>
+<pre><code>![Caption text here](path/to/image.png)</code></pre>
+<p>Useful chunk options for images:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Option</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>fig.cap</code></td>
+<td>Caption displayed below the figure</td>
+</tr>
+<tr class="even">
+<td><code>out.width</code></td>
+<td>Scale the image (e.g. <code>&quot;50%&quot;</code>, <code>&quot;3in&quot;</code>)</td>
+</tr>
+<tr class="odd">
+<td><code>fig.align</code></td>
+<td>Alignment: <code>&quot;left&quot;</code>, <code>&quot;center&quot;</code>,
+<code>&quot;right&quot;</code></td>
+</tr>
+<tr class="even">
+<td><code>echo=FALSE</code></td>
+<td>Show the image but hide the code chunk</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Tip:</strong> Keep all your images in a dedicated
+<code>figures/</code> subfolder within your project directory to stay
+organized.</p>
+</blockquote>
+</div>
+<div id="hyperlinks-and-cross-references" class="section level3" number="5.4.5">
+<h3><span class="header-section-number">5.4.5</span> Hyperlinks and
+Cross-References</h3>
+<pre><code># Inline hyperlink
+See the [CRAN package list](https://cran.r-project.org) for more.
+
+# Bare URL (auto-linked)
+&lt;https://cran.r-project.org&gt;
+
+# Reference a section header (HTML output only)
+See [R Basics] or [Installing R and RStudio] for more details.</code></pre>
+</div>
+<div id="math-and-equations" class="section level3" number="5.4.6">
+<h3><span class="header-section-number">5.4.6</span> Math and
+Equations</h3>
+<p>R Markdown supports LaTeX math notation for equations. Use single
+<code>$</code> for inline math and double <code>$$</code> for a centered
+display equation:</p>
+<pre><code># Inline math
+The equation is $y = mx + b$.
+
+# Display equation (centered on its own line)
+$$V_{eff} = R_s \times t \times f$$
+
+# More complex example
+$$\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i$$</code></pre>
+<p>Renders as:</p>
+<blockquote>
+<p>The equation is <span class="math inline">\(y = mx + b\)</span>.</p>
+</blockquote>
+<p><span class="math display">\[V_{eff} = R_s \times t \times
+f\]</span></p>
+<p><span class="math display">\[\bar{x} = \frac{1}{n}\sum_{i=1}^{n}
+x_i\]</span></p>
+<blockquote>
+<p><strong>Tip:</strong> For Greek letters use <code>\alpha</code>,
+<code>\beta</code>, <code>\mu</code>, <code>\sigma</code>, etc. inside
+<code>$</code>. For example, <code>$\mu = 0.05$</code> renders as <span class="math inline">\(\mu = 0.05\)</span>.</p>
+</blockquote>
+</div>
+<div id="text-formatting-quick-reference" class="section level3" number="5.4.7">
+<h3><span class="header-section-number">5.4.7</span> Text Formatting
+Quick Reference</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Syntax</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>**bold**</code></td>
+<td><strong>bold</strong></td>
+</tr>
+<tr class="even">
+<td><code>*italic*</code></td>
+<td><em>italic</em></td>
+</tr>
+<tr class="odd">
+<td><code>***bold italic***</code></td>
+<td><strong><em>bold italic</em></strong></td>
+</tr>
+<tr class="even">
+<td><code>`inline code`</code></td>
+<td><code>inline code</code></td>
+</tr>
+<tr class="odd">
+<td><code>~~strikethrough~~</code></td>
+<td><del>strikethrough</del></td>
+</tr>
+<tr class="even">
+<td><code>&gt; blockquote</code></td>
+<td>indented callout block</td>
+</tr>
+<tr class="odd">
+<td><code>---</code></td>
+<td>horizontal rule</td>
+</tr>
+<tr class="even">
+<td><code>\</code> at end of line</td>
+<td>line break</td>
+</tr>
+</tbody>
+</table>
+<hr />
+</div>
+</div>
+<div id="knitting-the-document" class="section level2" number="5.5">
+<h2><span class="header-section-number">5.5</span> Knitting the
+Document</h2>
+<p>To render your <code>.Rmd</code> file into the output format
+specified in the YAML header, click the <strong>Knit</strong> button at
+the top of the RStudio editor, or run:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a>rmarkdown<span class="sc">::</span><span class="fu">render</span>(<span class="st">&quot;R_SOP_tutorial.Rmd&quot;</span>)</span></code></pre></div>
+<p>You can also knit to a specific format regardless of what is set in
+the YAML:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a>rmarkdown<span class="sc">::</span><span class="fu">render</span>(<span class="st">&quot;R_SOP_tutorial.Rmd&quot;</span>, <span class="at">output_format =</span> <span class="st">&quot;pdf_document&quot;</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a>rmarkdown<span class="sc">::</span><span class="fu">render</span>(<span class="st">&quot;R_SOP_tutorial.Rmd&quot;</span>, <span class="at">output_format =</span> <span class="st">&quot;word_document&quot;</span>)</span></code></pre></div>
+<blockquote>
+<p><strong>Tip:</strong> If you get an error when knitting, read the
+error message in the R Markdown tab at the bottom of RStudio. It will
+tell you which line caused the problem. Common issues are missing
+packages, a file path that doesn’t exist, or a code error that works
+interactively but fails when the document runs top to bottom.</p>
+</blockquote>
+</div>
 </div>
 <div id="example-1-statistics" class="section level1" number="6">
 <h1><span class="header-section-number">6</span> Example 1:
@@ -2194,47 +2607,47 @@ congener data from lab and field blanks.</p>
 <h2><span class="header-section-number">6.1</span> Check Normality</h2>
 <p>[edit] 1. library: ggpubr 2. how to import data 3. explain qqplot 4.
 shapiro test, what else to include</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
-<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a></span>
-<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/EX 2/blanks_LOQ_20220919.csv&#39;</span>, <span class="at">header =</span> T, </span>
-<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a>                    <span class="at">encoding =</span> <span class="st">&#39;UTC-8&#39;</span>)</span>
-<span id="cb24-5"><a href="#cb24-5" tabindex="-1"></a></span>
-<span id="cb24-6"><a href="#cb24-6" tabindex="-1"></a><span class="co"># QQ plot to visually assess normality</span></span>
-<span id="cb24-7"><a href="#cb24-7" tabindex="-1"></a>qq <span class="ot">&lt;-</span> <span class="fu">ggqqplot</span>(my_data<span class="sc">$</span>X52)</span>
-<span id="cb24-8"><a href="#cb24-8" tabindex="-1"></a></span>
-<span id="cb24-9"><a href="#cb24-9" tabindex="-1"></a><span class="fu">print</span>(qq)</span>
-<span id="cb24-10"><a href="#cb24-10" tabindex="-1"></a><span class="co"># Shapiro-Wilk test (formal normality test)</span></span>
-<span id="cb24-11"><a href="#cb24-11" tabindex="-1"></a><span class="fu">shapiro.test</span>(my_data<span class="sc">$</span>x52)</span>
-<span id="cb24-12"><a href="#cb24-12" tabindex="-1"></a><span class="co"># p &gt; 0.05 suggests data are approximately normal</span></span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
+<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/EX 2/blanks_LOQ_20220919.csv&#39;</span>, <span class="at">header =</span> T, </span>
+<span id="cb32-4"><a href="#cb32-4" tabindex="-1"></a>                    <span class="at">encoding =</span> <span class="st">&#39;UTC-8&#39;</span>)</span>
+<span id="cb32-5"><a href="#cb32-5" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="#cb32-6" tabindex="-1"></a><span class="co"># QQ plot to visually assess normality</span></span>
+<span id="cb32-7"><a href="#cb32-7" tabindex="-1"></a>qq <span class="ot">&lt;-</span> <span class="fu">ggqqplot</span>(my_data<span class="sc">$</span>X52)</span>
+<span id="cb32-8"><a href="#cb32-8" tabindex="-1"></a></span>
+<span id="cb32-9"><a href="#cb32-9" tabindex="-1"></a><span class="fu">print</span>(qq)</span>
+<span id="cb32-10"><a href="#cb32-10" tabindex="-1"></a><span class="co"># Shapiro-Wilk test (formal normality test)</span></span>
+<span id="cb32-11"><a href="#cb32-11" tabindex="-1"></a><span class="fu">shapiro.test</span>(my_data<span class="sc">$</span>x52)</span>
+<span id="cb32-12"><a href="#cb32-12" tabindex="-1"></a><span class="co"># p &gt; 0.05 suggests data are approximately normal</span></span></code></pre></div>
 </div>
 <div id="summary-statistics" class="section level2" number="6.2">
 <h2><span class="header-section-number">6.2</span> Summary
 Statistics</h2>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="co"># Base R summary</span></span>
-<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a><span class="fu">summary</span>(my_data)</span>
-<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a></span>
-<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a><span class="co"># Using dplyr for more control</span></span>
-<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a></span>
-<span id="cb25-7"><a href="#cb25-7" tabindex="-1"></a>my_data <span class="sc">%&gt;%</span></span>
-<span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb25-9"><a href="#cb25-9" tabindex="-1"></a>    <span class="at">mean_val   =</span> <span class="fu">mean</span>(variable_name, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb25-10"><a href="#cb25-10" tabindex="-1"></a>    <span class="at">sd_val     =</span> <span class="fu">sd</span>(variable_name, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb25-11"><a href="#cb25-11" tabindex="-1"></a>    <span class="at">n          =</span> <span class="fu">n</span>()</span>
-<span id="cb25-12"><a href="#cb25-12" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="co"># Base R summary</span></span>
+<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a><span class="fu">summary</span>(my_data)</span>
+<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a><span class="co"># Using dplyr for more control</span></span>
+<span id="cb33-5"><a href="#cb33-5" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb33-6"><a href="#cb33-6" tabindex="-1"></a></span>
+<span id="cb33-7"><a href="#cb33-7" tabindex="-1"></a>my_data <span class="sc">%&gt;%</span></span>
+<span id="cb33-8"><a href="#cb33-8" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb33-9"><a href="#cb33-9" tabindex="-1"></a>    <span class="at">mean_val   =</span> <span class="fu">mean</span>(variable_name, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb33-10"><a href="#cb33-10" tabindex="-1"></a>    <span class="at">sd_val     =</span> <span class="fu">sd</span>(variable_name, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb33-11"><a href="#cb33-11" tabindex="-1"></a>    <span class="at">n          =</span> <span class="fu">n</span>()</span>
+<span id="cb33-12"><a href="#cb33-12" tabindex="-1"></a>  )</span></code></pre></div>
 </div>
 <div id="hypothesis-testing" class="section level2" number="6.3">
 <h2><span class="header-section-number">6.3</span> Hypothesis
 Testing</h2>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="co"># Using dplyr for more control</span></span>
-<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a></span>
-<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a>my_data <span class="sc">%&gt;%</span></span>
-<span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb26-6"><a href="#cb26-6" tabindex="-1"></a>    <span class="at">mean_val   =</span> <span class="fu">mean</span>(variable_name, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb26-7"><a href="#cb26-7" tabindex="-1"></a>    <span class="at">sd_val     =</span> <span class="fu">sd</span>(variable_name, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb26-8"><a href="#cb26-8" tabindex="-1"></a>    <span class="at">n          =</span> <span class="fu">n</span>()</span>
-<span id="cb26-9"><a href="#cb26-9" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a><span class="co"># Using dplyr for more control</span></span>
+<span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb34-3"><a href="#cb34-3" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" tabindex="-1"></a>my_data <span class="sc">%&gt;%</span></span>
+<span id="cb34-5"><a href="#cb34-5" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb34-6"><a href="#cb34-6" tabindex="-1"></a>    <span class="at">mean_val   =</span> <span class="fu">mean</span>(variable_name, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb34-7"><a href="#cb34-7" tabindex="-1"></a>    <span class="at">sd_val     =</span> <span class="fu">sd</span>(variable_name, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb34-8"><a href="#cb34-8" tabindex="-1"></a>    <span class="at">n          =</span> <span class="fu">n</span>()</span>
+<span id="cb34-9"><a href="#cb34-9" tabindex="-1"></a>  )</span></code></pre></div>
 <hr />
 </div>
 </div>
@@ -2247,40 +2660,40 @@ method blanks.</p>
 <p><strong>Note:</strong> Some projects may require including field
 blank masses in the LOQ calculations.</p>
 </blockquote>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a></span>
-<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a><span class="co"># import data</span></span>
-<span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a>blank.mass <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 2/blanks_LOQ_20220919.csv&#39;</span>, <span class="at">header =</span> T)</span>
-<span id="cb27-5"><a href="#cb27-5" tabindex="-1"></a></span>
-<span id="cb27-6"><a href="#cb27-6" tabindex="-1"></a><span class="co"># extract congener list</span></span>
-<span id="cb27-7"><a href="#cb27-7" tabindex="-1"></a>congener.list <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 2/blanks_LOQ_20220919.csv&#39;</span>, <span class="at">header =</span> F)</span>
-<span id="cb27-8"><a href="#cb27-8" tabindex="-1"></a></span>
-<span id="cb27-9"><a href="#cb27-9" tabindex="-1"></a><span class="co"># clean data frames so that they can be used for matrix operations</span></span>
-<span id="cb27-10"><a href="#cb27-10" tabindex="-1"></a>blank.ids <span class="ot">&lt;-</span> blank.mass[,<span class="dv">1</span>]</span>
-<span id="cb27-11"><a href="#cb27-11" tabindex="-1"></a>blank.mass <span class="ot">&lt;-</span> blank.mass[,<span class="sc">-</span><span class="dv">1</span>]</span>
-<span id="cb27-12"><a href="#cb27-12" tabindex="-1"></a>congener.list <span class="ot">&lt;-</span> congener.list[<span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>]</span>
-<span id="cb27-13"><a href="#cb27-13" tabindex="-1"></a>congener.list <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(congener.list))</span>
-<span id="cb27-14"><a href="#cb27-14" tabindex="-1"></a></span>
-<span id="cb27-15"><a href="#cb27-15" tabindex="-1"></a><span class="co"># ensure there are no zeroes in the data otherwise you cannot log10 transform</span></span>
-<span id="cb27-16"><a href="#cb27-16" tabindex="-1"></a>blank.mass[blank.mass <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="fl">1e-6</span></span>
-<span id="cb27-17"><a href="#cb27-17" tabindex="-1"></a></span>
-<span id="cb27-18"><a href="#cb27-18" tabindex="-1"></a><span class="co"># log 10</span></span>
-<span id="cb27-19"><a href="#cb27-19" tabindex="-1"></a>log.mass <span class="ot">&lt;-</span> <span class="fu">log10</span>(blank.mass)</span>
-<span id="cb27-20"><a href="#cb27-20" tabindex="-1"></a></span>
-<span id="cb27-21"><a href="#cb27-21" tabindex="-1"></a><span class="co"># LOQ calculation</span></span>
-<span id="cb27-22"><a href="#cb27-22" tabindex="-1"></a>log.mass <span class="ot">&lt;-</span> <span class="fu">log10</span>(blank.mass)</span>
-<span id="cb27-23"><a href="#cb27-23" tabindex="-1"></a>log.mass <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(log.mass))</span>
-<span id="cb27-24"><a href="#cb27-24" tabindex="-1"></a>log.avg <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(log.mass)</span>
-<span id="cb27-25"><a href="#cb27-25" tabindex="-1"></a>log.sd <span class="ot">&lt;-</span> <span class="fu">apply</span>(log.mass, <span class="dv">1</span>, sd)</span>
-<span id="cb27-26"><a href="#cb27-26" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(blank.mass)</span>
-<span id="cb27-27"><a href="#cb27-27" tabindex="-1"></a>log.loq <span class="ot">&lt;-</span> log.avg <span class="sc">+</span> (<span class="fl">2.325</span> <span class="sc">*</span> (log.sd<span class="sc">/</span><span class="fu">sqrt</span>(n)))</span>
-<span id="cb27-28"><a href="#cb27-28" tabindex="-1"></a>loq <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="dv">10</span><span class="sc">^</span>log.loq)</span>
-<span id="cb27-29"><a href="#cb27-29" tabindex="-1"></a></span>
-<span id="cb27-30"><a href="#cb27-30" tabindex="-1"></a><span class="co"># rerrange into presentable table</span></span>
-<span id="cb27-31"><a href="#cb27-31" tabindex="-1"></a>final.loq <span class="ot">&lt;-</span> <span class="fu">cbind</span>(congener.list, loq)</span>
-<span id="cb27-32"><a href="#cb27-32" tabindex="-1"></a><span class="fu">colnames</span>(final.loq) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;Congener&#39;</span>, <span class="st">&#39;LOQ&#39;</span>)</span>
-<span id="cb27-33"><a href="#cb27-33" tabindex="-1"></a>final.loq<span class="sc">$</span>Congener <span class="ot">&lt;-</span> <span class="fu">factor</span>(final.loq<span class="sc">$</span>Congener, <span class="at">levels =</span> final.loq<span class="sc">$</span>Congener)</span>
-<span id="cb27-34"><a href="#cb27-34" tabindex="-1"></a><span class="fu">summary</span>(final.loq)</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a><span class="co"># import data</span></span>
+<span id="cb35-4"><a href="#cb35-4" tabindex="-1"></a>blank.mass <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 2/blanks_LOQ_20220919.csv&#39;</span>, <span class="at">header =</span> T)</span>
+<span id="cb35-5"><a href="#cb35-5" tabindex="-1"></a></span>
+<span id="cb35-6"><a href="#cb35-6" tabindex="-1"></a><span class="co"># extract congener list</span></span>
+<span id="cb35-7"><a href="#cb35-7" tabindex="-1"></a>congener.list <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 2/blanks_LOQ_20220919.csv&#39;</span>, <span class="at">header =</span> F)</span>
+<span id="cb35-8"><a href="#cb35-8" tabindex="-1"></a></span>
+<span id="cb35-9"><a href="#cb35-9" tabindex="-1"></a><span class="co"># clean data frames so that they can be used for matrix operations</span></span>
+<span id="cb35-10"><a href="#cb35-10" tabindex="-1"></a>blank.ids <span class="ot">&lt;-</span> blank.mass[,<span class="dv">1</span>]</span>
+<span id="cb35-11"><a href="#cb35-11" tabindex="-1"></a>blank.mass <span class="ot">&lt;-</span> blank.mass[,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb35-12"><a href="#cb35-12" tabindex="-1"></a>congener.list <span class="ot">&lt;-</span> congener.list[<span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb35-13"><a href="#cb35-13" tabindex="-1"></a>congener.list <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(congener.list))</span>
+<span id="cb35-14"><a href="#cb35-14" tabindex="-1"></a></span>
+<span id="cb35-15"><a href="#cb35-15" tabindex="-1"></a><span class="co"># ensure there are no zeroes in the data otherwise you cannot log10 transform</span></span>
+<span id="cb35-16"><a href="#cb35-16" tabindex="-1"></a>blank.mass[blank.mass <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="fl">1e-6</span></span>
+<span id="cb35-17"><a href="#cb35-17" tabindex="-1"></a></span>
+<span id="cb35-18"><a href="#cb35-18" tabindex="-1"></a><span class="co"># log 10</span></span>
+<span id="cb35-19"><a href="#cb35-19" tabindex="-1"></a>log.mass <span class="ot">&lt;-</span> <span class="fu">log10</span>(blank.mass)</span>
+<span id="cb35-20"><a href="#cb35-20" tabindex="-1"></a></span>
+<span id="cb35-21"><a href="#cb35-21" tabindex="-1"></a><span class="co"># LOQ calculation</span></span>
+<span id="cb35-22"><a href="#cb35-22" tabindex="-1"></a>log.mass <span class="ot">&lt;-</span> <span class="fu">log10</span>(blank.mass)</span>
+<span id="cb35-23"><a href="#cb35-23" tabindex="-1"></a>log.mass <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(log.mass))</span>
+<span id="cb35-24"><a href="#cb35-24" tabindex="-1"></a>log.avg <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(log.mass)</span>
+<span id="cb35-25"><a href="#cb35-25" tabindex="-1"></a>log.sd <span class="ot">&lt;-</span> <span class="fu">apply</span>(log.mass, <span class="dv">1</span>, sd)</span>
+<span id="cb35-26"><a href="#cb35-26" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(blank.mass)</span>
+<span id="cb35-27"><a href="#cb35-27" tabindex="-1"></a>log.loq <span class="ot">&lt;-</span> log.avg <span class="sc">+</span> (<span class="fl">2.325</span> <span class="sc">*</span> (log.sd<span class="sc">/</span><span class="fu">sqrt</span>(n)))</span>
+<span id="cb35-28"><a href="#cb35-28" tabindex="-1"></a>loq <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="dv">10</span><span class="sc">^</span>log.loq)</span>
+<span id="cb35-29"><a href="#cb35-29" tabindex="-1"></a></span>
+<span id="cb35-30"><a href="#cb35-30" tabindex="-1"></a><span class="co"># rerrange into presentable table</span></span>
+<span id="cb35-31"><a href="#cb35-31" tabindex="-1"></a>final.loq <span class="ot">&lt;-</span> <span class="fu">cbind</span>(congener.list, loq)</span>
+<span id="cb35-32"><a href="#cb35-32" tabindex="-1"></a><span class="fu">colnames</span>(final.loq) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;Congener&#39;</span>, <span class="st">&#39;LOQ&#39;</span>)</span>
+<span id="cb35-33"><a href="#cb35-33" tabindex="-1"></a>final.loq<span class="sc">$</span>Congener <span class="ot">&lt;-</span> <span class="fu">factor</span>(final.loq<span class="sc">$</span>Congener, <span class="at">levels =</span> final.loq<span class="sc">$</span>Congener)</span>
+<span id="cb35-34"><a href="#cb35-34" tabindex="-1"></a><span class="fu">summary</span>(final.loq)</span></code></pre></div>
 <hr />
 </div>
 <div id="example-3-calculate-air-concentration" class="section level1" number="8">
@@ -2296,114 +2709,114 @@ concentration determination.</p>
 <div id="functions" class="section level2" number="8.1">
 <h2><span class="header-section-number">8.1</span> Functions</h2>
 <p>add paragraph here explaining functions</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="co"># kpuf calculations</span></span>
-<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a></span>
-<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a>kpuf.calc <span class="ot">&lt;-</span> <span class="cf">function</span>(pcb, R, temp.c) {</span>
-<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a>  duoa <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> <span class="fu">nrow</span>(pcb), <span class="at">ncol =</span> <span class="dv">1</span>))</span>
-<span id="cb28-5"><a href="#cb28-5" tabindex="-1"></a>  koa <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> <span class="fu">nrow</span>(pcb), <span class="at">ncol =</span> <span class="dv">1</span>))</span>
-<span id="cb28-6"><a href="#cb28-6" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(pcb)) {</span>
-<span id="cb28-7"><a href="#cb28-7" tabindex="-1"></a>    duoa[i,<span class="dv">1</span>] <span class="ot">&lt;-</span> (<span class="sc">-</span><span class="fl">0.13</span> <span class="sc">*</span> pcb[i,<span class="dv">3</span>] <span class="sc">+</span> <span class="fl">2.9</span> <span class="sc">*</span> pcb[i,<span class="dv">2</span>] <span class="sc">-</span> <span class="fl">47.8</span>) <span class="sc">*</span> <span class="dv">1000</span></span>
-<span id="cb28-8"><a href="#cb28-8" tabindex="-1"></a>  }</span>
-<span id="cb28-9"><a href="#cb28-9" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(pcb)) {</span>
-<span id="cb28-10"><a href="#cb28-10" tabindex="-1"></a>    koa[j,<span class="dv">1</span>] <span class="ot">&lt;-</span> pcb[j,<span class="dv">5</span>] <span class="sc">-</span> (duoa[j,<span class="dv">1</span>] <span class="sc">/</span> (<span class="fl">2.303</span> <span class="sc">*</span> R)) <span class="sc">*</span> ((<span class="dv">1</span> <span class="sc">/</span> (<span class="fl">273.15</span> <span class="sc">+</span> temp.c)) <span class="sc">-</span> (<span class="dv">1</span> <span class="sc">/</span> <span class="fl">298.15</span>))</span>
-<span id="cb28-11"><a href="#cb28-11" tabindex="-1"></a>  }</span>
-<span id="cb28-12"><a href="#cb28-12" tabindex="-1"></a>  l.kpuf <span class="ot">&lt;-</span> (<span class="fl">0.6366</span> <span class="sc">*</span> koa) <span class="sc">-</span> <span class="fl">3.1774</span></span>
-<span id="cb28-13"><a href="#cb28-13" tabindex="-1"></a>  kpuf <span class="ot">&lt;-</span> <span class="dv">10</span><span class="sc">^</span>(l.kpuf)</span>
-<span id="cb28-14"><a href="#cb28-14" tabindex="-1"></a>  <span class="fu">return</span>(kpuf)</span>
-<span id="cb28-15"><a href="#cb28-15" tabindex="-1"></a>}</span>
-<span id="cb28-16"><a href="#cb28-16" tabindex="-1"></a></span>
-<span id="cb28-17"><a href="#cb28-17" tabindex="-1"></a><span class="co"># concentration calculation</span></span>
-<span id="cb28-18"><a href="#cb28-18" tabindex="-1"></a></span>
-<span id="cb28-19"><a href="#cb28-19" tabindex="-1"></a>conc.calc <span class="ot">&lt;-</span> <span class="cf">function</span>(fsch.air,veff,flist){</span>
-<span id="cb28-20"><a href="#cb28-20" tabindex="-1"></a>  </span>
-<span id="cb28-21"><a href="#cb28-21" tabindex="-1"></a>  sch.conc <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> <span class="fu">nrow</span>(fsch.air), <span class="at">ncol =</span> <span class="fu">ncol</span>(fsch.air)))</span>
-<span id="cb28-22"><a href="#cb28-22" tabindex="-1"></a>  <span class="cf">for</span> (c.i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(fsch.air)) {</span>
-<span id="cb28-23"><a href="#cb28-23" tabindex="-1"></a>    <span class="cf">for</span> (c.j <span class="cf">in</span>  <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(fsch.air)) {</span>
-<span id="cb28-24"><a href="#cb28-24" tabindex="-1"></a>      sch.conc[c.i,c.j] <span class="ot">&lt;-</span> fsch.air[c.i,c.j] <span class="sc">/</span> veff[c.j,<span class="dv">2</span>]</span>
-<span id="cb28-25"><a href="#cb28-25" tabindex="-1"></a>    }</span>
-<span id="cb28-26"><a href="#cb28-26" tabindex="-1"></a>  }</span>
-<span id="cb28-27"><a href="#cb28-27" tabindex="-1"></a>  sch.conc.t <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">rowSums</span>(sch.conc))</span>
-<span id="cb28-28"><a href="#cb28-28" tabindex="-1"></a>  sch.conc.t <span class="ot">&lt;-</span> <span class="fu">signif</span>(sch.conc.t,<span class="dv">2</span>)        <span class="co"># significant figures</span></span>
-<span id="cb28-29"><a href="#cb28-29" tabindex="-1"></a>  <span class="fu">names</span>(sch.conc.t) <span class="ot">&lt;-</span> <span class="st">&#39;Concentration&#39;</span></span>
-<span id="cb28-30"><a href="#cb28-30" tabindex="-1"></a>  sch.conc.t <span class="ot">&lt;-</span> <span class="fu">cbind</span>(flist, sch.conc.t)   <span class="co"># final concentrations ng/m3</span></span>
-<span id="cb28-31"><a href="#cb28-31" tabindex="-1"></a>  </span>
-<span id="cb28-32"><a href="#cb28-32" tabindex="-1"></a>  <span class="fu">return</span>(sch.conc.t)</span>
-<span id="cb28-33"><a href="#cb28-33" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a><span class="co"># kpuf calculations</span></span>
+<span id="cb36-2"><a href="#cb36-2" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" tabindex="-1"></a>kpuf.calc <span class="ot">&lt;-</span> <span class="cf">function</span>(pcb, R, temp.c) {</span>
+<span id="cb36-4"><a href="#cb36-4" tabindex="-1"></a>  duoa <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> <span class="fu">nrow</span>(pcb), <span class="at">ncol =</span> <span class="dv">1</span>))</span>
+<span id="cb36-5"><a href="#cb36-5" tabindex="-1"></a>  koa <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> <span class="fu">nrow</span>(pcb), <span class="at">ncol =</span> <span class="dv">1</span>))</span>
+<span id="cb36-6"><a href="#cb36-6" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(pcb)) {</span>
+<span id="cb36-7"><a href="#cb36-7" tabindex="-1"></a>    duoa[i,<span class="dv">1</span>] <span class="ot">&lt;-</span> (<span class="sc">-</span><span class="fl">0.13</span> <span class="sc">*</span> pcb[i,<span class="dv">3</span>] <span class="sc">+</span> <span class="fl">2.9</span> <span class="sc">*</span> pcb[i,<span class="dv">2</span>] <span class="sc">-</span> <span class="fl">47.8</span>) <span class="sc">*</span> <span class="dv">1000</span></span>
+<span id="cb36-8"><a href="#cb36-8" tabindex="-1"></a>  }</span>
+<span id="cb36-9"><a href="#cb36-9" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(pcb)) {</span>
+<span id="cb36-10"><a href="#cb36-10" tabindex="-1"></a>    koa[j,<span class="dv">1</span>] <span class="ot">&lt;-</span> pcb[j,<span class="dv">5</span>] <span class="sc">-</span> (duoa[j,<span class="dv">1</span>] <span class="sc">/</span> (<span class="fl">2.303</span> <span class="sc">*</span> R)) <span class="sc">*</span> ((<span class="dv">1</span> <span class="sc">/</span> (<span class="fl">273.15</span> <span class="sc">+</span> temp.c)) <span class="sc">-</span> (<span class="dv">1</span> <span class="sc">/</span> <span class="fl">298.15</span>))</span>
+<span id="cb36-11"><a href="#cb36-11" tabindex="-1"></a>  }</span>
+<span id="cb36-12"><a href="#cb36-12" tabindex="-1"></a>  l.kpuf <span class="ot">&lt;-</span> (<span class="fl">0.6366</span> <span class="sc">*</span> koa) <span class="sc">-</span> <span class="fl">3.1774</span></span>
+<span id="cb36-13"><a href="#cb36-13" tabindex="-1"></a>  kpuf <span class="ot">&lt;-</span> <span class="dv">10</span><span class="sc">^</span>(l.kpuf)</span>
+<span id="cb36-14"><a href="#cb36-14" tabindex="-1"></a>  <span class="fu">return</span>(kpuf)</span>
+<span id="cb36-15"><a href="#cb36-15" tabindex="-1"></a>}</span>
+<span id="cb36-16"><a href="#cb36-16" tabindex="-1"></a></span>
+<span id="cb36-17"><a href="#cb36-17" tabindex="-1"></a><span class="co"># concentration calculation</span></span>
+<span id="cb36-18"><a href="#cb36-18" tabindex="-1"></a></span>
+<span id="cb36-19"><a href="#cb36-19" tabindex="-1"></a>conc.calc <span class="ot">&lt;-</span> <span class="cf">function</span>(fsch.air,veff,flist){</span>
+<span id="cb36-20"><a href="#cb36-20" tabindex="-1"></a>  </span>
+<span id="cb36-21"><a href="#cb36-21" tabindex="-1"></a>  sch.conc <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> <span class="fu">nrow</span>(fsch.air), <span class="at">ncol =</span> <span class="fu">ncol</span>(fsch.air)))</span>
+<span id="cb36-22"><a href="#cb36-22" tabindex="-1"></a>  <span class="cf">for</span> (c.i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(fsch.air)) {</span>
+<span id="cb36-23"><a href="#cb36-23" tabindex="-1"></a>    <span class="cf">for</span> (c.j <span class="cf">in</span>  <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(fsch.air)) {</span>
+<span id="cb36-24"><a href="#cb36-24" tabindex="-1"></a>      sch.conc[c.i,c.j] <span class="ot">&lt;-</span> fsch.air[c.i,c.j] <span class="sc">/</span> veff[c.j,<span class="dv">2</span>]</span>
+<span id="cb36-25"><a href="#cb36-25" tabindex="-1"></a>    }</span>
+<span id="cb36-26"><a href="#cb36-26" tabindex="-1"></a>  }</span>
+<span id="cb36-27"><a href="#cb36-27" tabindex="-1"></a>  sch.conc.t <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">rowSums</span>(sch.conc))</span>
+<span id="cb36-28"><a href="#cb36-28" tabindex="-1"></a>  sch.conc.t <span class="ot">&lt;-</span> <span class="fu">signif</span>(sch.conc.t,<span class="dv">2</span>)        <span class="co"># significant figures</span></span>
+<span id="cb36-29"><a href="#cb36-29" tabindex="-1"></a>  <span class="fu">names</span>(sch.conc.t) <span class="ot">&lt;-</span> <span class="st">&#39;Concentration&#39;</span></span>
+<span id="cb36-30"><a href="#cb36-30" tabindex="-1"></a>  sch.conc.t <span class="ot">&lt;-</span> <span class="fu">cbind</span>(flist, sch.conc.t)   <span class="co"># final concentrations ng/m3</span></span>
+<span id="cb36-31"><a href="#cb36-31" tabindex="-1"></a>  </span>
+<span id="cb36-32"><a href="#cb36-32" tabindex="-1"></a>  <span class="fu">return</span>(sch.conc.t)</span>
+<span id="cb36-33"><a href="#cb36-33" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div id="import-data" class="section level2" number="8.2">
 <h2><span class="header-section-number">8.2</span> Import Data</h2>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a>pcb <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 3/koaCalc.csv&#39;</span>, <span class="at">header =</span> T)      <span class="co"># pcb values for calculation koa</span></span>
-<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a>kpuf <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 3/kpuf.csv&#39;</span>, <span class="at">header =</span> T)</span>
-<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a>sample.mass <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 3/ogMass_practice.csv&#39;</span>, <span class="at">header =</span> T)</span>
-<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a>congener.list <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 3/ogMass_practice.csv&#39;</span>, <span class="at">header =</span> F)</span>
-<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a>sample.type <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 3/ogSampleType_20220927.csv&#39;</span>, <span class="at">header =</span> T)</span>
-<span id="cb29-6"><a href="#cb29-6" tabindex="-1"></a></span>
-<span id="cb29-7"><a href="#cb29-7" tabindex="-1"></a>congener.list <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(congener.list[<span class="dv">1</span>,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)]))</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" tabindex="-1"></a>pcb <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 3/koaCalc.csv&#39;</span>, <span class="at">header =</span> T)      <span class="co"># pcb values for calculation koa</span></span>
+<span id="cb37-2"><a href="#cb37-2" tabindex="-1"></a>kpuf <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 3/kpuf.csv&#39;</span>, <span class="at">header =</span> T)</span>
+<span id="cb37-3"><a href="#cb37-3" tabindex="-1"></a>sample.mass <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 3/ogMass_practice.csv&#39;</span>, <span class="at">header =</span> T)</span>
+<span id="cb37-4"><a href="#cb37-4" tabindex="-1"></a>congener.list <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 3/ogMass_practice.csv&#39;</span>, <span class="at">header =</span> F)</span>
+<span id="cb37-5"><a href="#cb37-5" tabindex="-1"></a>sample.type <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 3/ogSampleType_20220927.csv&#39;</span>, <span class="at">header =</span> T)</span>
+<span id="cb37-6"><a href="#cb37-6" tabindex="-1"></a></span>
+<span id="cb37-7"><a href="#cb37-7" tabindex="-1"></a>congener.list <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(congener.list[<span class="dv">1</span>,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)]))</span></code></pre></div>
 </div>
 <div id="set-indoor-air-parameters" class="section level2" number="8.3">
 <h2><span class="header-section-number">8.3</span> Set Indoor Air
 Parameters</h2>
 <p><em>(See paper YYY for parameter values.)</em></p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a>t.days <span class="ot">&lt;-</span> <span class="dv">29</span></span>
-<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a>ws.on <span class="ot">&lt;-</span> <span class="fl">0.11</span>   <span class="co">#m/s</span></span>
-<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a>ws.off <span class="ot">&lt;-</span> <span class="fl">0.07</span>  <span class="co">#m/s</span></span>
-<span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a>f.on <span class="ot">&lt;-</span> <span class="fl">0.36</span></span>
-<span id="cb30-5"><a href="#cb30-5" tabindex="-1"></a>f.off <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> f.on</span>
-<span id="cb30-6"><a href="#cb30-6" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fl">1.326</span></span>
-<span id="cb30-7"><a href="#cb30-7" tabindex="-1"></a>puf.sa <span class="ot">=</span> <span class="fl">0.0153</span> <span class="co">#m2</span></span>
-<span id="cb30-8"><a href="#cb30-8" tabindex="-1"></a>v.puf <span class="ot">&lt;-</span> <span class="fl">2.295e-04</span> <span class="co">#m3 </span></span>
-<span id="cb30-9"><a href="#cb30-9" tabindex="-1"></a>v.puf.t <span class="ot">&lt;-</span> <span class="fu">as.character</span>(v.puf)</span>
-<span id="cb30-10"><a href="#cb30-10" tabindex="-1"></a>den.puf <span class="ot">&lt;-</span> <span class="dv">21300</span> <span class="co">#g/m3 </span></span>
-<span id="cb30-11"><a href="#cb30-11" tabindex="-1"></a>temp.c <span class="ot">=</span> <span class="dv">23</span>                <span class="co"># enter temperature in C (73 F used)</span></span>
-<span id="cb30-12"><a href="#cb30-12" tabindex="-1"></a>R <span class="ot">=</span> <span class="fl">8.3144</span>               <span class="co"># gas constant</span></span>
-<span id="cb30-13"><a href="#cb30-13" tabindex="-1"></a>cong <span class="ot">&lt;-</span> pcb[,<span class="dv">1</span>]</span>
-<span id="cb30-14"><a href="#cb30-14" tabindex="-1"></a><span class="fu">names</span>(cong) <span class="ot">&lt;-</span> <span class="st">&#39;Congener&#39;</span></span>
-<span id="cb30-15"><a href="#cb30-15" tabindex="-1"></a></span>
-<span id="cb30-16"><a href="#cb30-16" tabindex="-1"></a></span>
-<span id="cb30-17"><a href="#cb30-17" tabindex="-1"></a><span class="co"># koa to kpuf based on temperature</span></span>
-<span id="cb30-18"><a href="#cb30-18" tabindex="-1"></a></span>
-<span id="cb30-19"><a href="#cb30-19" tabindex="-1"></a>kpuf <span class="ot">&lt;-</span> <span class="fu">kpuf.calc</span>(pcb,R,temp.c)</span>
-<span id="cb30-20"><a href="#cb30-20" tabindex="-1"></a>kpuf <span class="ot">&lt;-</span> kpuf <span class="sc">*</span> den.puf</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a>t.days <span class="ot">&lt;-</span> <span class="dv">29</span></span>
+<span id="cb38-2"><a href="#cb38-2" tabindex="-1"></a>ws.on <span class="ot">&lt;-</span> <span class="fl">0.11</span>   <span class="co">#m/s</span></span>
+<span id="cb38-3"><a href="#cb38-3" tabindex="-1"></a>ws.off <span class="ot">&lt;-</span> <span class="fl">0.07</span>  <span class="co">#m/s</span></span>
+<span id="cb38-4"><a href="#cb38-4" tabindex="-1"></a>f.on <span class="ot">&lt;-</span> <span class="fl">0.36</span></span>
+<span id="cb38-5"><a href="#cb38-5" tabindex="-1"></a>f.off <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> f.on</span>
+<span id="cb38-6"><a href="#cb38-6" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fl">1.326</span></span>
+<span id="cb38-7"><a href="#cb38-7" tabindex="-1"></a>puf.sa <span class="ot">=</span> <span class="fl">0.0153</span> <span class="co">#m2</span></span>
+<span id="cb38-8"><a href="#cb38-8" tabindex="-1"></a>v.puf <span class="ot">&lt;-</span> <span class="fl">2.295e-04</span> <span class="co">#m3 </span></span>
+<span id="cb38-9"><a href="#cb38-9" tabindex="-1"></a>v.puf.t <span class="ot">&lt;-</span> <span class="fu">as.character</span>(v.puf)</span>
+<span id="cb38-10"><a href="#cb38-10" tabindex="-1"></a>den.puf <span class="ot">&lt;-</span> <span class="dv">21300</span> <span class="co">#g/m3 </span></span>
+<span id="cb38-11"><a href="#cb38-11" tabindex="-1"></a>temp.c <span class="ot">=</span> <span class="dv">23</span>                <span class="co"># enter temperature in C (73 F used)</span></span>
+<span id="cb38-12"><a href="#cb38-12" tabindex="-1"></a>R <span class="ot">=</span> <span class="fl">8.3144</span>               <span class="co"># gas constant</span></span>
+<span id="cb38-13"><a href="#cb38-13" tabindex="-1"></a>cong <span class="ot">&lt;-</span> pcb[,<span class="dv">1</span>]</span>
+<span id="cb38-14"><a href="#cb38-14" tabindex="-1"></a><span class="fu">names</span>(cong) <span class="ot">&lt;-</span> <span class="st">&#39;Congener&#39;</span></span>
+<span id="cb38-15"><a href="#cb38-15" tabindex="-1"></a></span>
+<span id="cb38-16"><a href="#cb38-16" tabindex="-1"></a></span>
+<span id="cb38-17"><a href="#cb38-17" tabindex="-1"></a><span class="co"># koa to kpuf based on temperature</span></span>
+<span id="cb38-18"><a href="#cb38-18" tabindex="-1"></a></span>
+<span id="cb38-19"><a href="#cb38-19" tabindex="-1"></a>kpuf <span class="ot">&lt;-</span> <span class="fu">kpuf.calc</span>(pcb,R,temp.c)</span>
+<span id="cb38-20"><a href="#cb38-20" tabindex="-1"></a>kpuf <span class="ot">&lt;-</span> kpuf <span class="sc">*</span> den.puf</span></code></pre></div>
 </div>
 <div id="calculate-sampling-rate-rs" class="section level2" number="8.4">
 <h2><span class="header-section-number">8.4</span> Calculate Sampling
 Rate (R<sub>s</sub>)</h2>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a>rs <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> <span class="fu">nrow</span>(pcb), <span class="at">ncol =</span> <span class="dv">1</span>))</span>
-<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a></span>
-<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a><span class="cf">for</span> (l <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(pcb)) {</span>
-<span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a>  rs[l,<span class="dv">1</span>] <span class="ot">&lt;-</span> ((f.on <span class="sc">*</span> (<span class="fu">sqrt</span>(ws.on))) <span class="sc">+</span> (f.off <span class="sc">*</span> (<span class="fu">sqrt</span>(ws.off))))<span class="sc">*</span>(<span class="dv">1</span><span class="sc">/</span>(pcb[l,<span class="dv">3</span>]<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>)))<span class="sc">*</span>(<span class="dv">10</span><span class="sc">^</span>((<span class="fl">0.0012</span><span class="sc">*</span>t.days)<span class="sc">+</span>c))</span>
-<span id="cb31-5"><a href="#cb31-5" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a>rs <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> <span class="fu">nrow</span>(pcb), <span class="at">ncol =</span> <span class="dv">1</span>))</span>
+<span id="cb39-2"><a href="#cb39-2" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="#cb39-3" tabindex="-1"></a><span class="cf">for</span> (l <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(pcb)) {</span>
+<span id="cb39-4"><a href="#cb39-4" tabindex="-1"></a>  rs[l,<span class="dv">1</span>] <span class="ot">&lt;-</span> ((f.on <span class="sc">*</span> (<span class="fu">sqrt</span>(ws.on))) <span class="sc">+</span> (f.off <span class="sc">*</span> (<span class="fu">sqrt</span>(ws.off))))<span class="sc">*</span>(<span class="dv">1</span><span class="sc">/</span>(pcb[l,<span class="dv">3</span>]<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>)))<span class="sc">*</span>(<span class="dv">10</span><span class="sc">^</span>((<span class="fl">0.0012</span><span class="sc">*</span>t.days)<span class="sc">+</span>c))</span>
+<span id="cb39-5"><a href="#cb39-5" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div id="calculate-effective-volume-veff" class="section level2" number="8.5">
 <h2><span class="header-section-number">8.5</span> Calculate Effective
 Volume (V<sub>eff</sub>)</h2>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a>v.eff <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> <span class="fu">nrow</span>(pcb), <span class="at">ncol =</span> <span class="dv">1</span>))</span>
-<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a></span>
-<span id="cb32-3"><a href="#cb32-3" tabindex="-1"></a><span class="cf">for</span> (ii <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(pcb)) {</span>
-<span id="cb32-4"><a href="#cb32-4" tabindex="-1"></a>  v.eff[ii,<span class="dv">1</span>] <span class="ot">&lt;-</span> (v.puf <span class="sc">*</span> kpuf[ii,<span class="dv">1</span>]) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> (<span class="fu">exp</span>((<span class="sc">-</span>(rs[ii,<span class="dv">1</span>] <span class="sc">/</span> (v.puf <span class="sc">*</span> kpuf[ii,<span class="dv">1</span>]))<span class="sc">*</span> t.days))))</span>
-<span id="cb32-5"><a href="#cb32-5" tabindex="-1"></a>}</span>
-<span id="cb32-6"><a href="#cb32-6" tabindex="-1"></a><span class="fu">names</span>(v.eff) <span class="ot">&lt;-</span> <span class="st">&#39;V_eff&#39;</span></span>
-<span id="cb32-7"><a href="#cb32-7" tabindex="-1"></a></span>
-<span id="cb32-8"><a href="#cb32-8" tabindex="-1"></a>v.eff <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(v.eff)</span>
-<span id="cb32-9"><a href="#cb32-9" tabindex="-1"></a>V.eff <span class="ot">&lt;-</span> v.eff[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">13</span>,<span class="dv">28</span>,<span class="dv">29</span>,<span class="dv">30</span>,<span class="dv">33</span>,<span class="dv">47</span>,<span class="dv">53</span>,<span class="dv">62</span>,<span class="dv">65</span>,<span class="dv">69</span>,<span class="dv">70</span>,<span class="dv">71</span>,<span class="dv">74</span>,<span class="dv">75</span>,<span class="dv">76</span>,<span class="dv">97</span>,<span class="dv">100</span>,<span class="dv">101</span>,<span class="dv">109</span>,<span class="dv">113</span>,<span class="dv">116</span>,<span class="dv">119</span>,<span class="dv">124</span>,<span class="dv">125</span>,<span class="dv">138</span>,<span class="dv">140</span>,<span class="dv">149</span>,</span>
-<span id="cb32-10"><a href="#cb32-10" tabindex="-1"></a>                  <span class="dv">151</span>,<span class="dv">157</span>,<span class="dv">163</span>,<span class="dv">166</span>,<span class="dv">168</span>,<span class="dv">173</span>,<span class="dv">193</span>,<span class="dv">199</span>,<span class="dv">204</span>),]</span>
-<span id="cb32-11"><a href="#cb32-11" tabindex="-1"></a>V.eff <span class="ot">&lt;-</span> <span class="fu">cbind</span>(congener.list,V.eff)</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a>v.eff <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> <span class="fu">nrow</span>(pcb), <span class="at">ncol =</span> <span class="dv">1</span>))</span>
+<span id="cb40-2"><a href="#cb40-2" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="#cb40-3" tabindex="-1"></a><span class="cf">for</span> (ii <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(pcb)) {</span>
+<span id="cb40-4"><a href="#cb40-4" tabindex="-1"></a>  v.eff[ii,<span class="dv">1</span>] <span class="ot">&lt;-</span> (v.puf <span class="sc">*</span> kpuf[ii,<span class="dv">1</span>]) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> (<span class="fu">exp</span>((<span class="sc">-</span>(rs[ii,<span class="dv">1</span>] <span class="sc">/</span> (v.puf <span class="sc">*</span> kpuf[ii,<span class="dv">1</span>]))<span class="sc">*</span> t.days))))</span>
+<span id="cb40-5"><a href="#cb40-5" tabindex="-1"></a>}</span>
+<span id="cb40-6"><a href="#cb40-6" tabindex="-1"></a><span class="fu">names</span>(v.eff) <span class="ot">&lt;-</span> <span class="st">&#39;V_eff&#39;</span></span>
+<span id="cb40-7"><a href="#cb40-7" tabindex="-1"></a></span>
+<span id="cb40-8"><a href="#cb40-8" tabindex="-1"></a>v.eff <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(v.eff)</span>
+<span id="cb40-9"><a href="#cb40-9" tabindex="-1"></a>V.eff <span class="ot">&lt;-</span> v.eff[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">13</span>,<span class="dv">28</span>,<span class="dv">29</span>,<span class="dv">30</span>,<span class="dv">33</span>,<span class="dv">47</span>,<span class="dv">53</span>,<span class="dv">62</span>,<span class="dv">65</span>,<span class="dv">69</span>,<span class="dv">70</span>,<span class="dv">71</span>,<span class="dv">74</span>,<span class="dv">75</span>,<span class="dv">76</span>,<span class="dv">97</span>,<span class="dv">100</span>,<span class="dv">101</span>,<span class="dv">109</span>,<span class="dv">113</span>,<span class="dv">116</span>,<span class="dv">119</span>,<span class="dv">124</span>,<span class="dv">125</span>,<span class="dv">138</span>,<span class="dv">140</span>,<span class="dv">149</span>,</span>
+<span id="cb40-10"><a href="#cb40-10" tabindex="-1"></a>                  <span class="dv">151</span>,<span class="dv">157</span>,<span class="dv">163</span>,<span class="dv">166</span>,<span class="dv">168</span>,<span class="dv">173</span>,<span class="dv">193</span>,<span class="dv">199</span>,<span class="dv">204</span>),]</span>
+<span id="cb40-11"><a href="#cb40-11" tabindex="-1"></a>V.eff <span class="ot">&lt;-</span> <span class="fu">cbind</span>(congener.list,V.eff)</span></code></pre></div>
 </div>
 <div id="calculate-total-air-concentration" class="section level2" number="8.6">
 <h2><span class="header-section-number">8.6</span> Calculate Total Air
 Concentration</h2>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="co"># subset only air samples</span></span>
-<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a></span>
-<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a>sch.mass.idx <span class="ot">&lt;-</span> sample.mass</span>
-<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a>sch.air.t <span class="ot">&lt;-</span> <span class="fu">merge.data.frame</span>(sch.mass.idx, sample.type)</span>
-<span id="cb33-5"><a href="#cb33-5" tabindex="-1"></a>sch.air <span class="ot">&lt;-</span> sch.air.t[sch.air.t<span class="sc">$</span>sample.type <span class="sc">==</span> <span class="st">&#39;Air&#39;</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">176</span>]</span>
-<span id="cb33-6"><a href="#cb33-6" tabindex="-1"></a>sch.air.list <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(sch.air[,<span class="dv">1</span>])</span>
-<span id="cb33-7"><a href="#cb33-7" tabindex="-1"></a><span class="fu">names</span>(sch.air.list) <span class="ot">&lt;-</span> <span class="st">&#39;bid&#39;</span></span>
-<span id="cb33-8"><a href="#cb33-8" tabindex="-1"></a>sch.air <span class="ot">&lt;-</span> sch.air[,<span class="sc">-</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">176</span>))]</span>
-<span id="cb33-9"><a href="#cb33-9" tabindex="-1"></a></span>
-<span id="cb33-10"><a href="#cb33-10" tabindex="-1"></a><span class="co"># concentration calculation - run function</span></span>
-<span id="cb33-11"><a href="#cb33-11" tabindex="-1"></a></span>
-<span id="cb33-12"><a href="#cb33-12" tabindex="-1"></a>sch.air.conc <span class="ot">&lt;-</span> <span class="fu">conc.calc</span>(sch.air,V.eff,sch.air.list)</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a><span class="co"># subset only air samples</span></span>
+<span id="cb41-2"><a href="#cb41-2" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" tabindex="-1"></a>sch.mass.idx <span class="ot">&lt;-</span> sample.mass</span>
+<span id="cb41-4"><a href="#cb41-4" tabindex="-1"></a>sch.air.t <span class="ot">&lt;-</span> <span class="fu">merge.data.frame</span>(sch.mass.idx, sample.type)</span>
+<span id="cb41-5"><a href="#cb41-5" tabindex="-1"></a>sch.air <span class="ot">&lt;-</span> sch.air.t[sch.air.t<span class="sc">$</span>sample.type <span class="sc">==</span> <span class="st">&#39;Air&#39;</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">176</span>]</span>
+<span id="cb41-6"><a href="#cb41-6" tabindex="-1"></a>sch.air.list <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(sch.air[,<span class="dv">1</span>])</span>
+<span id="cb41-7"><a href="#cb41-7" tabindex="-1"></a><span class="fu">names</span>(sch.air.list) <span class="ot">&lt;-</span> <span class="st">&#39;bid&#39;</span></span>
+<span id="cb41-8"><a href="#cb41-8" tabindex="-1"></a>sch.air <span class="ot">&lt;-</span> sch.air[,<span class="sc">-</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">176</span>))]</span>
+<span id="cb41-9"><a href="#cb41-9" tabindex="-1"></a></span>
+<span id="cb41-10"><a href="#cb41-10" tabindex="-1"></a><span class="co"># concentration calculation - run function</span></span>
+<span id="cb41-11"><a href="#cb41-11" tabindex="-1"></a></span>
+<span id="cb41-12"><a href="#cb41-12" tabindex="-1"></a>sch.air.conc <span class="ot">&lt;-</span> <span class="fu">conc.calc</span>(sch.air,V.eff,sch.air.list)</span></code></pre></div>
 <hr />
 </div>
 </div>
@@ -2413,27 +2826,27 @@ Figures</h1>
 <p>in progress</p>
 <div id="ggplot2" class="section level2" number="9.1">
 <h2><span class="header-section-number">9.1</span> ggplot2</h2>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a></span>
-<span id="cb34-3"><a href="#cb34-3" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> my_data, <span class="fu">aes</span>(<span class="at">x =</span> variable_x, <span class="at">y =</span> variable_y)) <span class="sc">+</span></span>
-<span id="cb34-4"><a href="#cb34-4" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb34-5"><a href="#cb34-5" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">TRUE</span>, <span class="at">color =</span> <span class="st">&quot;darkred&quot;</span>) <span class="sc">+</span></span>
-<span id="cb34-6"><a href="#cb34-6" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb34-7"><a href="#cb34-7" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;My Plot Title&quot;</span>,</span>
-<span id="cb34-8"><a href="#cb34-8" tabindex="-1"></a>    <span class="at">x     =</span> <span class="st">&quot;X Axis Label&quot;</span>,</span>
-<span id="cb34-9"><a href="#cb34-9" tabindex="-1"></a>    <span class="at">y     =</span> <span class="st">&quot;Y Axis Label&quot;</span></span>
-<span id="cb34-10"><a href="#cb34-10" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb34-11"><a href="#cb34-11" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb42-2"><a href="#cb42-2" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> my_data, <span class="fu">aes</span>(<span class="at">x =</span> variable_x, <span class="at">y =</span> variable_y)) <span class="sc">+</span></span>
+<span id="cb42-4"><a href="#cb42-4" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb42-5"><a href="#cb42-5" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">TRUE</span>, <span class="at">color =</span> <span class="st">&quot;darkred&quot;</span>) <span class="sc">+</span></span>
+<span id="cb42-6"><a href="#cb42-6" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb42-7"><a href="#cb42-7" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;My Plot Title&quot;</span>,</span>
+<span id="cb42-8"><a href="#cb42-8" tabindex="-1"></a>    <span class="at">x     =</span> <span class="st">&quot;X Axis Label&quot;</span>,</span>
+<span id="cb42-9"><a href="#cb42-9" tabindex="-1"></a>    <span class="at">y     =</span> <span class="st">&quot;Y Axis Label&quot;</span></span>
+<span id="cb42-10"><a href="#cb42-10" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb42-11"><a href="#cb42-11" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
 </div>
 <div id="plotly-interactive-plots" class="section level2" number="9.2">
 <h2><span class="header-section-number">9.2</span> Plotly (Interactive
 Plots)</h2>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
-<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a></span>
-<span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> my_data, <span class="fu">aes</span>(<span class="at">x =</span> variable_x, <span class="at">y =</span> variable_y)) <span class="sc">+</span></span>
-<span id="cb35-4"><a href="#cb35-4" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span>
-<span id="cb35-5"><a href="#cb35-5" tabindex="-1"></a></span>
-<span id="cb35-6"><a href="#cb35-6" tabindex="-1"></a><span class="fu">ggplotly</span>(p)   <span class="co"># Converts a ggplot to an interactive Plotly figure</span></span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
+<span id="cb43-2"><a href="#cb43-2" tabindex="-1"></a></span>
+<span id="cb43-3"><a href="#cb43-3" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> my_data, <span class="fu">aes</span>(<span class="at">x =</span> variable_x, <span class="at">y =</span> variable_y)) <span class="sc">+</span></span>
+<span id="cb43-4"><a href="#cb43-4" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span>
+<span id="cb43-5"><a href="#cb43-5" tabindex="-1"></a></span>
+<span id="cb43-6"><a href="#cb43-6" tabindex="-1"></a><span class="fu">ggplotly</span>(p)   <span class="co"># Converts a ggplot to an interactive Plotly figure</span></span></code></pre></div>
 <hr />
 </div>
 </div>
@@ -2479,12 +2892,12 @@ simply re-knit the document to update all results automatically.</p>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a><span class="co"># Example: inline R values in text</span></span>
-<span id="cb36-2"><a href="#cb36-2" tabindex="-1"></a><span class="co"># &quot;The mean concentration was `r round(mean(concentration), 2)` pg/m³.&quot;</span></span>
-<span id="cb36-3"><a href="#cb36-3" tabindex="-1"></a></span>
-<span id="cb36-4"><a href="#cb36-4" tabindex="-1"></a><span class="co"># Example: auto-formatted table</span></span>
-<span id="cb36-5"><a href="#cb36-5" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb36-6"><a href="#cb36-6" tabindex="-1"></a><span class="fu">kable</span>(loq_stats, <span class="at">digits =</span> <span class="dv">3</span>, <span class="at">caption =</span> <span class="st">&quot;LOQ Summary by Congener&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" tabindex="-1"></a><span class="co"># Example: inline R values in text</span></span>
+<span id="cb44-2"><a href="#cb44-2" tabindex="-1"></a><span class="co"># &quot;The mean concentration was `r round(mean(concentration), 2)` pg/m³.&quot;</span></span>
+<span id="cb44-3"><a href="#cb44-3" tabindex="-1"></a></span>
+<span id="cb44-4"><a href="#cb44-4" tabindex="-1"></a><span class="co"># Example: auto-formatted table</span></span>
+<span id="cb44-5"><a href="#cb44-5" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb44-6"><a href="#cb44-6" tabindex="-1"></a><span class="fu">kable</span>(loq_stats, <span class="at">digits =</span> <span class="dv">3</span>, <span class="at">caption =</span> <span class="st">&quot;LOQ Summary by Congener&quot;</span>)</span></code></pre></div>
 <hr />
 <p><em>End of SOP Tutorial</em></p>
 </div>

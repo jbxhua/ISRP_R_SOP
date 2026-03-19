@@ -494,24 +494,242 @@ help("mean")    # Alternative syntax
 
 # R Markdown
 
-[where should this section go]
+R Markdown is a file format that combines plain text, R code, and output (plots, tables, results) into a single document. Files are saved with the `.Rmd` extension and can be rendered ("knit") to HTML, PDF, or Word. This makes R Markdown especially useful for writing reports, sharing analyses, and keeping a record of your workflow since the code, results, and written interpretation all live in the same file.
 
-**R Markdown** is a file format that combines plain text, R code, and output (plots, tables, results) into a single reproducible document. Files are saved with the `.Rmd` extension and can be rendered ("knit") to HTML, PDF, or Word.
+## Why Use R Markdown?
 
-**Key components of an R Markdown document:**
+In a typical workflow, you might run your analysis in R, copy results into Word, paste figures in manually, and update everything by hand whenever the data changes. R Markdown eliminates that process. When you knit the document, R re-runs all the code and rebuilds the output automatically so your tables, figures, and statistics are always up to date with your data.
 
-- **YAML header** — at the top (between `---`), controls title, author, date, and output format
-- **Narrative text** — written in Markdown for headers, bold, lists, links, etc.
-- **Code chunks** — enclosed in ` ```{r} ` ... ` ``` ` blocks; contain executable R code
+This is particularly useful for:
 
-**To knit this document:**
-Click the **"Knit"** button in RStudio, or run:
+- **Reproducibility** — anyone with your `.Rmd` file and data can re-run the exact same analysis
+- **Collaboration** — share a single file instead of separate scripts, figures, and reports
+- **Iteration** — update the data or analysis and re-knit; the report updates itself
+- **Documentation** — write methods and interpretation alongside the code that produced the results
 
-```{r knit-example, eval=FALSE}
-rmarkdown::render("R_SOP_tutorial.Rmd")
-```
+## Key Components
+
+An R Markdown document has three main parts:
+
+**1. YAML Header**
+
+The YAML header sits at the very top of the document. It controls document-level settings like the title, author, date, and output format.
+
+<!-- '--- -->
+<!-- title: "PCB Analysis Report" -->
+<!-- author: "Name Name" -->
+<!-- date: "2026-02-26" -->
+<!-- output: html_document -->
+<!-- ---' -->
+
+Common output formats:
+
+| Output | Description |
+|--------|-------------|
+| `html_document` | Webpage — easiest to style, supports interactive elements |
+| `pdf_document` | PDF via LaTeX — good for formal reports |
+| `word_document` | Microsoft Word — useful when collaborators don't use R |
 
 ---
+
+**2. Narrative Text**
+
+Everything outside of code chunks is plain text written in **Markdown** — a lightweight formatting syntax. You don't need to know HTML or LaTeX; Markdown handles the formatting.
+
+Common Markdown syntax:
+
+| Syntax | Output |
+|--------|--------|
+| `# Heading 1` | Large section header |
+| `## Heading 2` | Subsection header |
+| `**bold**` | **bold** |
+| `*italic*` | *italic* |
+| `` `inline code` `` | `inline code` |
+| `[link text](url)` | Hyperlink |
+| `> text` | Blockquote |
+
+**3. Code Chunks**
+
+Code chunks contain executable R code. They are enclosed by triple backticks and `{r}`:
+```{r chunk-name}
+# Your R code goes here
+mean(c(1, 2, 3, 4, 5))
+```
+
+When you knit the document, the code runs and the output appears directly below the chunk.
+
+## Chunk Options
+
+Chunk options control how each chunk behaves when knitting. They are written inside the `{r}` header:
+```{r my-plot, echo=FALSE, fig.width=6, fig.height=4}
+# This code runs and shows the plot, but the code itself is hidden
+```
+
+Commonly used chunk options:
+
+| Option | Default | Effect |
+|--------|---------|--------|
+| `echo` | `TRUE` | Show the code in the output |
+| `eval` | `TRUE` | Run the code |
+| `include` | `TRUE` | Include code and output in the document |
+| `warning` | `TRUE` | Show warning messages |
+| `message` | `TRUE` | Show messages (e.g. from `library()`) |
+| `fig.width` | `7` | Figure width in inches |
+| `fig.height` | `5` | Figure height in inches |
+| `fig.cap` | `""` | Add a caption below a figure |
+
+To apply options globally to all chunks, set them in a setup chunk at the top of your document:
+````{r setup-2, include=FALSE}
+knitr::opts_chunk$set(
+  echo    = TRUE,
+  warning = FALSE,
+  message = FALSE
+)
+````
+
+## In-Text Formatting
+
+Beyond basic Markdown, R Markdown supports a range of formatting options useful for scientific writing.
+
+### Superscripts and Subscripts
+
+Use `^` for superscripts and `~` for subscripts directly in your text:
+
+| Syntax | Output |
+|--------|--------|
+| `m^2^` | m^2^ |
+| `R^2^ = 0.98` | R^2^ = 0.98 |
+| `CO~2~` | CO~2~ |
+| `V~eff~` | V~eff~ |
+
+### Inline R Variables
+
+Any R object can be printed inline in text using `` `r ` ``. This is one of the most powerful features of R Markdown — values update automatically when your data or code changes, so you never have to manually edit numbers in a report.
+````{r inline-setup}
+mean_conc <- round(mean(c(12.1, 10.4, 11.8, 9.7)), 2)
+sample_n  <- 10
+test_date <- format(Sys.Date(), "%B %d, %Y")
+````
+
+Writing this in your text:
+````
+A total of ` r sample_n` samples were collected. The mean concentration was ` r mean_conc` ng/m^3^.
+````
+
+Renders as:
+
+> A total of 10 samples were collected. The mean concentration was 11.0 ng/m^3^.
+
+### Dates
+
+You can insert a static or auto-updating date anywhere in the document:
+````{r dates, eval=FALSE}
+# In the YAML header — updates every time you knit:
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+
+# In the body of the document:
+# Report generated on `r format(Sys.Date(), "%B %d, %Y")`
+# Outputs: Report generated on March 19, 2026
+````
+
+Common date format codes:
+
+| Code | Output |
+|------|--------|
+| `%B` | Full month name (March) |
+| `%b` | Abbreviated month (Mar) |
+| `%m` | Month as number (03) |
+| `%d` | Day with leading zero (09) |
+| `%Y` | Four-digit year (2026) |
+| `%y` | Two-digit year (26) |
+
+So `format(Sys.Date(), "%m/%d/%Y")` gives `03/19/2026`, and
+`format(Sys.Date(), "%B %d, %Y")` gives `March 19, 2026`.
+
+### Inserting Images
+
+**External images** (from a file) can be inserted with standard Markdown syntax or with `knitr`:
+````
+![Caption text here](path/to/image.png)
+````
+Useful chunk options for images:
+
+| Option | Effect |
+|--------|--------|
+| `fig.cap` | Caption displayed below the figure |
+| `out.width` | Scale the image (e.g. `"50%"`, `"3in"`) |
+| `fig.align` | Alignment: `"left"`, `"center"`, `"right"` |
+| `echo=FALSE` | Show the image but hide the code chunk |
+
+> **Tip:** Keep all your images in a dedicated `figures/` subfolder within your project directory to stay organized.
+
+### Hyperlinks and Cross-References
+````
+# Inline hyperlink
+See the [CRAN package list](https://cran.r-project.org) for more.
+
+# Bare URL (auto-linked)
+<https://cran.r-project.org>
+
+# Reference a section header (HTML output only)
+See [R Basics] or [Installing R and RStudio] for more details.
+````
+
+### Math and Equations
+
+R Markdown supports LaTeX math notation for equations. Use single `$` for inline math and double `$$` for a centered display equation:
+````
+# Inline math
+The equation is $y = mx + b$.
+
+# Display equation (centered on its own line)
+$$V_{eff} = R_s \times t \times f$$
+
+# More complex example
+$$\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i$$
+````
+
+Renders as:
+
+> The equation is $y = mx + b$.
+
+$$V_{eff} = R_s \times t \times f$$
+
+$$\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i$$
+
+> **Tip:** For Greek letters use `\alpha`, `\beta`, `\mu`, `\sigma`, etc. inside `$`. For example, `$\mu = 0.05$` renders as $\mu = 0.05$.
+
+### Text Formatting Quick Reference
+
+| Syntax | Output |
+|--------|--------|
+| `**bold**` | **bold** |
+| `*italic*` | *italic* |
+| `***bold italic***` | ***bold italic*** |
+| `` `inline code` `` | `inline code` |
+| `~~strikethrough~~` | ~~strikethrough~~ |
+| `> blockquote` | indented callout block |
+| `---` | horizontal rule |
+| `\` at end of line | line break |
+
+--- 
+
+
+## Knitting the Document
+
+To render your `.Rmd` file into the output format specified in the YAML header, click the **Knit** button at the top of the RStudio editor, or run:
+````{r knit-example, eval=FALSE}
+rmarkdown::render("R_SOP_tutorial.Rmd")
+````
+
+You can also knit to a specific format regardless of what is set in the YAML:
+````{r knit-formats, eval=FALSE}
+rmarkdown::render("R_SOP_tutorial.Rmd", output_format = "pdf_document")
+rmarkdown::render("R_SOP_tutorial.Rmd", output_format = "word_document")
+````
+
+> **Tip:** If you get an error when knitting, read the error message in the R Markdown tab at the bottom of RStudio. It will tell you which line caused the problem. Common issues are missing packages, a file path that doesn't exist, or a code error that works interactively but fails when the document runs top to bottom.
+
 
 # Example 1: Statistics
 
