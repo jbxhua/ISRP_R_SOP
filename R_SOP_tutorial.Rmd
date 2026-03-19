@@ -179,8 +179,10 @@ Before diving in, make sure you can define the following terms:
 
 - **Variable** — a named storage location for a value
 - **Object** — anything stored in R's memory (values, data frames, functions, etc.)
-- **Data frame** — a table-like structure where columns are vectors of equal length
 - **Vector** — an ordered collection of values of the same data type
+- **Matrix** — a two-dimensional array of values all sharing the same data type, organized into rows and columns
+- **Data frame** — a table-like structure where columns are vectors of equal length
+- **List** — a flexible collection that can hold elements of different data types, including vectors, matrices, data frames, or other lists
 - **Script** — a saved file containing R code
 - **Console** — the interactive command-line pane in RStudio
 - **Project** — an RStudio workspace that organizes files for a single analysis
@@ -188,6 +190,17 @@ Before diving in, make sure you can define the following terms:
 - **Packages** — collections of functions and data bundled for a specific purpose
 
 ---
+
+**The 6 atomic vector types in R:**
+
+| Type | Description | Example |
+|------|-------------|---------|
+| `character` | Text strings | `"hello"` |
+| `numeric` / `double` | Decimal numbers | `3.14` |
+| `logical` | Boolean values | `TRUE`, `FALSE` |
+| `integer` | Whole numbers | `2L` |
+| `complex` | Complex numbers | `1 + 4i` |
+| `raw` | Raw bitstreams | (rarely used) |
 
 ## Basic Operations
 
@@ -256,7 +269,7 @@ area_acres                   # Output: [1] 4.94
 
 ---
 
-### Making Comments in R
+## Making Comments in R
 
 Comments help explain your reasoning and keep code readable — especially when collaborating or revisiting old code.
 
@@ -277,7 +290,7 @@ area_acres         # Print land area in acres
 
 ---
 
-### Vectors and Data Types
+## Vectors 
 
 A **vector** is one of the most common data structures in R — a series of values of the **same type**, created with the `c()` function.
 
@@ -312,17 +325,6 @@ print(items)
 # Output: [1] "car"  "bike"  "radio"  "television"  "phone"
 ```
 
-**The 6 atomic vector types in R:**
-
-| Type | Description | Example |
-|------|-------------|---------|
-| `character` | Text strings | `"hello"` |
-| `numeric` / `double` | Decimal numbers | `3.14` |
-| `logical` | Boolean values | `TRUE`, `FALSE` |
-| `integer` | Whole numbers | `2L` |
-| `complex` | Complex numbers | `1 + 4i` |
-| `raw` | Raw bitstreams | (rarely used) |
-
 ---
 
 ### Subsetting Vectors
@@ -335,38 +337,60 @@ print(items[2])
 # Output: [1] "radio"
 ```
 
----
+## Matrices
 
-### Missing Data
+A **matrix** is a two-dimensional data structure in R. Like a vector, all elements must be the **same data type**. Matrices have rows and columns and are created with the `matrix()` function.
+```{r matrices}
+# Create a 3x3 numeric matrix (filled column by column by default)
+m <- matrix(c(1, 2, 3, 4, 5, 6, 7, 8, 9), nrow = 3, ncol = 3)
+m
+# Output:
+#      [,1] [,2] [,3]
+# [1,]    1    4    7
+# [2,]    2    5    8
+# [3,]    3    6    9
 
-R uses `NA` to represent missing values. Most functions return `NA` if the input contains missing values — unless you explicitly tell them to ignore it.
-
-```{r missing-data}
-rooms <- c(2, 1, 1, NA, 7)
-
-mean(rooms)                  # Output: [1] NA
-mean(rooms, na.rm = TRUE)    # Output: [1] 2.75
+# Fill by row instead using byrow = TRUE
+m_byrow <- matrix(c(1, 2, 3, 4, 5, 6, 7, 8, 9), nrow = 3, byrow = TRUE)
+m_byrow
+# Output:
+#      [,1] [,2] [,3]
+# [1,]    1    2    3
+# [2,]    4    5    6
+# [3,]    7    8    9
 ```
 
-The argument `na.rm = TRUE` tells R to **remove NA values** before computing.
 
----
-
-### Getting Help in R
-
-```{r help}
-?round          # Opens documentation for the round() function
-help("mean")    # Alternative syntax
+**Naming rows and columns:**
+Rows and columns of matrices can also be named. 
+```{r matrix-names}
+rownames(m) <- c("row1", "row2", "row3")
+colnames(m) <- c("col1", "col2", "col3")
+m
 ```
 
-**Other ways to get help:**
+**Subsetting matrices:**
 
-- Copy the last line of your error message and paste it into a search engine.
-- Search for `"R"` + a short description of what you want to do (e.g., `"R filter data frame by column value"`).
+Matrices are indexed with `[row, col]`. Leaving one dimension blank selects the entire row or column.
+```{r matrix-subset}
+m[2, 3]     # Single element: row 2, col 3 → [1] 8
+m[1, ]      # Entire first row
+m[, 2]      # Entire second column
+m[1:2, 2:3] # Submatrix: rows 1-2, cols 2-3
+```
+
+**Common matrix operations:**
+```{r matrix-ops}
+t(m)          # Transpose
+m * 2         # Scalar multiplication (element-wise)
+m %*% m       # Matrix multiplication
+rowSums(m)    # Sum of each row
+colMeans(m)   # Mean of each column
+```
 
 ---
 
-### Data Frames
+## Data Frames
 
 A **data frame** is the standard data structure for tabular data in R, analogous to a spreadsheet in Excel. Each column is a vector (all the same length), and each column must contain a single data type.
 
@@ -386,6 +410,85 @@ my_data <- read.table("data/my_file.txt", header = TRUE, sep = "\t")
 - **Vector and matrix manipulations** — `cbind()`, `rbind()`, indexing with `[row, col]`
 - **Transforming data frames** — use `dplyr` and `tidyr` for reshaping and summarizing
 - **Matrix operations** — `t()` (transpose), `%*%` (matrix multiplication)
+
+---
+
+## Lists
+
+A **list** is the most flexible data structure in R. Unlike vectors and matrices, a list can hold elements of **different types and sizes** — including vectors, data frames, matrices, or even other lists. Lists are created with the `list()` function.
+```{r lists}
+# Create a list with mixed types
+my_list <- list(
+  site      = "Building A",
+  samples   = c(12.1, 10.4, 11.8, 9.7),
+  collected = TRUE,
+  metadata  = data.frame(date = c("2026-01-01", "2026-01-02"),
+                         tech = c("JS", "KL"))
+)
+
+my_list
+```
+
+**Checking list structure:**
+```{r list-str}
+str(my_list)
+length(my_list)    # Number of elements
+names(my_list)     # Names of elements
+```
+
+**Accessing list elements:**
+
+There are three ways to access elements in a list:
+```{r list-access}
+my_list[[1]]          # By position — returns the element itself
+my_list[["site"]]     # By name   — returns the element itself
+my_list$site          # Using $   — most common, same as above
+
+# Access nested elements
+my_list$metadata$date         # Column from the nested data frame
+my_list[["samples"]][2]       # Second value of the samples vector
+```
+
+> **Note:** Single brackets `my_list[1]` return a **list** containing the element.
+> Double brackets `my_list[[1]]` return the **element itself**. Use `[[` when you
+> want to work with the contents directly.
+
+**Modifying lists:**
+```{r list-modify}
+my_list$analyst <- "Jane Smith"   # Add a new element
+my_list$collected <- NULL         # Remove an element
+my_list[["site"]] <- "Building B" # Update an existing element
+```
+
+---
+
+## Missing Data
+
+R uses `NA` to represent missing values. Most functions return `NA` if the input contains missing values — unless you explicitly tell them to ignore it.
+
+```{r missing-data}
+rooms <- c(2, 1, 1, NA, 7)
+
+mean(rooms)                  # Output: [1] NA
+mean(rooms, na.rm = TRUE)    # Output: [1] 2.75
+```
+
+The argument `na.rm = TRUE` tells R to **remove NA values** before computing.
+
+
+---
+
+## Getting Help in R
+
+```{r help}
+?round          # Opens documentation for the round() function
+help("mean")    # Alternative syntax
+```
+
+**Other ways to get help:**
+
+- Copy the last line of your error message and paste it into a search engine.
+- Search for `"R"` + a short description of what you want to do (e.g., `"R filter data frame by column value"`).
 
 ---
 
