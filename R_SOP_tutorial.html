@@ -1575,7 +1575,7 @@ Analysis Using R</h1>
 <p>Dr. Andres Martinez (title)</p>
 <p>4105 SC Dept. Civil and Environmental Engineering University of Iowa
 Iowa City, IA 52240 Email:</p></h4>
-<h4 class="date">Last Revised: March 19, 2026</h4>
+<h4 class="date">Last Revised: March 20, 2026</h4>
 
 </div>
 
@@ -1606,7 +1606,7 @@ that RStudio is up to date.</p>
 </div>
 <div id="running-code" class="section level2" number="1.3">
 <h2><span class="header-section-number">1.3</span> Running Code</h2>
-<p>Code in this document lives inside <strong>code chunks</strong> —
+<p>Code in this document lives inside <strong>code chunks</strong>, or
 grey blocks that look like this:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># This is a code chunk</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>))</span></code></pre></div>
@@ -1649,7 +1649,7 @@ the Console pane.</p>
 <blockquote>
 <p><strong>Note:</strong> Code chunks in this document have
 <code>eval = FALSE</code> set by default, meaning they won’t run
-automatically when knitting. This is intentional — many examples use
+automatically when knitting. This is intentional, many examples use
 placeholder file paths (like <code>&quot;data/my_file.csv&quot;</code>) that you
 will need to update before running. Change <code>eval = FALSE</code> to
 <code>eval = TRUE</code> in any chunk once you are ready to run it with
@@ -1665,7 +1665,7 @@ editor to render to HTML (default), or click the dropdown arrow next to
 Knit to choose PDF or Word.</p>
 <blockquote>
 <p><strong>Tip:</strong> If knitting fails, check the <strong>R Markdown
-tab</strong> at the bottom of RStudio — it will show you which line
+tab</strong> at the bottom of RStudio. It will show you which line
 caused the error. The most common issues are a missing package, a file
 path that doesn’t exist, or a chunk with <code>eval = TRUE</code> that
 contains an error.</p>
@@ -1721,28 +1721,79 @@ reports</td>
 <div id="data-formatting-and-organization" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> Data Formatting and
 Organization</h1>
-<p>[DMAC data management info here]</p>
-<div id="file-and-metadata-naming-conventions" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> File and Metadata
-Naming Conventions</h2>
-<ul>
-<li>best practices and conventions</li>
-</ul>
+<p>This section is a brief overview of best practices for organizing
+your data before starting analyses. The content here is adapted from
+previous ISRP DMAC presentations.</p>
+<p>Credit: Marina Zhang, Brian Westra</p>
+<div id="file-naming-best-practices" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> File Naming Best
+Practices</h2>
+<ol style="list-style-type: decimal">
+<li>Be descriptive but brief, and stay consistent</li>
+<li>Use underscores or dashes instead of spaces; avoid special
+characters</li>
+<li>Format dates as <strong>YYYY-MM-DD</strong> or
+<strong>YYYYMMDD</strong> for proper chronological sorting</li>
+<li>Use version numbers to track changes (e.g., <code>_01_0</code> for
+original, <code>_01_1</code> for minor revision, <code>_02_0</code> for
+major revision)</li>
+<li>File names can include: project acronym, content description, date,
+creator initials, version, and status (draft/final)</li>
+</ol>
 </div>
-<div id="organizing-folders-and-files" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> Organizing Folders
-and Files</h2>
-<ul>
-<li>best practices</li>
-</ul>
+<div id="organizing-folders" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Organizing
+Folders</h2>
+<ol style="list-style-type: decimal">
+<li>Evaluate your files — plan the folder hierarchy before starting a
+project, and build the structure around how files will naturally be
+accessed.</li>
+<li>Identify folder attributes — categorize by time period, project
+stage, file type, experiment, instrument, location, or team member. The
+most important attribute goes at the top level of the hierarchy.</li>
+<li>Establish a folder hierarchy — nest folders logically, give each
+project its own folder, avoid overlapping categories, and don’t make the
+structure too deep. Include a README file at the top level and provide a
+folder template for easy adoption.</li>
+<li>Organize files systematically — apply your file naming convention
+and decide whether files should sort chronologically or alphabetically
+based on which metadata element comes first in the name.</li>
+</ol>
 </div>
-<div id="spreadsheet-organization" class="section level2" number="2.3">
-<h2><span class="header-section-number">2.3</span> Spreadsheet
-Organization</h2>
-<ul>
-<li>Samples in rows, data/categories in columns</li>
-<li>Reducing redundancy</li>
-</ul>
+<div id="best-practices-for-tabular-data-structures" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> Best Practices for
+Tabular Data Structures</h2>
+<ol style="list-style-type: decimal">
+<li><strong>Be consistent</strong>: use uniform codes for categories,
+missing values, variable names, date formats, and data structure across
+files.</li>
+<li><strong>Choose good variable names</strong>: descriptive but without
+spaces or special characters (e.g., <code>Max_temp_C</code> or
+<code>MaxTemp</code>, not <code>Maximum Temp (°C)</code>).</li>
+<li><strong>Handle missing values properly</strong>: blank cells are the
+best option; avoid using 0, -999, “None”, “No data”, or similar strings
+that can confuse software.</li>
+<li><strong>Avoid decorative formatting</strong>: no bold, color, or
+highlighting to convey meaning. Instead, add a dedicated column (e.g.,
+an “outlier” TRUE/FALSE column).</li>
+<li><strong>No comments in cells</strong>: use a separate comments
+column instead.</li>
+<li><strong>Keep values out of column headers</strong>: e.g. income
+brackets like <code>&lt;$10k</code>, <code>$10-20k</code> should be
+values in a column, not headers.</li>
+<li><strong>Don’t combine multiple variables in one header</strong>:
+e.g., headers encoding both sex and age (like <code>m014</code>) should
+be split into separate <code>sex</code> and <code>age</code>
+columns.</li>
+<li><strong>Don’t mix rows and columns for variables</strong>: each
+variable should occupy exactly one column.</li>
+<li><strong>Use multiple tables</strong>: when a dataset contains
+fundamentally different types of observations (e.g., separate song and
+rank tables), separate out related data into different tables.</li>
+<li><strong>One piece of information per cell</strong>: no calculations
+or graphs in raw data, perform quality checks during entry, back up
+regularly, and document everything in a data dictionary.</li>
+</ol>
 <hr />
 </div>
 </div>
@@ -1753,7 +1804,7 @@ RStudio</h1>
 actually different. <strong>R</strong> is an open-source programming
 language designed for statistical computing, data analysis, and data
 visualization. <strong>RStudio</strong> is an integrated development
-environment (IDE) for R — software that streamlines user experience by
+environment (IDE) for R, or software that streamlines user experience by
 providing tools such as a user interface, code editor, and debugger.</p>
 <div id="installing-r" class="section level2" number="3.1">
 <h2><span class="header-section-number">3.1</span> Installing R</h2>
@@ -2103,7 +2154,7 @@ object’s stored value unless you reassign it.</p>
 <div id="making-comments-in-r" class="section level2" number="5.3">
 <h2><span class="header-section-number">5.3</span> Making Comments in
 R</h2>
-<p>Comments help explain your reasoning and keep code readable —
+<p>Comments help explain your reasoning and keep code readable,
 especially when collaborating or revisiting old code.</p>
 <p>Use the <code>#</code> character to start a comment. Everything to
 the right of <code>#</code> on a line is ignored by R.</p>
@@ -2122,9 +2173,8 @@ the right of <code>#</code> on a line is ignored by R.</p>
 </div>
 <div id="vectors" class="section level2" number="5.4">
 <h2><span class="header-section-number">5.4</span> Vectors</h2>
-<p>A <strong>vector</strong> is one of the most common data structures
-in R — a series of values of the <strong>same type</strong>, created
-with the <code>c()</code> function.</p>
+<p>A <strong>vector</strong> is a series of values of the <strong>same
+type</strong>, created with the <code>c()</code> function.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co"># Numeric vector</span></span>
 <span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>hh_members <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">10</span>, <span class="dv">6</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>hh_members</span>
@@ -2232,7 +2282,7 @@ and <code>tidyr</code> for reshaping and summarizing</li>
 <h2><span class="header-section-number">5.7</span> Lists</h2>
 <p>A <strong>list</strong> is the most flexible data structure in R.
 Unlike vectors and matrices, a list can hold elements of
-<strong>different types and sizes</strong> — including vectors, data
+<strong>different types and sizes</strong> including vectors, data
 frames, matrices, or even other lists. Lists are created with the
 <code>list()</code> function.</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="co"># Create a list with mixed types</span></span>
@@ -2274,7 +2324,7 @@ directly.</p>
 <div id="missing-data" class="section level2" number="5.8">
 <h2><span class="header-section-number">5.8</span> Missing Data</h2>
 <p>R uses <code>NA</code> to represent missing values. Most functions
-return <code>NA</code> if the input contains missing values — unless you
+return <code>NA</code> if the input contains missing values, unless you
 explicitly tell them to ignore it.</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>rooms <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="cn">NA</span>, <span class="dv">7</span>)</span>
 <span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a></span>
@@ -2627,7 +2677,7 @@ format.</p>
 <hr />
 <p><strong>2. Narrative Text</strong></p>
 <p>Everything outside of code chunks is plain text written in
-<strong>Markdown</strong> — a lightweight formatting syntax. You don’t
+<strong>Markdown</strong>, a lightweight formatting syntax. You don’t
 need to know HTML or LaTeX; Markdown handles the formatting.</p>
 <p>Common Markdown syntax:</p>
 <table>
@@ -2776,7 +2826,7 @@ directly in your text:</p>
 <h3><span class="header-section-number">10.4.2</span> Inline R
 Variables</h3>
 <p>Any R object can be printed inline in text using <code>`r `</code>.
-This is one of the most powerful features of R Markdown — values update
+This is one of the most powerful features of R Markdown; values update
 automatically when your data or code changes, so you never have to
 manually edit numbers in a report.</p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a>mean_conc <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">mean</span>(<span class="fu">c</span>(<span class="fl">12.1</span>, <span class="fl">10.4</span>, <span class="fl">11.8</span>, <span class="fl">9.7</span>)), <span class="dv">2</span>)</span>

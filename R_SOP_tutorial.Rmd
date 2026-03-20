@@ -58,7 +58,7 @@ Open this `.Rmd` file directly in RStudio via **File > Open File**. You should s
 
 ## Running Code
 
-Code in this document lives inside **code chunks** — grey blocks that look like this:
+Code in this document lives inside **code chunks**, or grey blocks that look like this:
 
 ```{r example-chunk, eval=FALSE}
 # This is a code chunk
@@ -76,13 +76,13 @@ You have a few options for running code:
 
 Output appears directly below the chunk in the editor, and also in the Console pane.
 
-> **Note:** Code chunks in this document have `eval = FALSE` set by default, meaning they won't run automatically when knitting. This is intentional — many examples use placeholder file paths (like `"data/my_file.csv"`) that you will need to update before running. Change `eval = FALSE` to `eval = TRUE` in any chunk once you are ready to run it with your own data.
+> **Note:** Code chunks in this document have `eval = FALSE` set by default, meaning they won't run automatically when knitting. This is intentional, many examples use placeholder file paths (like `"data/my_file.csv"`) that you will need to update before running. Change `eval = FALSE` to `eval = TRUE` in any chunk once you are ready to run it with your own data.
 
 ## Knitting the Document
 
 "Knitting" renders this `.Rmd` file into a formatted document. Click the **Knit** button at the top of the editor to render to HTML (default), or click the dropdown arrow next to Knit to choose PDF or Word.
 
-> **Tip:** If knitting fails, check the **R Markdown tab** at the bottom of RStudio — it will show you which line caused the error. The most common issues are a missing package, a file path that doesn't exist, or a chunk with `eval = TRUE` that contains an error.
+> **Tip:** If knitting fails, check the **R Markdown tab** at the bottom of RStudio. It will show you which line caused the error. The most common issues are a missing package, a file path that doesn't exist, or a chunk with `eval = TRUE` that contains an error.
 
 ## Document Structure
 
@@ -101,22 +101,39 @@ This SOP is organized as follows:
 
 # Data Formatting and Organization
 
-This section covers best practices for organizing your data before starting analyses. The content here is adapted from previous ISRP DMAC presentations.
+This section is a brief overview of best practices for organizing your data before starting analyses. The content here is adapted from previous ISRP DMAC presentations.
 
 Credit: Marina Zhang, Brian Westra
 
-## File and Metadata Naming Conventions
+## File Naming Best Practices
 
-- best practices and conventions
+1. Be descriptive but brief, and stay consistent
+2. Use underscores or dashes instead of spaces; avoid special characters
+3. Format dates as **YYYY-MM-DD** or **YYYYMMDD** for proper chronological sorting
+4. Use version numbers to track changes (e.g., `_01_0` for original, `_01_1` for minor revision, `_02_0` for major revision)
+5. File names can include: project acronym, content description, date, creator initials, version, and status (draft/final)
 
-## Organizing Folders and Files
 
-- best practices 
+## Organizing Folders 
 
-## Spreadsheet Organization
+1. Evaluate your files — plan the folder hierarchy before starting a project, and build the structure around how files will naturally be accessed.
+2. Identify folder attributes — categorize by time period, project stage, file type, experiment, instrument, location, or team member. The most important attribute goes at the top level of the hierarchy.
+3. Establish a folder hierarchy — nest folders logically, give each project its own folder, avoid overlapping categories, and don't make the structure too deep. Include a README file at the top level and provide a folder template for easy adoption.
+4. Organize files systematically — apply your file naming convention and decide whether files should sort chronologically or alphabetically based on which metadata element comes first in the name.
 
-- Samples in rows, data/categories in columns
-- Reducing redundancy
+## Best Practices for Tabular Data Structures
+
+1. **Be consistent**: use uniform codes for categories, missing values, variable names, date formats, and data structure across files.
+2. **Choose good variable names**: descriptive but without spaces or special characters (e.g., `Max_temp_C` or `MaxTemp`, not `Maximum Temp (°C)`).
+3. **Handle missing values properly**: blank cells are the best option; avoid using 0, -999, "None", "No data", or similar strings that can confuse software.
+4. **Avoid decorative formatting**: no bold, color, or highlighting to convey meaning. Instead, add a dedicated column (e.g., an "outlier" TRUE/FALSE column).
+5. **No comments in cells**: use a separate comments column instead.
+6. **Keep values out of column headers**: e.g. income brackets like `<$10k`, `$10-20k` should be values in a column, not headers.
+7. **Don't combine multiple variables in one header**: e.g., headers encoding both sex and age (like `m014`) should be split into separate `sex` and `age` columns.
+8. **Don't mix rows and columns for variables**: each variable should occupy exactly one column.
+9. **Use multiple tables**: when a dataset contains fundamentally different types of observations (e.g., separate song and rank tables), separate out related data into different tables.
+10. **One piece of information per cell**: no calculations or graphs in raw data, perform quality checks during entry, back up regularly, and document everything in a data dictionary.
+
 
 ---
 
@@ -124,7 +141,7 @@ Credit: Marina Zhang, Brian Westra
 
 R and RStudio are sometimes used interchangeably, but they are actually different.
 **R** is an open-source programming language designed for statistical computing, data analysis, and data visualization.
-**RStudio** is an integrated development environment (IDE) for R — software that streamlines user experience by providing tools such as a user interface, code editor, and debugger.
+**RStudio** is an integrated development environment (IDE) for R, or software that streamlines user experience by providing tools such as a user interface, code editor, and debugger.
 
 ## Installing R
 
@@ -330,7 +347,7 @@ area_acres                   # Output: [1] 4.94
 
 ## Making Comments in R
 
-Comments help explain your reasoning and keep code readable — especially when collaborating or revisiting old code.
+Comments help explain your reasoning and keep code readable, especially when collaborating or revisiting old code.
 
 Use the `#` character to start a comment. Everything to the right of `#` on a line is ignored by R.
 
@@ -351,7 +368,7 @@ area_acres         # Print land area in acres
 
 ## Vectors 
 
-A **vector** is one of the most common data structures in R — a series of values of the **same type**, created with the `c()` function.
+A **vector** is a series of values of the **same type**, created with the `c()` function.
 
 ```{r vectors}
 # Numeric vector
@@ -474,7 +491,7 @@ my_data <- read.table("data/my_file.txt", header = TRUE, sep = "\t")
 
 ## Lists
 
-A **list** is the most flexible data structure in R. Unlike vectors and matrices, a list can hold elements of **different types and sizes** — including vectors, data frames, matrices, or even other lists. Lists are created with the `list()` function.
+A **list** is the most flexible data structure in R. Unlike vectors and matrices, a list can hold elements of **different types and sizes**  including vectors, data frames, matrices, or even other lists. Lists are created with the `list()` function.
 ```{r lists}
 # Create a list with mixed types
 my_list <- list(
@@ -523,7 +540,7 @@ my_list[["site"]] <- "Building B" # Update an existing element
 
 ## Missing Data
 
-R uses `NA` to represent missing values. Most functions return `NA` if the input contains missing values — unless you explicitly tell them to ignore it.
+R uses `NA` to represent missing values. Most functions return `NA` if the input contains missing values, unless you explicitly tell them to ignore it.
 
 ```{r missing-data}
 rooms <- c(2, 1, 1, NA, 7)
@@ -880,7 +897,7 @@ Common output formats:
 
 **2. Narrative Text**
 
-Everything outside of code chunks is plain text written in **Markdown** — a lightweight formatting syntax. You don't need to know HTML or LaTeX; Markdown handles the formatting.
+Everything outside of code chunks is plain text written in **Markdown**, a lightweight formatting syntax. You don't need to know HTML or LaTeX; Markdown handles the formatting.
 
 Common Markdown syntax:
 
@@ -950,7 +967,7 @@ Use `^` for superscripts and `~` for subscripts directly in your text:
 
 ### Inline R Variables
 
-Any R object can be printed inline in text using `` `r ` ``. This is one of the most powerful features of R Markdown — values update automatically when your data or code changes, so you never have to manually edit numbers in a report.
+Any R object can be printed inline in text using `` `r ` ``. This is one of the most powerful features of R Markdown; values update automatically when your data or code changes, so you never have to manually edit numbers in a report.
 ````{r inline-setup}
 mean_conc <- round(mean(c(12.1, 10.4, 11.8, 9.7)), 2)
 sample_n  <- 10
