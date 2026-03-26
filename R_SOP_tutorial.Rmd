@@ -1,5 +1,5 @@
 ---
-title: "Standard Operation Procedure for PCB Analysis Using R"
+title: "Using RStudio for Statistical Analysis of PCBs"
 date: "Last Revised: `r format(Sys.Date(), '%B %d, %Y')`"
 author: |
   Jason B.X. Hua (PhD Research Assiant)
@@ -39,6 +39,10 @@ knitr::opts_chunk$set(
   message = FALSE
 )
 ```
+
+# Scope and Application
+
+This method covers an overview of data formatting and organization; instructions for download and installation of R and RStudio; an overview of the RStudio environment; basic functions, terminology, and operations; example calculations for PCB data; and how to make graphs and figures.
 
 # How to Use This Document
 
