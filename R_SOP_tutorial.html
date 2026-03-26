@@ -11,7 +11,7 @@
 
 
 
-<title>Standard Operation Procedure for PCB Analysis Using R</title>
+<title>Using RStudio for Statistical Analysis of PCBs</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -1567,36 +1567,45 @@ border-radius: 0px;
 
 
 
-<h1 class="title toc-ignore">Standard Operation Procedure for PCB
-Analysis Using R</h1>
+<h1 class="title toc-ignore">Using RStudio for Statistical Analysis of
+PCBs</h1>
 <h4 class="author"><p>Jason B.X. Hua (PhD Research Assiant)</p>
 <p>Matthew Rosonke (Undergraduate Research Assistant)</p>
 <p>Dr. Rachel F. Marek (title)</p>
 <p>Dr. Andres Martinez (title)</p>
 <p>4105 SC Dept. Civil and Environmental Engineering University of Iowa
 Iowa City, IA 52240 Email:</p></h4>
-<h4 class="date">Last Revised: March 24, 2026</h4>
+<h4 class="date">Last Revised: March 26, 2026</h4>
 
 </div>
 
 
-<div id="how-to-use-this-document" class="section level1" number="1">
-<h1><span class="header-section-number">1</span> How to Use This
+<div id="scope-and-application" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Scope and
+Application</h1>
+<p>This method covers an overview of data formatting and organization;
+instructions for download and installation of R and RStudio; an overview
+of the RStudio environment; basic functions, terminology, and
+operations; example calculations for PCB data; and how to make graphs
+and figures.</p>
+</div>
+<div id="how-to-use-this-document" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> How to Use This
 Document</h1>
 <p>This document is an <strong>R Markdown file</strong>
 (<code>.Rmd</code>). It combines written instructions, example R code,
 and output in a single file. You can read it as a reference, run the
 code interactively, or knit the whole thing into a formatted HTML or PDF
 report.</p>
-<div id="what-you-need" class="section level2" number="1.1">
-<h2><span class="header-section-number">1.1</span> What You Need</h2>
+<div id="what-you-need" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> What You Need</h2>
 <p>Before opening this file, make sure you have both R and RStudio
 installed (see <a href="#installing-r-and-rstudio">Installing R and
 RStudio</a>). You will also need the <code>rmarkdown</code> package:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;rmarkdown&quot;</span>)</span></code></pre></div>
 </div>
-<div id="opening-this-file" class="section level2" number="1.2">
-<h2><span class="header-section-number">1.2</span> Opening This
+<div id="opening-this-file" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Opening This
 File</h2>
 <p>Open this <code>.Rmd</code> file directly in RStudio via <strong>File
 &gt; Open File</strong>. You should see the document in the Source pane
@@ -1604,8 +1613,8 @@ File</h2>
 document, make sure the file has the <code>.Rmd</code> extension and
 that RStudio is up to date.</p>
 </div>
-<div id="running-code" class="section level2" number="1.3">
-<h2><span class="header-section-number">1.3</span> Running Code</h2>
+<div id="running-code" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> Running Code</h2>
 <p>Code in this document lives inside <strong>code chunks</strong>, or
 grey blocks that look like this:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># This is a code chunk</span></span>
@@ -1656,8 +1665,8 @@ will need to update before running. Change <code>eval = FALSE</code> to
 your own data.</p>
 </blockquote>
 </div>
-<div id="knitting-the-document" class="section level2" number="1.4">
-<h2><span class="header-section-number">1.4</span> Knitting the
+<div id="knitting-the-document" class="section level2" number="2.4">
+<h2><span class="header-section-number">2.4</span> Knitting the
 Document</h2>
 <p>“Knitting” renders this <code>.Rmd</code> file into a formatted
 document. Click the <strong>Knit</strong> button at the top of the
@@ -1671,8 +1680,8 @@ path that doesn’t exist, or a chunk with <code>eval = TRUE</code> that
 contains an error.</p>
 </blockquote>
 </div>
-<div id="document-structure" class="section level2" number="1.5">
-<h2><span class="header-section-number">1.5</span> Document
+<div id="document-structure" class="section level2" number="2.5">
+<h2><span class="header-section-number">2.5</span> Document
 Structure</h2>
 <p>This SOP is organized as follows:</p>
 <table>
@@ -1718,15 +1727,15 @@ reports</td>
 <hr />
 </div>
 </div>
-<div id="data-formatting-and-organization" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> Data Formatting and
+<div id="data-formatting-and-organization" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Data Formatting and
 Organization</h1>
 <p>This section is a brief overview of best practices for organizing
 your data before starting analyses. The content here is adapted from
 previous ISRP DMAC presentations.</p>
 <p>Credit: Marina Zhang, Brian Westra</p>
-<div id="file-naming-best-practices" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> File Naming Best
+<div id="file-naming-best-practices" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> File Naming Best
 Practices</h2>
 <ol style="list-style-type: decimal">
 <li>Be descriptive but brief, and stay consistent</li>
@@ -1741,8 +1750,8 @@ major revision)</li>
 creator initials, version, and status (draft/final)</li>
 </ol>
 </div>
-<div id="organizing-folders" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> Organizing
+<div id="organizing-folders" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Organizing
 Folders</h2>
 <ol style="list-style-type: decimal">
 <li>Evaluate your files — plan the folder hierarchy before starting a
@@ -1760,8 +1769,8 @@ and decide whether files should sort chronologically or alphabetically
 based on which metadata element comes first in the name.</li>
 </ol>
 </div>
-<div id="best-practices-for-tabular-data-structures" class="section level2" number="2.3">
-<h2><span class="header-section-number">2.3</span> Best Practices for
+<div id="best-practices-for-tabular-data-structures" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Best Practices for
 Tabular Data Structures</h2>
 <ol style="list-style-type: decimal">
 <li><strong>Be consistent</strong>: use uniform codes for categories,
@@ -1797,8 +1806,8 @@ regularly, and document everything in a data dictionary.</li>
 <hr />
 </div>
 </div>
-<div id="installing-r-and-rstudio" class="section level1" number="3">
-<h1><span class="header-section-number">3</span> Installing R and
+<div id="installing-r-and-rstudio" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Installing R and
 RStudio</h1>
 <p>R and RStudio are sometimes used interchangeably, but they are
 actually different. <strong>R</strong> is an open-source programming
@@ -1806,8 +1815,8 @@ language designed for statistical computing, data analysis, and data
 visualization. <strong>RStudio</strong> is an integrated development
 environment (IDE) for R, or software that streamlines user experience by
 providing tools such as a user interface, code editor, and debugger.</p>
-<div id="installing-r" class="section level2" number="3.1">
-<h2><span class="header-section-number">3.1</span> Installing R</h2>
+<div id="installing-r" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Installing R</h2>
 <ol style="list-style-type: decimal">
 <li>Follow this link to install R and RStudio: <a href="https://posit.co/download/rstudio-desktop/" class="uri">https://posit.co/download/rstudio-desktop/</a></li>
 <li>Scroll down until you see two steps: <strong>1. Install R</strong>
@@ -1835,8 +1844,8 @@ download will begin after clicking this link.</li>
 Follow the prompts to install R.</li>
 </ol>
 </div>
-<div id="installing-rstudio" class="section level2" number="3.2">
-<h2><span class="header-section-number">3.2</span> Installing
+<div id="installing-rstudio" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Installing
 RStudio</h2>
 <ol style="list-style-type: decimal">
 <li>Go back to the first link: <a href="https://posit.co/download/rstudio-desktop/" class="uri">https://posit.co/download/rstudio-desktop/</a></li>
@@ -1848,15 +1857,15 @@ install RStudio.</li>
 <hr />
 </div>
 </div>
-<div id="getting-started-with-rstudio" class="section level1" number="4">
-<h1><span class="header-section-number">4</span> Getting Started with
+<div id="getting-started-with-rstudio" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Getting Started with
 RStudio</h1>
 <blockquote>
 <p><em>This section was adapted from <a href="https://datacarpentry.github.io/r-socialsci/00-intro.html#a-tour-of-rstudio">Data
 Carpentry’s R for Social Scientists</a> course.</em></p>
 </blockquote>
-<div id="starting-a-new-project-in-rstudio" class="section level2" number="4.1">
-<h2><span class="header-section-number">4.1</span> Starting a New
+<div id="starting-a-new-project-in-rstudio" class="section level2" number="5.1">
+<h2><span class="header-section-number">5.1</span> Starting a New
 Project in RStudio</h2>
 <p>Creating and using Projects keeps your data, analyses, scripts, and
 related files in a single folder, also called a <strong>working
@@ -1875,8 +1884,8 @@ location.</li>
 Script</strong>.</li>
 </ol>
 </div>
-<div id="rstudio-interface" class="section level2" number="4.2">
-<h2><span class="header-section-number">4.2</span> RStudio
+<div id="rstudio-interface" class="section level2" number="5.2">
+<h2><span class="header-section-number">5.2</span> RStudio
 Interface</h2>
 <p>RStudio is divided into <strong>four panes</strong>:</p>
 <table>
@@ -1916,8 +1925,8 @@ Interface</h2>
 </tbody>
 </table>
 </div>
-<div id="installing-packages-and-calling-libraries" class="section level2" number="4.3">
-<h2><span class="header-section-number">4.3</span> Installing Packages
+<div id="installing-packages-and-calling-libraries" class="section level2" number="5.3">
+<h2><span class="header-section-number">5.3</span> Installing Packages
 and Calling Libraries</h2>
 <p>Packages and libraries are generally synonymous. A
 <strong>package</strong> (or <strong>library</strong>) is a set of code,
@@ -1925,8 +1934,8 @@ functions, or data bundled together for specific tasks. Packages make
 analysis more efficient by allowing users to use code others have
 already developed.</p>
 <p>A comprehensive list of available R packages is available at: <a href="https://cran.r-project.org/web/packages/available_packages_by_name.html" class="uri">https://cran.r-project.org/web/packages/available_packages_by_name.html</a></p>
-<div id="commonly-used-libraries" class="section level3" number="4.3.1">
-<h3><span class="header-section-number">4.3.1</span> Commonly Used
+<div id="commonly-used-libraries" class="section level3" number="5.3.1">
+<h3><span class="header-section-number">5.3.1</span> Commonly Used
 Libraries</h3>
 <table>
 <thead>
@@ -1959,8 +1968,8 @@ Libraries</h3>
 </tbody>
 </table>
 </div>
-<div id="installing-packages" class="section level3" number="4.3.2">
-<h3><span class="header-section-number">4.3.2</span> Installing
+<div id="installing-packages" class="section level3" number="5.3.2">
+<h3><span class="header-section-number">5.3.2</span> Installing
 Packages</h3>
 <p>There are two main ways to install packages:</p>
 <p><strong>Option 1 — Using the Packages Panel in RStudio:</strong></p>
@@ -1978,8 +1987,8 @@ this list and will need to be installed using code (Option 2).</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Install a package from CRAN</span></span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;package_name&quot;</span>)</span></code></pre></div>
 </div>
-<div id="calling-loading-libraries" class="section level3" number="4.3.3">
-<h3><span class="header-section-number">4.3.3</span> Calling (Loading)
+<div id="calling-loading-libraries" class="section level3" number="5.3.3">
+<h3><span class="header-section-number">5.3.3</span> Calling (Loading)
 Libraries</h3>
 <p>Before using a package’s functions in your script, you must load it
 with <code>library()</code>. This “activates” the library for your
@@ -1995,15 +2004,15 @@ required to run the code.</p>
 </div>
 </div>
 </div>
-<div id="r-basics" class="section level1" number="5">
-<h1><span class="header-section-number">5</span> R Basics</h1>
+<div id="r-basics" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> R Basics</h1>
 <blockquote>
 <p><em>This section is adapted from <a href="https://datacarpentry.github.io/r-socialsci/01-intro-to-r.html">Data
 Carpentry’s Introduction to R</a>. Visit the site for more
 tutorials.</em></p>
 </blockquote>
-<div id="objective-key-r-terminology" class="section level2" number="5.1">
-<h2><span class="header-section-number">5.1</span> Objective: Key R
+<div id="objective-key-r-terminology" class="section level2" number="6.1">
+<h2><span class="header-section-number">6.1</span> Objective: Key R
 Terminology</h2>
 <p>Before diving in, make sure you can define the following terms:</p>
 <ul>
@@ -2074,10 +2083,10 @@ bundled for a specific purpose</li>
 </tbody>
 </table>
 </div>
-<div id="basic-operations" class="section level2" number="5.2">
-<h2><span class="header-section-number">5.2</span> Basic Operations</h2>
-<div id="assigning-values-to-names" class="section level3" number="5.2.1">
-<h3><span class="header-section-number">5.2.1</span> Assigning Values to
+<div id="basic-operations" class="section level2" number="6.2">
+<h2><span class="header-section-number">6.2</span> Basic Operations</h2>
+<div id="assigning-values-to-names" class="section level3" number="6.2.1">
+<h3><span class="header-section-number">6.2.1</span> Assigning Values to
 Names</h3>
 <p>In R, both operators below can be used for assignment:</p>
 <table>
@@ -2117,8 +2126,8 @@ are different objects.</p>
 </ul>
 <hr />
 </div>
-<div id="printing-values" class="section level3" number="5.2.2">
-<h3><span class="header-section-number">5.2.2</span> Printing
+<div id="printing-values" class="section level3" number="6.2.2">
+<h3><span class="header-section-number">6.2.2</span> Printing
 Values</h3>
 <p>In R, “printing” will show the variable, matrix, or plot on screen. R
 does not automatically show the value(s) when it is assigned to a
@@ -2134,8 +2143,8 @@ variable or object. You can print using “print()”:</p>
 <pre><code>[1] 2</code></pre>
 <hr />
 </div>
-<div id="arithmetic-with-assigned-values" class="section level3" number="5.2.3">
-<h3><span class="header-section-number">5.2.3</span> Arithmetic with
+<div id="arithmetic-with-assigned-values" class="section level3" number="6.2.3">
+<h3><span class="header-section-number">6.2.3</span> Arithmetic with
 Assigned Values</h3>
 <p>Once an object is saved, R keeps it in memory and you can use it in
 calculations.</p>
@@ -2151,8 +2160,8 @@ object’s stored value unless you reassign it.</p>
 <hr />
 </div>
 </div>
-<div id="making-comments-in-r" class="section level2" number="5.3">
-<h2><span class="header-section-number">5.3</span> Making Comments in
+<div id="making-comments-in-r" class="section level2" number="6.3">
+<h2><span class="header-section-number">6.3</span> Making Comments in
 R</h2>
 <p>Comments help explain your reasoning and keep code readable,
 especially when collaborating or revisiting old code.</p>
@@ -2171,8 +2180,8 @@ the right of <code>#</code> on a line is ignored by R.</p>
 </ul>
 <hr />
 </div>
-<div id="vectors" class="section level2" number="5.4">
-<h2><span class="header-section-number">5.4</span> Vectors</h2>
+<div id="vectors" class="section level2" number="6.4">
+<h2><span class="header-section-number">6.4</span> Vectors</h2>
 <p>A <strong>vector</strong> is a series of values of the <strong>same
 type</strong>, created with the <code>c()</code> function.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co"># Numeric vector</span></span>
@@ -2198,8 +2207,8 @@ named <code>burntbricks</code>, etc., and throw an error.</p>
 <span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="fu">print</span>(items)</span>
 <span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="co"># Output: [1] &quot;car&quot;  &quot;bike&quot;  &quot;radio&quot;  &quot;television&quot;  &quot;phone&quot;</span></span></code></pre></div>
 <hr />
-<div id="subsetting-vectors" class="section level3" number="5.4.1">
-<h3><span class="header-section-number">5.4.1</span> Subsetting
+<div id="subsetting-vectors" class="section level3" number="6.4.1">
+<h3><span class="header-section-number">6.4.1</span> Subsetting
 Vectors</h3>
 <p><strong>Subsetting</strong> (also called indexing or extracting)
 accesses specific elements using square brackets <code>[]</code>.
@@ -2209,8 +2218,8 @@ accesses specific elements using square brackets <code>[]</code>.
 <span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="co"># Output: [1] &quot;radio&quot;</span></span></code></pre></div>
 </div>
 </div>
-<div id="matrices" class="section level2" number="5.5">
-<h2><span class="header-section-number">5.5</span> Matrices</h2>
+<div id="matrices" class="section level2" number="6.5">
+<h2><span class="header-section-number">6.5</span> Matrices</h2>
 <p>A <strong>matrix</strong> is a two-dimensional data structure in R.
 Like a vector, all elements must be the <strong>same data type</strong>.
 Matrices have rows and columns and are created with the
@@ -2252,8 +2261,8 @@ dimension blank selects the entire row or column.</p>
 <span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a><span class="fu">colMeans</span>(m)   <span class="co"># Mean of each column</span></span></code></pre></div>
 <hr />
 </div>
-<div id="data-frames" class="section level2" number="5.6">
-<h2><span class="header-section-number">5.6</span> Data Frames</h2>
+<div id="data-frames" class="section level2" number="6.6">
+<h2><span class="header-section-number">6.6</span> Data Frames</h2>
 <p>A <strong>data frame</strong> is the standard data structure for
 tabular data in R, analogous to a spreadsheet in Excel. Each column is a
 vector (all the same length), and each column must contain a single data
@@ -2278,8 +2287,8 @@ and <code>tidyr</code> for reshaping and summarizing</li>
 </ul>
 <hr />
 </div>
-<div id="lists" class="section level2" number="5.7">
-<h2><span class="header-section-number">5.7</span> Lists</h2>
+<div id="lists" class="section level2" number="6.7">
+<h2><span class="header-section-number">6.7</span> Lists</h2>
 <p>A <strong>list</strong> is the most flexible data structure in R.
 Unlike vectors and matrices, a list can hold elements of
 <strong>different types and sizes</strong> including vectors, data
@@ -2321,8 +2330,8 @@ directly.</p>
 <span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a>my_list[[<span class="st">&quot;site&quot;</span>]] <span class="ot">&lt;-</span> <span class="st">&quot;Building B&quot;</span> <span class="co"># Update an existing element</span></span></code></pre></div>
 <hr />
 </div>
-<div id="missing-data" class="section level2" number="5.8">
-<h2><span class="header-section-number">5.8</span> Missing Data</h2>
+<div id="missing-data" class="section level2" number="6.8">
+<h2><span class="header-section-number">6.8</span> Missing Data</h2>
 <p>R uses <code>NA</code> to represent missing values. Most functions
 return <code>NA</code> if the input contains missing values, unless you
 explicitly tell them to ignore it.</p>
@@ -2334,8 +2343,8 @@ explicitly tell them to ignore it.</p>
 values</strong> before computing.</p>
 <hr />
 </div>
-<div id="getting-help-in-r" class="section level2" number="5.9">
-<h2><span class="header-section-number">5.9</span> Getting Help in
+<div id="getting-help-in-r" class="section level2" number="6.9">
+<h2><span class="header-section-number">6.9</span> Getting Help in
 R</h2>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a>?round          <span class="co"># Opens documentation for the round() function</span></span>
 <span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a><span class="fu">help</span>(<span class="st">&quot;mean&quot;</span>)    <span class="co"># Alternative syntax</span></span></code></pre></div>
@@ -2349,15 +2358,15 @@ to do (e.g., <code>&quot;R filter data frame by column value&quot;</code>).</li>
 <hr />
 </div>
 </div>
-<div id="example-1-statistics" class="section level1" number="6">
-<h1><span class="header-section-number">6</span> Example 1:
+<div id="example-1-statistics" class="section level1" number="7">
+<h1><span class="header-section-number">7</span> Example 1:
 Statistics</h1>
 <p>This and subsequent sections will build on the skills introduced in
 the previous sections. Example data is provided and will be used in the
 following examples. This example will cover basic statistics using PCB
 congener data from lab and field blanks.</p>
-<div id="check-normality" class="section level2" number="6.1">
-<h2><span class="header-section-number">6.1</span> Check Normality</h2>
+<div id="check-normality" class="section level2" number="7.1">
+<h2><span class="header-section-number">7.1</span> Check Normality</h2>
 <p>[edit] 1. library: ggpubr 2. how to import data 3. explain qqplot 4.
 shapiro test, what else to include</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
@@ -2373,8 +2382,8 @@ shapiro test, what else to include</p>
 <span id="cb25-11"><a href="#cb25-11" tabindex="-1"></a><span class="fu">shapiro.test</span>(my_data<span class="sc">$</span>x52)</span>
 <span id="cb25-12"><a href="#cb25-12" tabindex="-1"></a><span class="co"># p &gt; 0.05 suggests data are approximately normal</span></span></code></pre></div>
 </div>
-<div id="summary-statistics" class="section level2" number="6.2">
-<h2><span class="header-section-number">6.2</span> Summary
+<div id="summary-statistics" class="section level2" number="7.2">
+<h2><span class="header-section-number">7.2</span> Summary
 Statistics</h2>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="co"># Base R summary</span></span>
 <span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a><span class="fu">summary</span>(my_data)</span>
@@ -2389,8 +2398,8 @@ Statistics</h2>
 <span id="cb26-11"><a href="#cb26-11" tabindex="-1"></a>    <span class="at">n          =</span> <span class="fu">n</span>()</span>
 <span id="cb26-12"><a href="#cb26-12" tabindex="-1"></a>  )</span></code></pre></div>
 </div>
-<div id="hypothesis-testing" class="section level2" number="6.3">
-<h2><span class="header-section-number">6.3</span> Hypothesis
+<div id="hypothesis-testing" class="section level2" number="7.3">
+<h2><span class="header-section-number">7.3</span> Hypothesis
 Testing</h2>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="co"># Using dplyr for more control</span></span>
 <span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
@@ -2404,8 +2413,8 @@ Testing</h2>
 <hr />
 </div>
 </div>
-<div id="example-2-calculate-loq" class="section level1" number="7">
-<h1><span class="header-section-number">7</span> Example 2: Calculate
+<div id="example-2-calculate-loq" class="section level1" number="8">
+<h1><span class="header-section-number">8</span> Example 2: Calculate
 LOQ</h1>
 <p>In this example, we calculate the Limit of Quantitation (LOQ) using
 method blanks.</p>
@@ -2449,8 +2458,8 @@ blank masses in the LOQ calculations.</p>
 <span id="cb28-34"><a href="#cb28-34" tabindex="-1"></a><span class="fu">summary</span>(final.loq)</span></code></pre></div>
 <hr />
 </div>
-<div id="example-3-calculate-air-concentration" class="section level1" number="8">
-<h1><span class="header-section-number">8</span> Example 3: Calculate
+<div id="example-3-calculate-air-concentration" class="section level1" number="9">
+<h1><span class="header-section-number">9</span> Example 3: Calculate
 Air Concentration</h1>
 <p>In this section, we calculate indoor air concentration using the
 sampling rate (R<sub>s</sub>) of a PUF-PAS and the effective volume
@@ -2459,8 +2468,8 @@ sampling rate (R<sub>s</sub>) of a PUF-PAS and the effective volume
 <p><strong>Note:</strong> Outdoor air requires a different method for
 concentration determination.</p>
 </blockquote>
-<div id="functions" class="section level2" number="8.1">
-<h2><span class="header-section-number">8.1</span> Functions</h2>
+<div id="functions" class="section level2" number="9.1">
+<h2><span class="header-section-number">9.1</span> Functions</h2>
 <p>add paragraph here explaining functions</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="co"># kpuf calculations</span></span>
 <span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a></span>
@@ -2496,8 +2505,8 @@ concentration determination.</p>
 <span id="cb29-32"><a href="#cb29-32" tabindex="-1"></a>  <span class="fu">return</span>(sch.conc.t)</span>
 <span id="cb29-33"><a href="#cb29-33" tabindex="-1"></a>}</span></code></pre></div>
 </div>
-<div id="import-data" class="section level2" number="8.2">
-<h2><span class="header-section-number">8.2</span> Import Data</h2>
+<div id="import-data" class="section level2" number="9.2">
+<h2><span class="header-section-number">9.2</span> Import Data</h2>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a>pcb <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 3/koaCalc.csv&#39;</span>, <span class="at">header =</span> T)      <span class="co"># pcb values for calculation koa</span></span>
 <span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a>kpuf <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 3/kpuf.csv&#39;</span>, <span class="at">header =</span> T)</span>
 <span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a>sample.mass <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 3/ogMass_practice.csv&#39;</span>, <span class="at">header =</span> T)</span>
@@ -2506,8 +2515,8 @@ concentration determination.</p>
 <span id="cb30-6"><a href="#cb30-6" tabindex="-1"></a></span>
 <span id="cb30-7"><a href="#cb30-7" tabindex="-1"></a>congener.list <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(congener.list[<span class="dv">1</span>,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)]))</span></code></pre></div>
 </div>
-<div id="set-indoor-air-parameters" class="section level2" number="8.3">
-<h2><span class="header-section-number">8.3</span> Set Indoor Air
+<div id="set-indoor-air-parameters" class="section level2" number="9.3">
+<h2><span class="header-section-number">9.3</span> Set Indoor Air
 Parameters</h2>
 <p><em>(See paper YYY for parameter values.)</em></p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a>t.days <span class="ot">&lt;-</span> <span class="dv">29</span></span>
@@ -2531,8 +2540,8 @@ Parameters</h2>
 <span id="cb31-19"><a href="#cb31-19" tabindex="-1"></a>kpuf <span class="ot">&lt;-</span> <span class="fu">kpuf.calc</span>(pcb,R,temp.c)</span>
 <span id="cb31-20"><a href="#cb31-20" tabindex="-1"></a>kpuf <span class="ot">&lt;-</span> kpuf <span class="sc">*</span> den.puf</span></code></pre></div>
 </div>
-<div id="calculate-sampling-rate-rs" class="section level2" number="8.4">
-<h2><span class="header-section-number">8.4</span> Calculate Sampling
+<div id="calculate-sampling-rate-rs" class="section level2" number="9.4">
+<h2><span class="header-section-number">9.4</span> Calculate Sampling
 Rate (R<sub>s</sub>)</h2>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a>rs <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> <span class="fu">nrow</span>(pcb), <span class="at">ncol =</span> <span class="dv">1</span>))</span>
 <span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a></span>
@@ -2540,8 +2549,8 @@ Rate (R<sub>s</sub>)</h2>
 <span id="cb32-4"><a href="#cb32-4" tabindex="-1"></a>  rs[l,<span class="dv">1</span>] <span class="ot">&lt;-</span> ((f.on <span class="sc">*</span> (<span class="fu">sqrt</span>(ws.on))) <span class="sc">+</span> (f.off <span class="sc">*</span> (<span class="fu">sqrt</span>(ws.off))))<span class="sc">*</span>(<span class="dv">1</span><span class="sc">/</span>(pcb[l,<span class="dv">3</span>]<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>)))<span class="sc">*</span>(<span class="dv">10</span><span class="sc">^</span>((<span class="fl">0.0012</span><span class="sc">*</span>t.days)<span class="sc">+</span>c))</span>
 <span id="cb32-5"><a href="#cb32-5" tabindex="-1"></a>}</span></code></pre></div>
 </div>
-<div id="calculate-effective-volume-veff" class="section level2" number="8.5">
-<h2><span class="header-section-number">8.5</span> Calculate Effective
+<div id="calculate-effective-volume-veff" class="section level2" number="9.5">
+<h2><span class="header-section-number">9.5</span> Calculate Effective
 Volume (V<sub>eff</sub>)</h2>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a>v.eff <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> <span class="fu">nrow</span>(pcb), <span class="at">ncol =</span> <span class="dv">1</span>))</span>
 <span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a></span>
@@ -2555,8 +2564,8 @@ Volume (V<sub>eff</sub>)</h2>
 <span id="cb33-10"><a href="#cb33-10" tabindex="-1"></a>                  <span class="dv">151</span>,<span class="dv">157</span>,<span class="dv">163</span>,<span class="dv">166</span>,<span class="dv">168</span>,<span class="dv">173</span>,<span class="dv">193</span>,<span class="dv">199</span>,<span class="dv">204</span>),]</span>
 <span id="cb33-11"><a href="#cb33-11" tabindex="-1"></a>V.eff <span class="ot">&lt;-</span> <span class="fu">cbind</span>(congener.list,V.eff)</span></code></pre></div>
 </div>
-<div id="calculate-total-air-concentration" class="section level2" number="8.6">
-<h2><span class="header-section-number">8.6</span> Calculate Total Air
+<div id="calculate-total-air-concentration" class="section level2" number="9.6">
+<h2><span class="header-section-number">9.6</span> Calculate Total Air
 Concentration</h2>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a><span class="co"># subset only air samples</span></span>
 <span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a></span>
@@ -2573,12 +2582,12 @@ Concentration</h2>
 <hr />
 </div>
 </div>
-<div id="example-4-plots-and-figures" class="section level1" number="9">
-<h1><span class="header-section-number">9</span> Example 4: Plots and
+<div id="example-4-plots-and-figures" class="section level1" number="10">
+<h1><span class="header-section-number">10</span> Example 4: Plots and
 Figures</h1>
 <p>in progress</p>
-<div id="ggplot2" class="section level2" number="9.1">
-<h2><span class="header-section-number">9.1</span> ggplot2</h2>
+<div id="ggplot2" class="section level2" number="10.1">
+<h2><span class="header-section-number">10.1</span> ggplot2</h2>
 <div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a></span>
 <span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> my_data, <span class="fu">aes</span>(<span class="at">x =</span> variable_x, <span class="at">y =</span> variable_y)) <span class="sc">+</span></span>
@@ -2591,8 +2600,8 @@ Figures</h1>
 <span id="cb35-10"><a href="#cb35-10" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb35-11"><a href="#cb35-11" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
 </div>
-<div id="plotly-interactive-plots" class="section level2" number="9.2">
-<h2><span class="header-section-number">9.2</span> Plotly (Interactive
+<div id="plotly-interactive-plots" class="section level2" number="10.2">
+<h2><span class="header-section-number">10.2</span> Plotly (Interactive
 Plots)</h2>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
 <span id="cb36-2"><a href="#cb36-2" tabindex="-1"></a></span>
@@ -2604,8 +2613,8 @@ Plots)</h2>
 <hr />
 </div>
 </div>
-<div id="r-markdown" class="section level1" number="10">
-<h1><span class="header-section-number">10</span> R Markdown</h1>
+<div id="r-markdown" class="section level1" number="11">
+<h1><span class="header-section-number">11</span> R Markdown</h1>
 <p>R Markdown is a file format that combines plain text, R code, and
 output (plots, tables, results) into a single document. Files are saved
 with the <code>.Rmd</code> extension and can be rendered (“knit”) to
@@ -2613,8 +2622,8 @@ HTML, PDF, or Word. This makes R Markdown especially useful for writing
 reports, sharing analyses, and keeping a record of your workflow since
 the code, results, and written interpretation all live in the same
 file.</p>
-<div id="why-use-r-markdown" class="section level2" number="10.1">
-<h2><span class="header-section-number">10.1</span> Why Use R
+<div id="why-use-r-markdown" class="section level2" number="11.1">
+<h2><span class="header-section-number">11.1</span> Why Use R
 Markdown?</h2>
 <p>In a typical workflow, you might run your analysis in R, copy results
 into Word, paste figures in manually, and update everything by hand
@@ -2634,8 +2643,8 @@ re-knit; the report updates itself</li>
 alongside the code that produced the results</li>
 </ul>
 </div>
-<div id="key-components" class="section level2" number="10.2">
-<h2><span class="header-section-number">10.2</span> Key Components</h2>
+<div id="key-components" class="section level2" number="11.2">
+<h2><span class="header-section-number">11.2</span> Key Components</h2>
 <p>An R Markdown document has three main parts:</p>
 <p><strong>1. YAML Header</strong></p>
 <p>The YAML header sits at the very top of the document. It controls
@@ -2726,8 +2735,8 @@ backticks and <code>{r}</code>:</p>
 <p>When you knit the document, the code runs and the output appears
 directly below the chunk.</p>
 </div>
-<div id="chunk-options" class="section level2" number="10.3">
-<h2><span class="header-section-number">10.3</span> Chunk Options</h2>
+<div id="chunk-options" class="section level2" number="11.3">
+<h2><span class="header-section-number">11.3</span> Chunk Options</h2>
 <p>Chunk options control how each chunk behaves when knitting. They are
 written inside the <code>{r}</code> header:</p>
 <p>Commonly used chunk options:</p>
@@ -2785,13 +2794,13 @@ written inside the <code>{r}</code> header:</p>
 <p>To apply options globally to all chunks, set them in a setup chunk at
 the top of your document:</p>
 </div>
-<div id="in-text-formatting" class="section level2" number="10.4">
-<h2><span class="header-section-number">10.4</span> In-Text
+<div id="in-text-formatting" class="section level2" number="11.4">
+<h2><span class="header-section-number">11.4</span> In-Text
 Formatting</h2>
 <p>Beyond basic Markdown, R Markdown supports a range of formatting
 options useful for scientific writing.</p>
-<div id="superscripts-and-subscripts" class="section level3" number="10.4.1">
-<h3><span class="header-section-number">10.4.1</span> Superscripts and
+<div id="superscripts-and-subscripts" class="section level3" number="11.4.1">
+<h3><span class="header-section-number">11.4.1</span> Superscripts and
 Subscripts</h3>
 <p>Use <code>^</code> for superscripts and <code>~</code> for subscripts
 directly in your text:</p>
@@ -2822,8 +2831,8 @@ directly in your text:</p>
 </tbody>
 </table>
 </div>
-<div id="inline-r-variables" class="section level3" number="10.4.2">
-<h3><span class="header-section-number">10.4.2</span> Inline R
+<div id="inline-r-variables" class="section level3" number="11.4.2">
+<h3><span class="header-section-number">11.4.2</span> Inline R
 Variables</h3>
 <p>Any R object can be printed inline in text using <code>`r `</code>.
 This is one of the most powerful features of R Markdown; values update
@@ -2840,8 +2849,8 @@ manually edit numbers in a report.</p>
 ng/m<sup>3</sup>.</p>
 </blockquote>
 </div>
-<div id="dates" class="section level3" number="10.4.3">
-<h3><span class="header-section-number">10.4.3</span> Dates</h3>
+<div id="dates" class="section level3" number="11.4.3">
+<h3><span class="header-section-number">11.4.3</span> Dates</h3>
 <p>You can insert a static or auto-updating date anywhere in the
 document:</p>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a><span class="co"># In the YAML header — updates every time you knit:</span></span>
@@ -2890,8 +2899,8 @@ document:</p>
 <code>format(Sys.Date(), &quot;%B %d, %Y&quot;)</code> gives
 <code>March 19, 2026</code>.</p>
 </div>
-<div id="inserting-images" class="section level3" number="10.4.4">
-<h3><span class="header-section-number">10.4.4</span> Inserting
+<div id="inserting-images" class="section level3" number="11.4.4">
+<h3><span class="header-section-number">11.4.4</span> Inserting
 Images</h3>
 <p><strong>External images</strong> (from a file) can be inserted with
 standard Markdown syntax or with <code>knitr</code>:</p>
@@ -2930,8 +2939,8 @@ standard Markdown syntax or with <code>knitr</code>:</p>
 organized.</p>
 </blockquote>
 </div>
-<div id="hyperlinks-and-cross-references" class="section level3" number="10.4.5">
-<h3><span class="header-section-number">10.4.5</span> Hyperlinks and
+<div id="hyperlinks-and-cross-references" class="section level3" number="11.4.5">
+<h3><span class="header-section-number">11.4.5</span> Hyperlinks and
 Cross-References</h3>
 <pre><code># Inline hyperlink
 See the [CRAN package list](https://cran.r-project.org) for more.
@@ -2942,8 +2951,8 @@ See the [CRAN package list](https://cran.r-project.org) for more.
 # Reference a section header (HTML output only)
 See [R Basics] or [Installing R and RStudio] for more details.</code></pre>
 </div>
-<div id="math-and-equations" class="section level3" number="10.4.6">
-<h3><span class="header-section-number">10.4.6</span> Math and
+<div id="math-and-equations" class="section level3" number="11.4.6">
+<h3><span class="header-section-number">11.4.6</span> Math and
 Equations</h3>
 <p>R Markdown supports LaTeX math notation for equations. Use single
 <code>$</code> for inline math and double <code>$$</code> for a centered
@@ -2970,8 +2979,8 @@ x_i\]</span></p>
 <code>$</code>. For example, <code>$\mu = 0.05$</code> renders as <span class="math inline">\(\mu = 0.05\)</span>.</p>
 </blockquote>
 </div>
-<div id="text-formatting-quick-reference" class="section level3" number="10.4.7">
-<h3><span class="header-section-number">10.4.7</span> Text Formatting
+<div id="text-formatting-quick-reference" class="section level3" number="11.4.7">
+<h3><span class="header-section-number">11.4.7</span> Text Formatting
 Quick Reference</h3>
 <table>
 <thead>
@@ -3018,8 +3027,8 @@ Quick Reference</h3>
 <hr />
 </div>
 </div>
-<div id="knitting-the-document-1" class="section level2" number="10.5">
-<h2><span class="header-section-number">10.5</span> Knitting the
+<div id="knitting-the-document-1" class="section level2" number="11.5">
+<h2><span class="header-section-number">11.5</span> Knitting the
 Document</h2>
 <p>To render your <code>.Rmd</code> file into the output format
 specified in the YAML header, click the <strong>Knit</strong> button at
@@ -3039,8 +3048,8 @@ interactively but fails when the document runs top to bottom.</p>
 <hr />
 </div>
 </div>
-<div id="example-5-generating-reports-with-r-markdown" class="section level1" number="11">
-<h1><span class="header-section-number">11</span> Example 5: Generating
+<div id="example-5-generating-reports-with-r-markdown" class="section level1" number="12">
+<h1><span class="header-section-number">12</span> Example 5: Generating
 Reports with R Markdown</h1>
 <p>in progress</p>
 <p>R Markdown reports allow you to integrate data, analysis, and text

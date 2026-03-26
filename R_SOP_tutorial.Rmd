@@ -855,7 +855,7 @@ p <- ggplot(data = my_data, aes(x = variable_x, y = variable_y)) +
 ggplotly(p)   # Converts a ggplot to an interactive Plotly figure
 ```
 
----
+
 
 ---
 
