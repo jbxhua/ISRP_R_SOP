@@ -804,8 +804,6 @@ V.eff <- cbind(congener.list,V.eff)
 ## Calculate Total Air Concentration
 
 ```{r calc-concentration}
-
-
 # subset only air samples
 
 sch.mass.idx <- sample.mass
