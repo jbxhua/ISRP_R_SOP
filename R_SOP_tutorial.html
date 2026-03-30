@@ -1575,7 +1575,7 @@ PCBs</h1>
 <p>Dr. Andres Martinez (title)</p>
 <p>4105 SC Dept. Civil and Environmental Engineering University of Iowa
 Iowa City, IA 52240 Email:</p></h4>
-<h4 class="date">Last Revised: March 26, 2026</h4>
+<h4 class="date">Last Revised: March 30, 2026</h4>
 
 </div>
 
@@ -2369,18 +2369,20 @@ congener data from lab and field blanks.</p>
 <h2><span class="header-section-number">7.1</span> Check Normality</h2>
 <p>[edit] 1. library: ggpubr 2. how to import data 3. explain qqplot 4.
 shapiro test, what else to include</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
-<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a></span>
-<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/EX 2/blanks_LOQ_20220919.csv&#39;</span>, <span class="at">header =</span> T, </span>
-<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a>                    <span class="at">encoding =</span> <span class="st">&#39;UTC-8&#39;</span>)</span>
-<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a></span>
-<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a><span class="co"># QQ plot to visually assess normality</span></span>
-<span id="cb25-7"><a href="#cb25-7" tabindex="-1"></a>qq <span class="ot">&lt;-</span> <span class="fu">ggqqplot</span>(my_data<span class="sc">$</span>X52)</span>
-<span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a></span>
-<span id="cb25-9"><a href="#cb25-9" tabindex="-1"></a><span class="fu">print</span>(qq)</span>
-<span id="cb25-10"><a href="#cb25-10" tabindex="-1"></a><span class="co"># Shapiro-Wilk test (formal normality test)</span></span>
-<span id="cb25-11"><a href="#cb25-11" tabindex="-1"></a><span class="fu">shapiro.test</span>(my_data<span class="sc">$</span>x52)</span>
-<span id="cb25-12"><a href="#cb25-12" tabindex="-1"></a><span class="co"># p &gt; 0.05 suggests data are approximately normal</span></span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="co"># The ggpubr library is an extension of the ggplot library and is considered a convenient interface for creating publication- ready plots </span></span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
+<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a><span class="co"># Reading in data from a blanks LOQ file stored in the working directory</span></span>
+<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/EX 2/blanks_LOQ_20220919.csv&#39;</span>, <span class="at">header =</span> T, </span>
+<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a>                    <span class="at">encoding =</span> <span class="st">&#39;UTC-8&#39;</span>)</span>
+<span id="cb25-7"><a href="#cb25-7" tabindex="-1"></a></span>
+<span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a><span class="co"># QQ plot to visually assess normality</span></span>
+<span id="cb25-9"><a href="#cb25-9" tabindex="-1"></a>qq <span class="ot">&lt;-</span> <span class="fu">ggqqplot</span>(my_data<span class="sc">$</span>X52)</span>
+<span id="cb25-10"><a href="#cb25-10" tabindex="-1"></a></span>
+<span id="cb25-11"><a href="#cb25-11" tabindex="-1"></a><span class="fu">print</span>(qq)</span>
+<span id="cb25-12"><a href="#cb25-12" tabindex="-1"></a><span class="co"># Shapiro-Wilk test (formal normality test)</span></span>
+<span id="cb25-13"><a href="#cb25-13" tabindex="-1"></a><span class="fu">shapiro.test</span>(my_data<span class="sc">$</span>X52)</span>
+<span id="cb25-14"><a href="#cb25-14" tabindex="-1"></a><span class="co"># p &gt; 0.05 suggests data are approximately normal</span></span></code></pre></div>
 </div>
 <div id="summary-statistics" class="section level2" number="7.2">
 <h2><span class="header-section-number">7.2</span> Summary
@@ -2391,12 +2393,18 @@ Statistics</h2>
 <span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a><span class="co"># Using dplyr for more control</span></span>
 <span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb26-6"><a href="#cb26-6" tabindex="-1"></a></span>
-<span id="cb26-7"><a href="#cb26-7" tabindex="-1"></a>my_data <span class="sc">%&gt;%</span></span>
-<span id="cb26-8"><a href="#cb26-8" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb26-9"><a href="#cb26-9" tabindex="-1"></a>    <span class="at">mean_val   =</span> <span class="fu">mean</span>(variable_name, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb26-10"><a href="#cb26-10" tabindex="-1"></a>    <span class="at">sd_val     =</span> <span class="fu">sd</span>(variable_name, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb26-11"><a href="#cb26-11" tabindex="-1"></a>    <span class="at">n          =</span> <span class="fu">n</span>()</span>
-<span id="cb26-12"><a href="#cb26-12" tabindex="-1"></a>  )</span></code></pre></div>
+<span id="cb26-7"><a href="#cb26-7" tabindex="-1"></a><span class="co"># The %&gt;% operator is known as the &quot;pipe operator&quot; and is used in R to pass the </span></span>
+<span id="cb26-8"><a href="#cb26-8" tabindex="-1"></a><span class="co"># output of one function as the first argument to the next function in the </span></span>
+<span id="cb26-9"><a href="#cb26-9" tabindex="-1"></a><span class="co"># sequence</span></span>
+<span id="cb26-10"><a href="#cb26-10" tabindex="-1"></a></span>
+<span id="cb26-11"><a href="#cb26-11" tabindex="-1"></a><span class="co"># summarize() creates a new data frame. It returns one row for each combination </span></span>
+<span id="cb26-12"><a href="#cb26-12" tabindex="-1"></a><span class="co"># of grouping variables. </span></span>
+<span id="cb26-13"><a href="#cb26-13" tabindex="-1"></a>my_data <span class="sc">%&gt;%</span></span>
+<span id="cb26-14"><a href="#cb26-14" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb26-15"><a href="#cb26-15" tabindex="-1"></a>    <span class="at">mean_val   =</span> <span class="fu">mean</span>(variable_name, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb26-16"><a href="#cb26-16" tabindex="-1"></a>    <span class="at">sd_val     =</span> <span class="fu">sd</span>(variable_name, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb26-17"><a href="#cb26-17" tabindex="-1"></a>    <span class="at">n          =</span> <span class="fu">n</span>()</span>
+<span id="cb26-18"><a href="#cb26-18" tabindex="-1"></a>  )</span></code></pre></div>
 </div>
 <div id="hypothesis-testing" class="section level2" number="7.3">
 <h2><span class="header-section-number">7.3</span> Hypothesis
@@ -2488,22 +2496,23 @@ concentration determination.</p>
 <span id="cb29-15"><a href="#cb29-15" tabindex="-1"></a>}</span>
 <span id="cb29-16"><a href="#cb29-16" tabindex="-1"></a></span>
 <span id="cb29-17"><a href="#cb29-17" tabindex="-1"></a><span class="co"># concentration calculation</span></span>
-<span id="cb29-18"><a href="#cb29-18" tabindex="-1"></a></span>
-<span id="cb29-19"><a href="#cb29-19" tabindex="-1"></a>conc.calc <span class="ot">&lt;-</span> <span class="cf">function</span>(fsch.air,veff,flist){</span>
-<span id="cb29-20"><a href="#cb29-20" tabindex="-1"></a>  </span>
-<span id="cb29-21"><a href="#cb29-21" tabindex="-1"></a>  sch.conc <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> <span class="fu">nrow</span>(fsch.air), <span class="at">ncol =</span> <span class="fu">ncol</span>(fsch.air)))</span>
-<span id="cb29-22"><a href="#cb29-22" tabindex="-1"></a>  <span class="cf">for</span> (c.i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(fsch.air)) {</span>
-<span id="cb29-23"><a href="#cb29-23" tabindex="-1"></a>    <span class="cf">for</span> (c.j <span class="cf">in</span>  <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(fsch.air)) {</span>
-<span id="cb29-24"><a href="#cb29-24" tabindex="-1"></a>      sch.conc[c.i,c.j] <span class="ot">&lt;-</span> fsch.air[c.i,c.j] <span class="sc">/</span> veff[c.j,<span class="dv">2</span>]</span>
-<span id="cb29-25"><a href="#cb29-25" tabindex="-1"></a>    }</span>
-<span id="cb29-26"><a href="#cb29-26" tabindex="-1"></a>  }</span>
-<span id="cb29-27"><a href="#cb29-27" tabindex="-1"></a>  sch.conc.t <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">rowSums</span>(sch.conc))</span>
-<span id="cb29-28"><a href="#cb29-28" tabindex="-1"></a>  sch.conc.t <span class="ot">&lt;-</span> <span class="fu">signif</span>(sch.conc.t,<span class="dv">2</span>)        <span class="co"># significant figures</span></span>
-<span id="cb29-29"><a href="#cb29-29" tabindex="-1"></a>  <span class="fu">names</span>(sch.conc.t) <span class="ot">&lt;-</span> <span class="st">&#39;Concentration&#39;</span></span>
-<span id="cb29-30"><a href="#cb29-30" tabindex="-1"></a>  sch.conc.t <span class="ot">&lt;-</span> <span class="fu">cbind</span>(flist, sch.conc.t)   <span class="co"># final concentrations ng/m3</span></span>
-<span id="cb29-31"><a href="#cb29-31" tabindex="-1"></a>  </span>
-<span id="cb29-32"><a href="#cb29-32" tabindex="-1"></a>  <span class="fu">return</span>(sch.conc.t)</span>
-<span id="cb29-33"><a href="#cb29-33" tabindex="-1"></a>}</span></code></pre></div>
+<span id="cb29-18"><a href="#cb29-18" tabindex="-1"></a><span class="co"># Here, a new function is defined that can be called and executed in a later part of a script </span></span>
+<span id="cb29-19"><a href="#cb29-19" tabindex="-1"></a></span>
+<span id="cb29-20"><a href="#cb29-20" tabindex="-1"></a>conc.calc <span class="ot">&lt;-</span> <span class="cf">function</span>(fsch.air,veff,flist){</span>
+<span id="cb29-21"><a href="#cb29-21" tabindex="-1"></a>  <span class="co"># Begins by creating a data frame named &quot;sch.conc&quot; with an equal number of rows and columns as fsch.air data frame</span></span>
+<span id="cb29-22"><a href="#cb29-22" tabindex="-1"></a>  sch.conc <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> <span class="fu">nrow</span>(fsch.air), <span class="at">ncol =</span> <span class="fu">ncol</span>(fsch.air))) </span>
+<span id="cb29-23"><a href="#cb29-23" tabindex="-1"></a>  <span class="cf">for</span> (c.i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(fsch.air)) {</span>
+<span id="cb29-24"><a href="#cb29-24" tabindex="-1"></a>    <span class="cf">for</span> (c.j <span class="cf">in</span>  <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(fsch.air)) {</span>
+<span id="cb29-25"><a href="#cb29-25" tabindex="-1"></a>      sch.conc[c.i,c.j] <span class="ot">&lt;-</span> fsch.air[c.i,c.j] <span class="sc">/</span> veff[c.j,<span class="dv">2</span>]  <span class="co"># References row i and column j from the fsch.air data frame</span></span>
+<span id="cb29-26"><a href="#cb29-26" tabindex="-1"></a>    }</span>
+<span id="cb29-27"><a href="#cb29-27" tabindex="-1"></a>  }</span>
+<span id="cb29-28"><a href="#cb29-28" tabindex="-1"></a>  sch.conc.t <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">rowSums</span>(sch.conc)) <span class="co"># Sums the rows of sch.conc </span></span>
+<span id="cb29-29"><a href="#cb29-29" tabindex="-1"></a>  sch.conc.t <span class="ot">&lt;-</span> <span class="fu">signif</span>(sch.conc.t,<span class="dv">2</span>)        <span class="co"># significant figures</span></span>
+<span id="cb29-30"><a href="#cb29-30" tabindex="-1"></a>  <span class="fu">names</span>(sch.conc.t) <span class="ot">&lt;-</span> <span class="st">&#39;Concentration&#39;</span>     <span class="co"># Sets column name to &#39;Concentration&#39; </span></span>
+<span id="cb29-31"><a href="#cb29-31" tabindex="-1"></a>  sch.conc.t <span class="ot">&lt;-</span> <span class="fu">cbind</span>(flist, sch.conc.t)   <span class="co"># final concentrations ng/m3</span></span>
+<span id="cb29-32"><a href="#cb29-32" tabindex="-1"></a>  </span>
+<span id="cb29-33"><a href="#cb29-33" tabindex="-1"></a>  <span class="fu">return</span>(sch.conc.t)</span>
+<span id="cb29-34"><a href="#cb29-34" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div id="import-data" class="section level2" number="9.2">
 <h2><span class="header-section-number">9.2</span> Import Data</h2>
@@ -2513,7 +2522,9 @@ concentration determination.</p>
 <span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a>congener.list <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 3/ogMass_practice.csv&#39;</span>, <span class="at">header =</span> F)</span>
 <span id="cb30-5"><a href="#cb30-5" tabindex="-1"></a>sample.type <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 3/ogSampleType_20220927.csv&#39;</span>, <span class="at">header =</span> T)</span>
 <span id="cb30-6"><a href="#cb30-6" tabindex="-1"></a></span>
-<span id="cb30-7"><a href="#cb30-7" tabindex="-1"></a>congener.list <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(congener.list[<span class="dv">1</span>,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)]))</span></code></pre></div>
+<span id="cb30-7"><a href="#cb30-7" tabindex="-1"></a><span class="co"># Takes the first row, removes first two columns, transposing the remaining </span></span>
+<span id="cb30-8"><a href="#cb30-8" tabindex="-1"></a><span class="co"># values into a column, and converting to a dataframe</span></span>
+<span id="cb30-9"><a href="#cb30-9" tabindex="-1"></a>congener.list <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(congener.list[<span class="dv">1</span>,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)])) </span></code></pre></div>
 </div>
 <div id="set-indoor-air-parameters" class="section level2" number="9.3">
 <h2><span class="header-section-number">9.3</span> Set Indoor Air
@@ -2536,18 +2547,21 @@ Parameters</h2>
 <span id="cb31-15"><a href="#cb31-15" tabindex="-1"></a></span>
 <span id="cb31-16"><a href="#cb31-16" tabindex="-1"></a></span>
 <span id="cb31-17"><a href="#cb31-17" tabindex="-1"></a><span class="co"># koa to kpuf based on temperature</span></span>
-<span id="cb31-18"><a href="#cb31-18" tabindex="-1"></a></span>
-<span id="cb31-19"><a href="#cb31-19" tabindex="-1"></a>kpuf <span class="ot">&lt;-</span> <span class="fu">kpuf.calc</span>(pcb,R,temp.c)</span>
-<span id="cb31-20"><a href="#cb31-20" tabindex="-1"></a>kpuf <span class="ot">&lt;-</span> kpuf <span class="sc">*</span> den.puf</span></code></pre></div>
+<span id="cb31-18"><a href="#cb31-18" tabindex="-1"></a><span class="co"># Calls a previously defined function that is to use pcb, R, and temp.c values</span></span>
+<span id="cb31-19"><a href="#cb31-19" tabindex="-1"></a></span>
+<span id="cb31-20"><a href="#cb31-20" tabindex="-1"></a>kpuf <span class="ot">&lt;-</span> <span class="fu">kpuf.calc</span>(pcb,R,temp.c) </span>
+<span id="cb31-21"><a href="#cb31-21" tabindex="-1"></a>kpuf <span class="ot">&lt;-</span> kpuf <span class="sc">*</span> den.puf</span></code></pre></div>
 </div>
 <div id="calculate-sampling-rate-rs" class="section level2" number="9.4">
 <h2><span class="header-section-number">9.4</span> Calculate Sampling
 Rate (R<sub>s</sub>)</h2>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a>rs <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> <span class="fu">nrow</span>(pcb), <span class="at">ncol =</span> <span class="dv">1</span>))</span>
-<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a></span>
-<span id="cb32-3"><a href="#cb32-3" tabindex="-1"></a><span class="cf">for</span> (l <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(pcb)) {</span>
-<span id="cb32-4"><a href="#cb32-4" tabindex="-1"></a>  rs[l,<span class="dv">1</span>] <span class="ot">&lt;-</span> ((f.on <span class="sc">*</span> (<span class="fu">sqrt</span>(ws.on))) <span class="sc">+</span> (f.off <span class="sc">*</span> (<span class="fu">sqrt</span>(ws.off))))<span class="sc">*</span>(<span class="dv">1</span><span class="sc">/</span>(pcb[l,<span class="dv">3</span>]<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>)))<span class="sc">*</span>(<span class="dv">10</span><span class="sc">^</span>((<span class="fl">0.0012</span><span class="sc">*</span>t.days)<span class="sc">+</span>c))</span>
-<span id="cb32-5"><a href="#cb32-5" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="co"># Creates a dataframe with an equal number of rows as the pcb data frame with </span></span>
+<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a><span class="co"># 1 column</span></span>
+<span id="cb32-3"><a href="#cb32-3" tabindex="-1"></a>rs <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> <span class="fu">nrow</span>(pcb), <span class="at">ncol =</span> <span class="dv">1</span>))</span>
+<span id="cb32-4"><a href="#cb32-4" tabindex="-1"></a></span>
+<span id="cb32-5"><a href="#cb32-5" tabindex="-1"></a><span class="cf">for</span> (l <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(pcb)) {</span>
+<span id="cb32-6"><a href="#cb32-6" tabindex="-1"></a>  rs[l,<span class="dv">1</span>] <span class="ot">&lt;-</span> ((f.on <span class="sc">*</span> (<span class="fu">sqrt</span>(ws.on))) <span class="sc">+</span> (f.off <span class="sc">*</span> (<span class="fu">sqrt</span>(ws.off))))<span class="sc">*</span>(<span class="dv">1</span><span class="sc">/</span>(pcb[l,<span class="dv">3</span>]<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>)))<span class="sc">*</span>(<span class="dv">10</span><span class="sc">^</span>((<span class="fl">0.0012</span><span class="sc">*</span>t.days)<span class="sc">+</span>c))</span>
+<span id="cb32-7"><a href="#cb32-7" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div id="calculate-effective-volume-veff" class="section level2" number="9.5">
 <h2><span class="header-section-number">9.5</span> Calculate Effective
@@ -2560,9 +2574,13 @@ Volume (V<sub>eff</sub>)</h2>
 <span id="cb33-6"><a href="#cb33-6" tabindex="-1"></a><span class="fu">names</span>(v.eff) <span class="ot">&lt;-</span> <span class="st">&#39;V_eff&#39;</span></span>
 <span id="cb33-7"><a href="#cb33-7" tabindex="-1"></a></span>
 <span id="cb33-8"><a href="#cb33-8" tabindex="-1"></a>v.eff <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(v.eff)</span>
-<span id="cb33-9"><a href="#cb33-9" tabindex="-1"></a>V.eff <span class="ot">&lt;-</span> v.eff[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">13</span>,<span class="dv">28</span>,<span class="dv">29</span>,<span class="dv">30</span>,<span class="dv">33</span>,<span class="dv">47</span>,<span class="dv">53</span>,<span class="dv">62</span>,<span class="dv">65</span>,<span class="dv">69</span>,<span class="dv">70</span>,<span class="dv">71</span>,<span class="dv">74</span>,<span class="dv">75</span>,<span class="dv">76</span>,<span class="dv">97</span>,<span class="dv">100</span>,<span class="dv">101</span>,<span class="dv">109</span>,<span class="dv">113</span>,<span class="dv">116</span>,<span class="dv">119</span>,<span class="dv">124</span>,<span class="dv">125</span>,<span class="dv">138</span>,<span class="dv">140</span>,<span class="dv">149</span>,</span>
-<span id="cb33-10"><a href="#cb33-10" tabindex="-1"></a>                  <span class="dv">151</span>,<span class="dv">157</span>,<span class="dv">163</span>,<span class="dv">166</span>,<span class="dv">168</span>,<span class="dv">173</span>,<span class="dv">193</span>,<span class="dv">199</span>,<span class="dv">204</span>),]</span>
-<span id="cb33-11"><a href="#cb33-11" tabindex="-1"></a>V.eff <span class="ot">&lt;-</span> <span class="fu">cbind</span>(congener.list,V.eff)</span></code></pre></div>
+<span id="cb33-9"><a href="#cb33-9" tabindex="-1"></a></span>
+<span id="cb33-10"><a href="#cb33-10" tabindex="-1"></a><span class="co"># Remove specific congeners from data frame</span></span>
+<span id="cb33-11"><a href="#cb33-11" tabindex="-1"></a>V.eff <span class="ot">&lt;-</span> v.eff[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">13</span>,<span class="dv">28</span>,<span class="dv">29</span>,<span class="dv">30</span>,<span class="dv">33</span>,<span class="dv">47</span>,<span class="dv">53</span>,<span class="dv">62</span>,<span class="dv">65</span>,<span class="dv">69</span>,<span class="dv">70</span>,<span class="dv">71</span>,<span class="dv">74</span>,<span class="dv">75</span>,<span class="dv">76</span>,<span class="dv">97</span>,<span class="dv">100</span>,<span class="dv">101</span>,<span class="dv">109</span>,<span class="dv">113</span>,<span class="dv">116</span>,<span class="dv">119</span>,<span class="dv">124</span>,<span class="dv">125</span>,<span class="dv">138</span>,<span class="dv">140</span>,<span class="dv">149</span>,</span>
+<span id="cb33-12"><a href="#cb33-12" tabindex="-1"></a>                  <span class="dv">151</span>,<span class="dv">157</span>,<span class="dv">163</span>,<span class="dv">166</span>,<span class="dv">168</span>,<span class="dv">173</span>,<span class="dv">193</span>,<span class="dv">199</span>,<span class="dv">204</span>),]</span>
+<span id="cb33-13"><a href="#cb33-13" tabindex="-1"></a></span>
+<span id="cb33-14"><a href="#cb33-14" tabindex="-1"></a><span class="co"># Combine the congener.list and V.eff data frame into a single data frame </span></span>
+<span id="cb33-15"><a href="#cb33-15" tabindex="-1"></a>V.eff <span class="ot">&lt;-</span> <span class="fu">cbind</span>(congener.list,V.eff) </span></code></pre></div>
 </div>
 <div id="calculate-total-air-concentration" class="section level2" number="9.6">
 <h2><span class="header-section-number">9.6</span> Calculate Total Air
@@ -2609,7 +2627,6 @@ Plots)</h2>
 <span id="cb36-4"><a href="#cb36-4" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span>
 <span id="cb36-5"><a href="#cb36-5" tabindex="-1"></a></span>
 <span id="cb36-6"><a href="#cb36-6" tabindex="-1"></a><span class="fu">ggplotly</span>(p)   <span class="co"># Converts a ggplot to an interactive Plotly figure</span></span></code></pre></div>
-<hr />
 <hr />
 </div>
 </div>

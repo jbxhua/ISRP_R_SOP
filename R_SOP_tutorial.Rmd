@@ -585,8 +585,10 @@ This and subsequent sections will build on the skills introduced in the previous
 4. shapiro test, what else to include
 
 ```{r normality}
+# The ggpubr library is an extension of the ggplot library and is considered a convenient interface for creating publication- ready plots 
 library(ggpubr)
 
+# Reading in data from a blanks LOQ file stored in the working directory
 my_data <- read.csv('./Example Data/EX 2/blanks_LOQ_20220919.csv', header = T, 
                     encoding = 'UTC-8')
 
@@ -595,7 +597,7 @@ qq <- ggqqplot(my_data$X52)
 
 print(qq)
 # Shapiro-Wilk test (formal normality test)
-shapiro.test(my_data$x52)
+shapiro.test(my_data$X52)
 # p > 0.05 suggests data are approximately normal
 ```
 
@@ -608,6 +610,12 @@ summary(my_data)
 # Using dplyr for more control
 library(dplyr)
 
+# The %>% operator is known as the "pipe operator" and is used in R to pass the 
+# output of one function as the first argument to the next function in the 
+# sequence
+
+# summarize() creates a new data frame. It returns one row for each combination 
+# of grouping variables. 
 my_data %>%
   summarize(
     mean_val   = mean(variable_name, na.rm = TRUE),
@@ -710,18 +718,19 @@ kpuf.calc <- function(pcb, R, temp.c) {
 }
 
 # concentration calculation
+# Here, a new function is defined that can be called and executed in a later part of a script 
 
 conc.calc <- function(fsch.air,veff,flist){
-  
-  sch.conc <- data.frame(matrix(nrow = nrow(fsch.air), ncol = ncol(fsch.air)))
+  # Begins by creating a data frame named "sch.conc" with an equal number of rows and columns as fsch.air data frame
+  sch.conc <- data.frame(matrix(nrow = nrow(fsch.air), ncol = ncol(fsch.air))) 
   for (c.i in 1:nrow(fsch.air)) {
     for (c.j in  1:ncol(fsch.air)) {
-      sch.conc[c.i,c.j] <- fsch.air[c.i,c.j] / veff[c.j,2]
+      sch.conc[c.i,c.j] <- fsch.air[c.i,c.j] / veff[c.j,2]  # References row i and column j from the fsch.air data frame
     }
   }
-  sch.conc.t <- as.data.frame(rowSums(sch.conc))
+  sch.conc.t <- as.data.frame(rowSums(sch.conc)) # Sums the rows of sch.conc 
   sch.conc.t <- signif(sch.conc.t,2)        # significant figures
-  names(sch.conc.t) <- 'Concentration'
+  names(sch.conc.t) <- 'Concentration'     # Sets column name to 'Concentration' 
   sch.conc.t <- cbind(flist, sch.conc.t)   # final concentrations ng/m3
   
   return(sch.conc.t)
@@ -740,7 +749,9 @@ sample.mass <- read.csv('./Example Data/Ex 3/ogMass_practice.csv', header = T)
 congener.list <- read.csv('./Example Data/Ex 3/ogMass_practice.csv', header = F)
 sample.type <- read.csv('./Example Data/Ex 3/ogSampleType_20220927.csv', header = T)
 
-congener.list <- as.data.frame(t(congener.list[1,-c(1:2)]))
+# Takes the first row, removes first two columns, transposing the remaining 
+# values into a column, and converting to a dataframe
+congener.list <- as.data.frame(t(congener.list[1,-c(1:2)])) 
 
 ```
 
@@ -767,8 +778,9 @@ names(cong) <- 'Congener'
 
 
 # koa to kpuf based on temperature
+# Calls a previously defined function that is to use pcb, R, and temp.c values
 
-kpuf <- kpuf.calc(pcb,R,temp.c)
+kpuf <- kpuf.calc(pcb,R,temp.c) 
 kpuf <- kpuf * den.puf
 ```
 
@@ -776,6 +788,8 @@ kpuf <- kpuf * den.puf
 
 ```{r calc-rs}
 
+# Creates a dataframe with an equal number of rows as the pcb data frame with 
+# 1 column
 rs <- data.frame(matrix(nrow = nrow(pcb), ncol = 1))
 
 for (l in 1:nrow(pcb)) {
@@ -796,9 +810,13 @@ for (ii in 1:nrow(pcb)) {
 names(v.eff) <- 'V_eff'
 
 v.eff <- as.data.frame(v.eff)
+
+# Remove specific congeners from data frame
 V.eff <- v.eff[-c(13,28,29,30,33,47,53,62,65,69,70,71,74,75,76,97,100,101,109,113,116,119,124,125,138,140,149,
                   151,157,163,166,168,173,193,199,204),]
-V.eff <- cbind(congener.list,V.eff)
+
+# Combine the congener.list and V.eff data frame into a single data frame 
+V.eff <- cbind(congener.list,V.eff) 
 ```
 
 ## Calculate Total Air Concentration
