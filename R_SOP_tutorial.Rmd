@@ -578,14 +578,12 @@ This and subsequent sections will build on the skills introduced in the previous
 
 ## Check Normality
 
-[edit]
-1. library: ggpubr
-2. how to import data
-3. explain qqplot
-4. shapiro test, what else to include
+A QQ (quantile-quantile) plot is a graphical tool used to assess whether a dataset follows a particular theoretical distribution. In this case, we are checking if the data follows a normal distribution. It works by plotting the quantiles of the observed data against the quantiles expected under normality. If the data are approximately normal, the points will fall roughly along a straight diagonal line. Deviations from this line suggest departures from normality. 
+
+The Shapiro-Wilk test complements this visual assessment by providing a formal statistical test of normality. It computes a test statistic that measures how well the observed data conform to a normal distribution, producing a p-value as its output. A p-value greater than 0.05 is typically interpreted as insufficient evidence to reject the null hypothesis that the data are normally distributed, suggesting the data are approximately normal. Together, the QQ plot and Shapiro-Wilk test are commonly used in tandem because the plot offers intuitive visual insight while the test provides an objective, quantifiable decision criterion.
 
 ```{r normality}
-# The ggpubr library is an extension of the ggplot library and is considered a convenient interface for creating publication- ready plots 
+# The ggpubr library is an extension of the ggplot library and is considered a convenient interface for creating publication ready plots 
 library(ggpubr)
 
 # Reading in data from a blanks LOQ file stored in the working directory
@@ -603,11 +601,24 @@ shapiro.test(my_data$X52)
 
 ## Summary Statistics
 
-```{r summary-stats}
-# Base R summary
-summary(my_data)
 
-# Using dplyr for more control
+
+```{r summary-stats}
+
+sch_data <- read.csv('./Example Data/EX 4/schoolData.csv', header = T, 
+                    encoding = 'UTC-8')
+
+# Dataframe columns can be indexed using $ following the format dataframe$columnName.
+# New columns can also be created using this syntax:
+
+sch_data$sum <- rowSums(sch_data[ , c(7:length(sch_data))])
+
+# Base R summary
+summary(sch_data$sum)
+
+# The dplyr library is a powerful library that allows users to easily manipulate matrices and dataframes.
+# For more information, run ?dplyr in the console.
+
 library(dplyr)
 
 # The %>% operator is known as the "pipe operator" and is used in R to pass the 
@@ -616,12 +627,64 @@ library(dplyr)
 
 # summarize() creates a new data frame. It returns one row for each combination 
 # of grouping variables. 
-my_data %>%
+
+total.summary <- sch_data %>%
   summarize(
-    mean_val   = mean(variable_name, na.rm = TRUE),
-    sd_val     = sd(variable_name, na.rm = TRUE),
+    minimum = min(sum, na.rm = TRUE),
+    mean = mean(sum, na.rm = TRUE),
+    sd = sd(sum, na.rm = TRUE),
+    maximum = max(sum, na.rm = TRUE),
+    n = n()
+  )
+
+total.summary
+
+# The dplyr library also makes it easy to group categories together. For example, you can group data from this dataset by school, sample type (air or emissions), materials, or room. The categories in this case are the columns.
+
+# Summary grouped by sample type. 
+
+type.sum <- sch_data %>%
+  group_by(sampletype) %>%
+  summarize(
+    minimum    = min(sum, na.rm = TRUE),
+    mean_val   = mean(sum, na.rm = TRUE),
+    sd_val     = sd(sum, na.rm = TRUE),
+    maximum    = max(sum, na.rm = TRUE),
     n          = n()
   )
+
+type.sum
+  
+# Summary grouped by school.
+
+sch.sum <- sch_data %>%
+  group_by(school) %>%
+  summarize(
+    minimum    = min(sum, na.rm = TRUE),
+    mean_val   = mean(sum, na.rm = TRUE),
+    sd_val     = sd(sum, na.rm = TRUE),
+    maximum    = max(sum, na.rm = TRUE),
+    n          = n()
+  )
+
+sch.sum
+
+# You can also group multiple categories at once.
+
+combo.sum <- sch_data %>%
+  group_by(sampletype, school, materials) %>%
+  summarize(
+    minimum    = min(sum, na.rm = TRUE),
+    mean_val   = mean(sum, na.rm = TRUE),
+    sd_val     = sd(sum, na.rm = TRUE),
+    maximum    = max(sum, na.rm = TRUE),
+    n          = n()
+  )
+
+combo.sum
+
+# Sometimes, there might be NAs in the resulting summary. In this case, there isn't always enough samples from a category to calculate a standard deviation. Therefore, it will return an NA in its place.
+
 ```
 
 ## Hypothesis Testing
