@@ -804,9 +804,9 @@ summary(final.loq)
 
 # Example 3: Calculate Air Concentration
 
-In this section, we calculate indoor air concentration using the sampling rate (R~s~) of a PUF-PAS and the effective volume (V~eff~).
+In this section, we calculate indoor air concentration using the sampling rate (R~s~) of a PUF-PAS and the effective volume (V~eff~). Data required to calculate air concentrations include: congener specific properties (see kpuf.csv and koaCalc.csv), congener specific mass, general room conditions, deployment time
 
-> **Note:** Outdoor air requires a different method for concentration determination.
+> **Note:** This calculation is specifically for PUF-PAS deployed indoors. Outdoor air requires a different method for concentration determination.
 
 ## For Loops
 
@@ -888,6 +888,10 @@ conc.calc <- function(fsch.air,veff,flist){
 
 ## Import Data
 
+Import data provided from the "Ex 3" folder. This includes PCB congener properties, sample mass from Hua et al. 2023 (https://doi.org/10.1021/acs.est.3c05195), and sample type information.
+
+Parameters used in this model are from Herkert et al. 2018 (https://doi.org/10.1039/C7EM00360A) and Bannavti and Jahnke et al. 2021 (https://doi.org/10.1021/acs.est.0c08149). 
+
 ```{r import-air}
 
 pcb <- read.csv('./Example Data/Ex 3/koaCalc.csv', header = T)      # pcb values for calculation koa
@@ -904,25 +908,24 @@ congener.list <- as.data.frame(t(congener.list[1,-c(1:2)]))
 
 ## Set Indoor Air Parameters
 
-*(See paper YYY for parameter values.)*
+Here, we initialize our variables based on values from Herkert et al. 2018 and Bannavti and Jahnke et al. 2021. These can differ depending on the nature of the project. 
 
 ```{r air-params}
 
-t.days <- 29
-ws.on <- 0.11   #m/s
-ws.off <- 0.07  #m/s
-f.on <- 0.36
-f.off <- 1 - f.on
-c <- 1.326
-puf.sa = 0.0153 #m2
-v.puf <- 2.295e-04 #m3 
-v.puf.t <- as.character(v.puf)
-den.puf <- 21300 #g/m3 
-temp.c = 23                # enter temperature in C (73 F used)
-R = 8.3144               # gas constant
+t.days <- 29    #deployment time, days
+ws.on <- 0.11   #indoor wind speed when HVAC is on, m/s
+ws.off <- 0.07  #indoor wind speed when HVAC is off, m/s
+f.on <- 0.36    #fraction HVAC is on, unitless
+f.off <- 1 - f.on #fraction HVAC is off, unitless
+c <- 1.326      #sampler constant, unitless
+puf.sa <- 0.0153 #PUF surface area, m2
+v.puf <- 2.295e-04 #PUF volume, m3 
+den.puf <- 21300 #PUF density, g/m3 
+temp.c = 23      # temperature in C (73 F used)
+R = 8.3144       # gas constant
+
 cong <- pcb[,1]
 names(cong) <- 'Congener'
-
 
 # koa to kpuf based on temperature
 # Calls a previously defined function that is to use pcb, R, and temp.c values
@@ -932,6 +935,8 @@ kpuf <- kpuf * den.puf
 ```
 
 ## Calculate Sampling Rate (R~s~)
+
+$$ R_{s} = (f_{on}\sqrt{WS_{on}}+f_{off}\sqrt{WS_{off}})({1 \over \root 3\of{MW}})10^{[0.0012T+c]}$$
 
 ```{r calc-rs}
 
@@ -946,6 +951,8 @@ for (l in 1:nrow(pcb)) {
 ```
 
 ## Calculate Effective Volume (V~eff~)
+
+$$V_{eff} = (V_{PUF}K_{PUF})[1-e^{-R_{S}t\over V_{PUF}K_{PUF}}]$$
 
 ```{r calc-veff}
 
@@ -1213,7 +1220,7 @@ R Markdown supports LaTeX math notation for equations. Use single `$` for inline
 The equation is $y = mx + b$.
 
 # Display equation (centered on its own line)
-$$V_{eff} = R_s \times t \times f$$
+$$V_{sphere} = \frac{4}{3} \times \pi \times r^{3}$$
 
 # More complex example
 $$\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i$$
@@ -1223,7 +1230,7 @@ Renders as:
 
 > The equation is $y = mx + b$.
 
-$$V_{eff} = R_s \times t \times f$$
+$$V_{sphere} = \frac{4}{3} \times \pi \times r^{3}$$
 
 $$\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i$$
 

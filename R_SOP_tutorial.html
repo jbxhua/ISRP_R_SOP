@@ -2597,9 +2597,12 @@ blank masses in the LOQ calculations.</p>
 Air Concentration</h1>
 <p>In this section, we calculate indoor air concentration using the
 sampling rate (R<sub>s</sub>) of a PUF-PAS and the effective volume
-(V<sub>eff</sub>).</p>
+(V<sub>eff</sub>). Data required to calculate air concentrations
+include: congener specific properties (see kpuf.csv and koaCalc.csv),
+congener specific mass, general room conditions, deployment time</p>
 <blockquote>
-<p><strong>Note:</strong> Outdoor air requires a different method for
+<p><strong>Note:</strong> This calculation is specifically for PUF-PAS
+deployed indoors. Outdoor air requires a different method for
 concentration determination.</p>
 </blockquote>
 <div id="for-loops" class="section level2" number="9.1">
@@ -2683,6 +2686,11 @@ be used to calculate air concentrations.</p>
 </div>
 <div id="import-data" class="section level2" number="9.3">
 <h2><span class="header-section-number">9.3</span> Import Data</h2>
+<p>Import data provided from the “Ex 3” folder. This includes PCB
+congener properties, sample mass from Hua et al. 2023 (<a href="https://doi.org/10.1021/acs.est.3c05195" class="uri">https://doi.org/10.1021/acs.est.3c05195</a>), and sample
+type information.</p>
+<p>Parameters used in this model are from Herkert et al. 2018 (<a href="https://doi.org/10.1039/C7EM00360A" class="uri">https://doi.org/10.1039/C7EM00360A</a>) and Bannavti and
+Jahnke et al. 2021 (<a href="https://doi.org/10.1021/acs.est.0c08149" class="uri">https://doi.org/10.1021/acs.est.0c08149</a>).</p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a>pcb <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 3/koaCalc.csv&#39;</span>, <span class="at">header =</span> T)      <span class="co"># pcb values for calculation koa</span></span>
 <span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a>kpuf <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 3/kpuf.csv&#39;</span>, <span class="at">header =</span> T)</span>
 <span id="cb32-3"><a href="#cb32-3" tabindex="-1"></a>sample.mass <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 3/ogMass_practice.csv&#39;</span>, <span class="at">header =</span> T)</span>
@@ -2696,32 +2704,36 @@ be used to calculate air concentrations.</p>
 <div id="set-indoor-air-parameters" class="section level2" number="9.4">
 <h2><span class="header-section-number">9.4</span> Set Indoor Air
 Parameters</h2>
-<p><em>(See paper YYY for parameter values.)</em></p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a>t.days <span class="ot">&lt;-</span> <span class="dv">29</span></span>
-<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a>ws.on <span class="ot">&lt;-</span> <span class="fl">0.11</span>   <span class="co">#m/s</span></span>
-<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a>ws.off <span class="ot">&lt;-</span> <span class="fl">0.07</span>  <span class="co">#m/s</span></span>
-<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a>f.on <span class="ot">&lt;-</span> <span class="fl">0.36</span></span>
-<span id="cb33-5"><a href="#cb33-5" tabindex="-1"></a>f.off <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> f.on</span>
-<span id="cb33-6"><a href="#cb33-6" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fl">1.326</span></span>
-<span id="cb33-7"><a href="#cb33-7" tabindex="-1"></a>puf.sa <span class="ot">=</span> <span class="fl">0.0153</span> <span class="co">#m2</span></span>
-<span id="cb33-8"><a href="#cb33-8" tabindex="-1"></a>v.puf <span class="ot">&lt;-</span> <span class="fl">2.295e-04</span> <span class="co">#m3 </span></span>
-<span id="cb33-9"><a href="#cb33-9" tabindex="-1"></a>v.puf.t <span class="ot">&lt;-</span> <span class="fu">as.character</span>(v.puf)</span>
-<span id="cb33-10"><a href="#cb33-10" tabindex="-1"></a>den.puf <span class="ot">&lt;-</span> <span class="dv">21300</span> <span class="co">#g/m3 </span></span>
-<span id="cb33-11"><a href="#cb33-11" tabindex="-1"></a>temp.c <span class="ot">=</span> <span class="dv">23</span>                <span class="co"># enter temperature in C (73 F used)</span></span>
-<span id="cb33-12"><a href="#cb33-12" tabindex="-1"></a>R <span class="ot">=</span> <span class="fl">8.3144</span>               <span class="co"># gas constant</span></span>
+<p>Here, we initialize our variables based on values from Herkert et
+al. 2018 and Bannavti and Jahnke et al. 2021. These can differ depending
+on the nature of the project.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a>t.days <span class="ot">&lt;-</span> <span class="dv">29</span>    <span class="co">#deployment time, days</span></span>
+<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a>ws.on <span class="ot">&lt;-</span> <span class="fl">0.11</span>   <span class="co">#indoor wind speed when HVAC is on, m/s</span></span>
+<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a>ws.off <span class="ot">&lt;-</span> <span class="fl">0.07</span>  <span class="co">#indoor wind speed when HVAC is off, m/s</span></span>
+<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a>f.on <span class="ot">&lt;-</span> <span class="fl">0.36</span>    <span class="co">#fraction HVAC is on, unitless</span></span>
+<span id="cb33-5"><a href="#cb33-5" tabindex="-1"></a>f.off <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> f.on <span class="co">#fraction HVAC is off, unitless</span></span>
+<span id="cb33-6"><a href="#cb33-6" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fl">1.326</span>      <span class="co">#sampler constant, unitless</span></span>
+<span id="cb33-7"><a href="#cb33-7" tabindex="-1"></a>puf.sa <span class="ot">&lt;-</span> <span class="fl">0.0153</span> <span class="co">#PUF surface area, m2</span></span>
+<span id="cb33-8"><a href="#cb33-8" tabindex="-1"></a>v.puf <span class="ot">&lt;-</span> <span class="fl">2.295e-04</span> <span class="co">#PUF volume, m3 </span></span>
+<span id="cb33-9"><a href="#cb33-9" tabindex="-1"></a>den.puf <span class="ot">&lt;-</span> <span class="dv">21300</span> <span class="co">#PUF density, g/m3 </span></span>
+<span id="cb33-10"><a href="#cb33-10" tabindex="-1"></a>temp.c <span class="ot">=</span> <span class="dv">23</span>      <span class="co"># temperature in C (73 F used)</span></span>
+<span id="cb33-11"><a href="#cb33-11" tabindex="-1"></a>R <span class="ot">=</span> <span class="fl">8.3144</span>       <span class="co"># gas constant</span></span>
+<span id="cb33-12"><a href="#cb33-12" tabindex="-1"></a></span>
 <span id="cb33-13"><a href="#cb33-13" tabindex="-1"></a>cong <span class="ot">&lt;-</span> pcb[,<span class="dv">1</span>]</span>
 <span id="cb33-14"><a href="#cb33-14" tabindex="-1"></a><span class="fu">names</span>(cong) <span class="ot">&lt;-</span> <span class="st">&#39;Congener&#39;</span></span>
 <span id="cb33-15"><a href="#cb33-15" tabindex="-1"></a></span>
-<span id="cb33-16"><a href="#cb33-16" tabindex="-1"></a></span>
-<span id="cb33-17"><a href="#cb33-17" tabindex="-1"></a><span class="co"># koa to kpuf based on temperature</span></span>
-<span id="cb33-18"><a href="#cb33-18" tabindex="-1"></a><span class="co"># Calls a previously defined function that is to use pcb, R, and temp.c values</span></span>
-<span id="cb33-19"><a href="#cb33-19" tabindex="-1"></a></span>
-<span id="cb33-20"><a href="#cb33-20" tabindex="-1"></a>kpuf <span class="ot">&lt;-</span> <span class="fu">kpuf.calc</span>(pcb,R,temp.c) </span>
-<span id="cb33-21"><a href="#cb33-21" tabindex="-1"></a>kpuf <span class="ot">&lt;-</span> kpuf <span class="sc">*</span> den.puf</span></code></pre></div>
+<span id="cb33-16"><a href="#cb33-16" tabindex="-1"></a><span class="co"># koa to kpuf based on temperature</span></span>
+<span id="cb33-17"><a href="#cb33-17" tabindex="-1"></a><span class="co"># Calls a previously defined function that is to use pcb, R, and temp.c values</span></span>
+<span id="cb33-18"><a href="#cb33-18" tabindex="-1"></a></span>
+<span id="cb33-19"><a href="#cb33-19" tabindex="-1"></a>kpuf <span class="ot">&lt;-</span> <span class="fu">kpuf.calc</span>(pcb,R,temp.c) </span>
+<span id="cb33-20"><a href="#cb33-20" tabindex="-1"></a>kpuf <span class="ot">&lt;-</span> kpuf <span class="sc">*</span> den.puf</span></code></pre></div>
 </div>
 <div id="calculate-sampling-rate-rs" class="section level2" number="9.5">
 <h2><span class="header-section-number">9.5</span> Calculate Sampling
 Rate (R<sub>s</sub>)</h2>
+<p><span class="math display">\[ R_{s} =
+(f_{on}\sqrt{WS_{on}}+f_{off}\sqrt{WS_{off}})({1 \over \root
+3\of{MW}})10^{[0.0012T+c]}\]</span></p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a><span class="co"># Creates a dataframe with an equal number of rows as the pcb data frame with </span></span>
 <span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a><span class="co"># 1 column</span></span>
 <span id="cb34-3"><a href="#cb34-3" tabindex="-1"></a>rs <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> <span class="fu">nrow</span>(pcb), <span class="at">ncol =</span> <span class="dv">1</span>))</span>
@@ -2733,6 +2745,8 @@ Rate (R<sub>s</sub>)</h2>
 <div id="calculate-effective-volume-veff" class="section level2" number="9.6">
 <h2><span class="header-section-number">9.6</span> Calculate Effective
 Volume (V<sub>eff</sub>)</h2>
+<p><span class="math display">\[V_{eff} =
+(V_{PUF}K_{PUF})[1-e^{-R_{S}t\over V_{PUF}K_{PUF}}]\]</span></p>
 <div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a>v.eff <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> <span class="fu">nrow</span>(pcb), <span class="at">ncol =</span> <span class="dv">1</span>))</span>
 <span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a></span>
 <span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a><span class="cf">for</span> (ii <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(pcb)) {</span>
@@ -3145,7 +3159,7 @@ display equation:</p>
 The equation is $y = mx + b$.
 
 # Display equation (centered on its own line)
-$$V_{eff} = R_s \times t \times f$$
+$$V_{sphere} = \frac{4}{3} \times \pi \times r^{3}$$
 
 # More complex example
 $$\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i$$</code></pre>
@@ -3153,8 +3167,8 @@ $$\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i$$</code></pre>
 <blockquote>
 <p>The equation is <span class="math inline">\(y = mx + b\)</span>.</p>
 </blockquote>
-<p><span class="math display">\[V_{eff} = R_s \times t \times
-f\]</span></p>
+<p><span class="math display">\[V_{sphere} = \frac{4}{3} \times \pi
+\times r^{3}\]</span></p>
 <p><span class="math display">\[\bar{x} = \frac{1}{n}\sum_{i=1}^{n}
 x_i\]</span></p>
 <blockquote>
