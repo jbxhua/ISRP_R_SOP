@@ -808,6 +808,16 @@ In this section, we calculate indoor air concentration using the sampling rate (
 
 > **Note:** Outdoor air requires a different method for concentration determination.
 
+## For Loops
+
+For loops are an essential part of coding that is useful for a variety of tasks.
+
+```{r for-loops}
+
+
+
+```
+
 ## Functions 
 
 In R, custom functions allow you to package a block of code into a reusable unit that can be called whenever needed. Rather than copying and pasting the same lines of code multiple times throughout your script, you define a function once and simply call it by name. 
