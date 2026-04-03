@@ -692,17 +692,67 @@ combo.sum
 ```{r hypothesis-testing}
 
 
-# Using dplyr for more control
-library(dplyr)
+# Built-in dataset comparing tooth growth in guinea pigs.
+data("ToothGrowth")
 
-my_data %>%
-  summarize(
-    mean_val   = mean(variable_name, na.rm = TRUE),
-    sd_val     = sd(variable_name, na.rm = TRUE),
-    n          = n()
-  )
+# Two groups: vitamin C delivered via orange juice (OJ) vs ascorbic acid (VC)
+oj <- ToothGrowth$len[ToothGrowth$supp == "OJ"]
+vc <- ToothGrowth$len[ToothGrowth$supp == "VC"]
+
+# Check normality for each group before testing
+shapiro.test(oj)
+shapiro.test(vc)
+
+# Independent samples t-test
+# H0: There is no difference in mean tooth length between groups
+# H1: There is a difference in mean tooth length between groups
+result <- t.test(oj, vc)
+print(result)
+
+# p-value = 0.06, therefore we fail to reject the null hypothesis.
+
+# Visualize the comparison
+library(ggpubr)
+ggboxplot(ToothGrowth, x = "supp", y = "len",
+          color = "supp",
+          xlab = "Supplement Type",
+          ylab = "Tooth Length",
+          title = "Tooth Length by Supplement Type")
+
 ```
+## ANOVA
 
+This example shows how to perform ANOVA test in R. Caution: ensure that you are comfortable with setting up and performing an ANOVA test before using this code. The example here was only produced to demonstrate how the code functions. This is not a statistics tutorial.
+
+```{r anova}
+
+library(ggpubr)
+
+# Using the built-in PlantGrowth dataset
+# Three groups: control, treatment 1, treatment 2
+data("PlantGrowth")
+
+# Check normality for each group
+by(PlantGrowth$weight, PlantGrowth$group, shapiro.test)
+
+# One-way ANOVA
+# H0: There is no difference in mean plant weight across groups
+# H1: At least one group mean differs from the others
+result <- aov(weight ~ group, data = PlantGrowth)
+summary(result)
+
+# Post-hoc test (Tukey's HSD) to identify WHICH groups differ
+# Only interpreted if ANOVA p-value is significant
+TukeyHSD(result)
+
+# Visualize
+ggboxplot(PlantGrowth, x = "group", y = "weight",
+          color = "group",
+          xlab = "Treatment Group",
+          ylab = "Plant Weight",
+          title = "Plant Weight by Treatment Group")
+
+```
 ---
 
 # Example 2: Calculate LOQ
