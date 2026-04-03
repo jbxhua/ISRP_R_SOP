@@ -810,10 +810,28 @@ In this section, we calculate indoor air concentration using the sampling rate (
 
 ## For Loops
 
-For loops are an essential part of coding that is useful for a variety of tasks.
+Loops are an essential part of coding that is useful for a variety of tasks.They allow you to repeat a block of code a set number of times, iterating over a sequence or collection of values automatically. Rather than writing out the same operation manually for each item, loops move through each element one by one and applies the same logic to each.
+
+For loops are a type of loop that iterates over a user-specified interval. Code inside the for loop will repeat until the end condition is met. 
 
 ```{r for-loops}
 
+# A vector of numbers
+
+numbers <- c(2, 4, 6, 8, 10)
+
+# For loop that prints the square of each number
+# i is the variable or value being iterated. Each time the loop restarts, i increases.
+
+for (i in numbers) {
+  
+  squared <- i^2
+  
+  # cat() (concatenate) prints the combination of variables or text provided in the parentheses. 
+  
+  cat(i, "squared is", squared, "\n") 
+  
+}
 
 
 ```
