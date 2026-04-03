@@ -810,9 +810,15 @@ In this section, we calculate indoor air concentration using the sampling rate (
 
 ## Functions 
 
-add paragraph here explaining functions
+In R, custom functions allow you to package a block of code into a reusable unit that can be called whenever needed. Rather than copying and pasting the same lines of code multiple times throughout your script, you define a function once and simply call it by name. 
+
+A function takes in inputs called arguments, performs some operations on them, and returns an output. For example, you might write a function that accepts  variables and runs calculations. That entire workflow can be executed with a single line of code rather than rewriting it each time. This becomes especially useful as your scripts grow more complex, keeping your code organized, readable, and less prone to errors that can creep in when duplicating code manually.
+
+This example shows how to structure a custom function and how it can be used to calculate air concentrations.
 
 ```{r air-functions}
+
+# To calculate PCB air concentrations from a PUF-PAS, first, the k_puf must be calculated.
 
 # kpuf calculations
 
