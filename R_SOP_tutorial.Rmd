@@ -478,7 +478,7 @@ Data frames are most commonly created by reading in data files:
 
 ```{r data-frames}
 # Read a CSV file into a data frame
-my_data <- read.csv("data/my_file.csv")
+my_data <- read.csv("Example Data/my_file.csv")
 
 # Read a tab-delimited file
 my_data <- read.table("data/my_file.txt", header = TRUE, sep = "\t")
@@ -587,7 +587,7 @@ The Shapiro-Wilk test complements this visual assessment by providing a formal s
 library(ggpubr)
 
 # Reading in data from a blanks LOQ file stored in the working directory
-my_data <- read.csv('./Example Data/EX 2/blanks_LOQ_20220919.csv', header = T, 
+my_data <- read.csv('./Example Data/EX 1/blanks_LOQ_20220919.csv', header = T, 
                     encoding = 'UTC-8')
 
 # QQ plot to visually assess normality
@@ -605,7 +605,7 @@ shapiro.test(my_data$X52)
 
 ```{r summary-stats}
 
-sch_data <- read.csv('./Example Data/EX 4/schoolData.csv', header = T, 
+sch_data <- read.csv('./Example Data/EX 1/schoolData.csv', header = T, 
                     encoding = 'UTC-8')
 
 # Dataframe columns can be indexed using $ following the format dataframe$columnName.
