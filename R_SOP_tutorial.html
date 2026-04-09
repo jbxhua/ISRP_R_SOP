@@ -1575,7 +1575,7 @@ PCBs</h1>
 <p>Dr. Andres Martinez (title)</p>
 <p>4105 SC Dept. Civil and Environmental Engineering University of Iowa
 Iowa City, IA 52240 Email:</p></h4>
-<h4 class="date">Last Revised: April 03, 2026</h4>
+<h4 class="date">Last Revised: April 09, 2026</h4>
 
 </div>
 
@@ -2269,7 +2269,7 @@ vector (all the same length), and each column must contain a single data
 type.</p>
 <p>Data frames are most commonly created by reading in data files:</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="co"># Read a CSV file into a data frame</span></span>
-<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/my_file.csv&quot;</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;Example Data/my_file.csv&quot;</span>)</span>
 <span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a></span>
 <span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a><span class="co"># Read a tab-delimited file</span></span>
 <span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;data/my_file.txt&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span></code></pre></div>
@@ -2388,7 +2388,7 @@ decision criterion.</p>
 <span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
 <span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a></span>
 <span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a><span class="co"># Reading in data from a blanks LOQ file stored in the working directory</span></span>
-<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/EX 2/blanks_LOQ_20220919.csv&#39;</span>, <span class="at">header =</span> T, </span>
+<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/EX 1/blanks_LOQ_20220919.csv&#39;</span>, <span class="at">header =</span> T, </span>
 <span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a>                    <span class="at">encoding =</span> <span class="st">&#39;UTC-8&#39;</span>)</span>
 <span id="cb25-7"><a href="#cb25-7" tabindex="-1"></a></span>
 <span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a><span class="co"># QQ plot to visually assess normality</span></span>
@@ -2402,7 +2402,7 @@ decision criterion.</p>
 <div id="summary-statistics" class="section level2" number="7.2">
 <h2><span class="header-section-number">7.2</span> Summary
 Statistics</h2>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>sch_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/EX 4/schoolData.csv&#39;</span>, <span class="at">header =</span> T, </span>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>sch_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/EX 1/schoolData.csv&#39;</span>, <span class="at">header =</span> T, </span>
 <span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>                    <span class="at">encoding =</span> <span class="st">&#39;UTC-8&#39;</span>)</span>
 <span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a></span>
 <span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a><span class="co"># Dataframe columns can be indexed using $ following the format dataframe$columnName.</span></span>
