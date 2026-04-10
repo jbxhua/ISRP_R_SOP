@@ -608,7 +608,7 @@ shapiro.test(my_data$X52)
 sch_data <- read.csv('./Example Data/EX 1/schoolData.csv', header = T, 
                     encoding = 'UTC-8')
 
-# Dataframe columns can be indexed using $ following the format dataframe$columnName.
+# Data frame columns can be indexed using $ following the format dataframe$columnName.
 # New columns can also be created using this syntax:
 
 sch_data$sum <- rowSums(sch_data[ , c(7:length(sch_data))])
@@ -616,7 +616,7 @@ sch_data$sum <- rowSums(sch_data[ , c(7:length(sch_data))])
 # Base R summary
 summary(sch_data$sum)
 
-# The dplyr library is a powerful library that allows users to easily manipulate matrices and dataframes.
+# The dplyr library is a powerful library that allows users to easily manipulate matrices and data frames.
 # For more information, run ?dplyr in the console.
 
 library(dplyr)
@@ -901,7 +901,7 @@ congener.list <- read.csv('./Example Data/Ex 3/ogMass_practice.csv', header = F)
 sample.type <- read.csv('./Example Data/Ex 3/ogSampleType_20220927.csv', header = T)
 
 # Takes the first row, removes first two columns, transposing the remaining 
-# values into a column, and converting to a dataframe
+# values into a column, and converting to a data frame
 congener.list <- as.data.frame(t(congener.list[1,-c(1:2)])) 
 
 ```
@@ -940,7 +940,7 @@ $$ R_{s} = (f_{on}\sqrt{WS_{on}}+f_{off}\sqrt{WS_{off}})({1 \over \root 3\of{MW}
 
 ```{r calc-rs}
 
-# Creates a dataframe with an equal number of rows as the pcb data frame with 
+# Creates a data frame with an equal number of rows as the pcb data frame with 
 # 1 column
 rs <- data.frame(matrix(nrow = nrow(pcb), ncol = 1))
 
@@ -996,9 +996,32 @@ sch.air.conc <- conc.calc(sch.air,V.eff,sch.air.list)
 
 # Example 4: Plots and Figures
 
-in progress
+One of R's biggest strengths is its ability to create and customize plots. This example will walk through different ways to create plots and figures. Data used in this section is found in the folder "Ex 4". There are also many cheat sheets and guides available online describing how to use plotting functions. Thess are found in the "Cheat Sheets" folder.
+
+## Simple Plot
+
+
+
+```{r plot-example}
+
+# Simple scatter plot
+x <- c(1, 2, 3, 4, 5)
+y <- c(2.3, 4.1, 3.8, 6.2, 5.9)
+
+plot(x, y,
+     main = "My Plot Title",  # Plot title
+     xlab = "X Axis Label",   # X axis title
+     ylab = "Y Axis Label",   # Y axis title
+     pch  = 16,      # filled circle points
+     col  = "steelblue")
+
+
+```
+
 
 ## ggplot2
+
+One of the most common libraries used in R is ggplot2. This library is a powerful tool for customizing plots and figures. There is also a cheat sheet for using ggplot2 available in the "Cheat Sheets" folder.
 
 ```{r ggplot-example}
 library(ggplot2)
@@ -1014,18 +1037,186 @@ ggplot(data = my_data, aes(x = variable_x, y = variable_y)) +
   theme_bw()
 ```
 
-## Plotly (Interactive Plots)
+This example introduces how to use ggplot2 with a boxplot example.
 
-```{r plotly-example}
-library(plotly)
+```{r ggplot-boxexample}
+library(ggplot2)
 
-p <- ggplot(data = my_data, aes(x = variable_x, y = variable_y)) +
-  geom_point()
+# all school concentration stats
 
-ggplotly(p)   # Converts a ggplot to an interactive Plotly figure
+all.conc <- read.csv('./Example Data/Ex 4/allSchoolConc.csv', header = T, fileEncoding = 'UTF-8-BOM', check.names = F)
+
+# subsets data into two new data frames, one with Vermont concentration data and one with UIowa data
+
+vt.samp <- all.conc[all.conc$Sampler=='vt',c(1,3)]
+ui.samp <- all.conc[all.conc$Sampler=='ui',c(1,3)]
+
+sch.list <- distinct(ui.samp, school)
+
+low.sch <- c('C P Smith School', 'Cabot School', 'Cavendish Town Elem School',
+             'Charlotte Central School', 'Danville School', 'Essential Early Education',
+             'J J Flynn School', 'North Hero School', 'Twinfield US #33')
+high.sch <- c('Bellows Falls UHS #27', 'Brighton Elementary School', 'Green Mountain UHS #35',
+              'North Country UHS #22A', 'Oak Grove School', 'Soar Learning Center', 'Twin Valley Elementary School')
+
+ggplot(filtered, aes(x = materials, y = em, fill = school_group)) +
+  geom_boxplot(position = position_dodge(width = 0.8), width = 0.7) +
+  stat_compare_means(
+    method = "wilcox.test",
+    label = "p.format"
+  ) +
+  theme_classic()
+  ) 
+
+ggplot(filtered, aes(x = materials, y = em, fill = school_group)) +
+  geom_boxplot(position = position_dodge(width = 0.8), width = 0.7) +
+  stat_compare_means(
+    method = "wilcox.test",
+    label = "p.format"
+  ) +
+  theme_classic() +
+  labs(y = expression(paste('Emissions (ng m'^{-2}*' d'^{-1}*')'))) +
+  theme(
+    axis.title.x = element_blank(),
+    axis.title.y = element_text(size = rel(1.5)),
+    axis.ticks.x = element_blank(),
+    axis.text.x = element_text(angle = 45, hjust = 1, size = rel(1.5)),
+    axis.text.y = element_text(size = rel(1.5)),
+    panel.border = element_rect(color = "black", fill = NA, size = 2)
+  ) 
+  
+ 
+ggplot(filtered, aes(x = materials, y = em, fill = school_group)) +
+  geom_boxplot(position = position_dodge(width = 0.8), width = 0.7) +
+  stat_compare_means(
+    method = "wilcox.test",
+    label = "p.format"
+  ) +
+  theme_classic() +
+  labs(y = expression(paste('Emissions (ng m'^{-2}*' d'^{-1}*')'))) +
+  theme(
+    axis.title.x = element_blank(),
+    axis.title.y = element_text(size = rel(1.5)),
+    axis.ticks.x = element_blank(),
+    axis.text.x = element_text(angle = 45, hjust = 1, size = rel(1.5)),
+    axis.text.y = element_text(size = rel(1.5)),
+    panel.border = element_rect(color = "black", fill = NA, size = 2)
+  )
+  ) 
+
+ggplot(filtered, aes(x = materials, y = em, fill = school_group)) +
+  geom_boxplot(position = position_dodge(width = 0.8), width = 0.7) +
+  stat_compare_means(
+    method = "wilcox.test",
+    label = "p.format"
+  ) +
+  theme_classic() +
+  labs(y = expression(paste('Emissions (ng m'^{-2}*' d'^{-1}*')'))) +
+  theme(
+    axis.title.x = element_blank(),
+    axis.title.y = element_text(size = rel(1.5)),
+    axis.ticks.x = element_blank(),
+    axis.text.x = element_text(angle = 45, hjust = 1, size = rel(1.5)),
+    axis.text.y = element_text(size = rel(1.5)),
+    panel.border = element_rect(color = "black", fill = NA, size = 2)
+  ) +
+  scale_y_log10(limits = c(10,100000), labels = scales::comma) +
+  scale_fill_manual(values = c("Low" = "#1f77b4", "High" = "#ff7f0e")) +
+  scale_fill_manual(
+    name = "",
+    values = c("Low" = "#1f77b4", "High" = "#ff7f0e"),
+    labels = c("Low" = "Schools Below SAL", "High" = "Schools Above SAL")
+  ) 
+
 ```
 
+## Congener Profile Plots 
 
+This section covers how to create a simple congener distribution or congener profile plot. This plot shows the relative abundance of each congener by mass. Note that in some cases, calculating the concentration or emission fraction is preferable. 
+
+First, calculate the mass fraction of every congener for each sample: 
+
+$$mass \ fraction = mass_{PCBi} \div mass_{total}$$
+
+where `mass~PCBi~` is the mass of an individual congener, i, and `mass~total~` is the total mass of the sample. When the mass fraction is summed for all congeners in a sample, the total should be 1. Mass fraction can, and often is, expressed as a percentage.
+
+```{r profile-mf}
+
+# first calculate mass fraction
+
+mass.fraction <- function(sums, cong.list){
+  r <- nrow(sums)
+  c <- ncol(sums)
+  sums.t <- as.data.frame(rowSums(sums))
+  mass.f <- as.data.frame(matrix(nrow = r, ncol = c))
+  for (i in 1:r) {
+    for (j in 1:c) {
+      mass.f[i,j] <- sums[i,j] / sums.t[i,]
+    }
+  }
+  colnames(mass.f) <- t(cong.list)
+  print(rowSums(mass.f))
+  return(mass.f)
+}
+
+# import data
+
+mass <- read.csv('./Example Data/Ex 4/sampleMass.csv', header = T, fileEncoding = 'UTF-8-BOM', check.names = F)
+cong.list <- read.csv('./Example Data/Ex 4/sampleMass.csv', header = F, fileEncoding = 'UTF-8-BOM', check.names = F)
+
+#extract congener list
+
+cong.list <- cong.list[1,-c(1,2)]
+cong.list <- as.data.frame(t(cong.list))
+
+# clean data frames so they can be used for calculations
+
+bid <- mass[,1]       # extract batch id list for later
+mass.1 <- mass[,-c(1,2)]
+mf <- mass.fraction(mass.1,cong.list)   # runs mass fraction calculation 
+mf <- mf * 100                # multiplied by 100 to present as a percentage in the figure
+mf.t <- as.data.frame(t(mf))
+mf.t <- cbind(cong.list,mf.t)
+
+mf <- cbind(bid,mf)
+
+```
+
+After the mass fraction is calculated, use the code below to plot the congener profile. Multiple profile plots are typically created at a time, therefore, it is more efficient to create a function that will create many plots simultaneously. The example below is a function that loops through a data frame of 
+
+
+```{r profile-plot}
+
+library(ggplot2)
+
+prof.plot <- function(data, title){
+  
+ data[,1] <- factor(data[,1], level = data[,1])    # this keeps the plot from changing the congener order
+  
+  for (i in 2:ncol(data)) {
+    temp.plot <-  ggplot(data = data, aes(x = data[,1], y = data[,i])) +    # profile graph
+      geom_bar(stat = "identity", width = .5, position = position_dodge(width = 0.5)) +
+      geom_abline(slope=0, intercept=0,  col = "black") +
+      ggtitle(title[i-1]) +
+      scale_x_discrete(expand = expansion(add=c(1,1))) +
+      # scale_y_continuous(expand = c(0,0)) +   #, limits = c(0,30)
+      xlab(expression(bold("Congener"))) +
+      theme_classic() +
+      theme(text = element_text(size = 14, family = 'serif')) +
+      theme(aspect.ratio = 2/5) +
+      theme(axis.text.x = element_blank(),
+            axis.ticks.x = element_blank(),
+            axis.line.x = element_blank(),
+            axis.line.y = element_blank()) +
+      theme(panel.border = element_rect(color =  'black', fill = NA, size = 1.1)) +
+      ylab(expression(bold("Mass Fraction (%)")))
+    print(temp.plot)
+  }
+}
+
+prof.plot(mf.t,bid)
+
+```
 
 ---
 
