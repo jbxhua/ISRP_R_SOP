@@ -2269,10 +2269,7 @@ vector (all the same length), and each column must contain a single data
 type.</p>
 <p>Data frames are most commonly created by reading in data files:</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="co"># Read a CSV file into a data frame</span></span>
-<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;Example Data/my_file.csv&quot;</span>)</span>
-<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a></span>
-<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a><span class="co"># Read a tab-delimited file</span></span>
-<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;data/my_file.txt&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span></code></pre></div>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;Example Data/my_file.csv&quot;</span>)</span></code></pre></div>
 <p><strong>Working with data frames:</strong></p>
 <ul>
 <li><strong>Missing values</strong> — use <code>na.rm = TRUE</code> or
@@ -2285,6 +2282,19 @@ and <code>tidyr</code> for reshaping and summarizing</li>
 <li><strong>Matrix operations</strong> — <code>t()</code> (transpose),
 <code>%*%</code> (matrix multiplication)</li>
 </ul>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="co"># indexing is similar to matrices</span></span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a><span class="co"># call entire data frame</span></span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>my_data[,]</span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a><span class="co"># call the first row</span></span>
+<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a>my_data[<span class="dv">1</span>,]</span>
+<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a><span class="co"># call the first column</span></span>
+<span id="cb19-10"><a href="#cb19-10" tabindex="-1"></a>my_data[,<span class="dv">1</span>]</span>
+<span id="cb19-11"><a href="#cb19-11" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="#cb19-12" tabindex="-1"></a><span class="co"># call a specific column by name</span></span>
+<span id="cb19-13"><a href="#cb19-13" tabindex="-1"></a>my_data<span class="sc">$</span>materials</span></code></pre></div>
 <hr />
 </div>
 <div id="lists" class="section level2" number="6.7">
@@ -2294,29 +2304,29 @@ Unlike vectors and matrices, a list can hold elements of
 <strong>different types and sizes</strong> including vectors, data
 frames, matrices, or even other lists. Lists are created with the
 <code>list()</code> function.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="co"># Create a list with mixed types</span></span>
-<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>my_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>  <span class="at">site      =</span> <span class="st">&quot;Building A&quot;</span>,</span>
-<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>  <span class="at">samples   =</span> <span class="fu">c</span>(<span class="fl">12.1</span>, <span class="fl">10.4</span>, <span class="fl">11.8</span>, <span class="fl">9.7</span>),</span>
-<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>  <span class="at">collected =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a>  <span class="at">metadata  =</span> <span class="fu">data.frame</span>(<span class="at">date =</span> <span class="fu">c</span>(<span class="st">&quot;2026-01-01&quot;</span>, <span class="st">&quot;2026-01-02&quot;</span>),</span>
-<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a>                         <span class="at">tech =</span> <span class="fu">c</span>(<span class="st">&quot;JS&quot;</span>, <span class="st">&quot;KL&quot;</span>))</span>
-<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a>)</span>
-<span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a></span>
-<span id="cb19-10"><a href="#cb19-10" tabindex="-1"></a>my_list</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="co"># Create a list with mixed types</span></span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>my_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>  <span class="at">site      =</span> <span class="st">&quot;Building A&quot;</span>,</span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>  <span class="at">samples   =</span> <span class="fu">c</span>(<span class="fl">12.1</span>, <span class="fl">10.4</span>, <span class="fl">11.8</span>, <span class="fl">9.7</span>),</span>
+<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a>  <span class="at">collected =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a>  <span class="at">metadata  =</span> <span class="fu">data.frame</span>(<span class="at">date =</span> <span class="fu">c</span>(<span class="st">&quot;2026-01-01&quot;</span>, <span class="st">&quot;2026-01-02&quot;</span>),</span>
+<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a>                         <span class="at">tech =</span> <span class="fu">c</span>(<span class="st">&quot;JS&quot;</span>, <span class="st">&quot;KL&quot;</span>))</span>
+<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a>)</span>
+<span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a></span>
+<span id="cb20-10"><a href="#cb20-10" tabindex="-1"></a>my_list</span></code></pre></div>
 <p><strong>Checking list structure:</strong></p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">str</span>(my_list)</span>
-<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a><span class="fu">length</span>(my_list)    <span class="co"># Number of elements</span></span>
-<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a><span class="fu">names</span>(my_list)     <span class="co"># Names of elements</span></span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">str</span>(my_list)</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="fu">length</span>(my_list)    <span class="co"># Number of elements</span></span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a><span class="fu">names</span>(my_list)     <span class="co"># Names of elements</span></span></code></pre></div>
 <p><strong>Accessing list elements:</strong></p>
 <p>There are three ways to access elements in a list:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>my_list[[<span class="dv">1</span>]]          <span class="co"># By position — returns the element itself</span></span>
-<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>my_list[[<span class="st">&quot;site&quot;</span>]]     <span class="co"># By name   — returns the element itself</span></span>
-<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>my_list<span class="sc">$</span>site          <span class="co"># Using $   — most common, same as above</span></span>
-<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a></span>
-<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a><span class="co"># Access nested elements</span></span>
-<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a>my_list<span class="sc">$</span>metadata<span class="sc">$</span>date         <span class="co"># Column from the nested data frame</span></span>
-<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a>my_list[[<span class="st">&quot;samples&quot;</span>]][<span class="dv">2</span>]       <span class="co"># Second value of the samples vector</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>my_list[[<span class="dv">1</span>]]          <span class="co"># By position — returns the element itself</span></span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>my_list[[<span class="st">&quot;site&quot;</span>]]     <span class="co"># By name   — returns the element itself</span></span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a>my_list<span class="sc">$</span>site          <span class="co"># Using $   — most common, same as above</span></span>
+<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a><span class="co"># Access nested elements</span></span>
+<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a>my_list<span class="sc">$</span>metadata<span class="sc">$</span>date         <span class="co"># Column from the nested data frame</span></span>
+<span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a>my_list[[<span class="st">&quot;samples&quot;</span>]][<span class="dv">2</span>]       <span class="co"># Second value of the samples vector</span></span></code></pre></div>
 <blockquote>
 <p><strong>Note:</strong> Single brackets <code>my_list[1]</code> return
 a <strong>list</strong> containing the element. Double brackets
@@ -2325,9 +2335,9 @@ Use <code>[[</code> when you want to work with the contents
 directly.</p>
 </blockquote>
 <p><strong>Modifying lists:</strong></p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>my_list<span class="sc">$</span>analyst <span class="ot">&lt;-</span> <span class="st">&quot;Jane Smith&quot;</span>   <span class="co"># Add a new element</span></span>
-<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>my_list<span class="sc">$</span>collected <span class="ot">&lt;-</span> <span class="cn">NULL</span>         <span class="co"># Remove an element</span></span>
-<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a>my_list[[<span class="st">&quot;site&quot;</span>]] <span class="ot">&lt;-</span> <span class="st">&quot;Building B&quot;</span> <span class="co"># Update an existing element</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>my_list<span class="sc">$</span>analyst <span class="ot">&lt;-</span> <span class="st">&quot;Jane Smith&quot;</span>   <span class="co"># Add a new element</span></span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>my_list<span class="sc">$</span>collected <span class="ot">&lt;-</span> <span class="cn">NULL</span>         <span class="co"># Remove an element</span></span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>my_list[[<span class="st">&quot;site&quot;</span>]] <span class="ot">&lt;-</span> <span class="st">&quot;Building B&quot;</span> <span class="co"># Update an existing element</span></span></code></pre></div>
 <hr />
 </div>
 <div id="missing-data" class="section level2" number="6.8">
@@ -2335,10 +2345,10 @@ directly.</p>
 <p>R uses <code>NA</code> to represent missing values. Most functions
 return <code>NA</code> if the input contains missing values, unless you
 explicitly tell them to ignore it.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>rooms <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="cn">NA</span>, <span class="dv">7</span>)</span>
-<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a></span>
-<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a><span class="fu">mean</span>(rooms)                  <span class="co"># Output: [1] NA</span></span>
-<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a><span class="fu">mean</span>(rooms, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)    <span class="co"># Output: [1] 2.75</span></span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a>rooms <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="cn">NA</span>, <span class="dv">7</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a><span class="fu">mean</span>(rooms)                  <span class="co"># Output: [1] NA</span></span>
+<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a><span class="fu">mean</span>(rooms, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)    <span class="co"># Output: [1] 2.75</span></span></code></pre></div>
 <p>The argument <code>na.rm = TRUE</code> tells R to <strong>remove NA
 values</strong> before computing.</p>
 <hr />
@@ -2346,8 +2356,8 @@ values</strong> before computing.</p>
 <div id="getting-help-in-r" class="section level2" number="6.9">
 <h2><span class="header-section-number">6.9</span> Getting Help in
 R</h2>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a>?round          <span class="co"># Opens documentation for the round() function</span></span>
-<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a><span class="fu">help</span>(<span class="st">&quot;mean&quot;</span>)    <span class="co"># Alternative syntax</span></span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>?round          <span class="co"># Opens documentation for the round() function</span></span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a><span class="fu">help</span>(<span class="st">&quot;mean&quot;</span>)    <span class="co"># Alternative syntax</span></span></code></pre></div>
 <p><strong>Other ways to get help:</strong></p>
 <ul>
 <li>Copy the last line of your error message and paste it into a search
@@ -2384,133 +2394,133 @@ data are approximately normal. Together, the QQ plot and Shapiro-Wilk
 test are commonly used in tandem because the plot offers intuitive
 visual insight while the test provides an objective, quantifiable
 decision criterion.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="co"># The ggpubr library is an extension of the ggplot library and is considered a convenient interface for creating publication ready plots </span></span>
-<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
-<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a></span>
-<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a><span class="co"># Reading in data from a blanks LOQ file stored in the working directory</span></span>
-<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/EX 1/blanks_LOQ_20220919.csv&#39;</span>, <span class="at">header =</span> T, </span>
-<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a>                    <span class="at">encoding =</span> <span class="st">&#39;UTC-8&#39;</span>)</span>
-<span id="cb25-7"><a href="#cb25-7" tabindex="-1"></a></span>
-<span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a><span class="co"># QQ plot to visually assess normality</span></span>
-<span id="cb25-9"><a href="#cb25-9" tabindex="-1"></a>qq <span class="ot">&lt;-</span> <span class="fu">ggqqplot</span>(my_data<span class="sc">$</span>X52)</span>
-<span id="cb25-10"><a href="#cb25-10" tabindex="-1"></a></span>
-<span id="cb25-11"><a href="#cb25-11" tabindex="-1"></a><span class="fu">print</span>(qq)</span>
-<span id="cb25-12"><a href="#cb25-12" tabindex="-1"></a><span class="co"># Shapiro-Wilk test (formal normality test)</span></span>
-<span id="cb25-13"><a href="#cb25-13" tabindex="-1"></a><span class="fu">shapiro.test</span>(my_data<span class="sc">$</span>X52)</span>
-<span id="cb25-14"><a href="#cb25-14" tabindex="-1"></a><span class="co"># p &gt; 0.05 suggests data are approximately normal</span></span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="co"># The ggpubr library is an extension of the ggplot library and is considered a convenient interface for creating publication ready plots </span></span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
+<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a><span class="co"># Reading in data from a blanks LOQ file stored in the working directory</span></span>
+<span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/EX 1/blanks_LOQ_20220919.csv&#39;</span>, <span class="at">header =</span> T, </span>
+<span id="cb26-6"><a href="#cb26-6" tabindex="-1"></a>                    <span class="at">encoding =</span> <span class="st">&#39;UTC-8&#39;</span>)</span>
+<span id="cb26-7"><a href="#cb26-7" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="#cb26-8" tabindex="-1"></a><span class="co"># QQ plot to visually assess normality</span></span>
+<span id="cb26-9"><a href="#cb26-9" tabindex="-1"></a>qq <span class="ot">&lt;-</span> <span class="fu">ggqqplot</span>(my_data<span class="sc">$</span>X52)</span>
+<span id="cb26-10"><a href="#cb26-10" tabindex="-1"></a></span>
+<span id="cb26-11"><a href="#cb26-11" tabindex="-1"></a><span class="fu">print</span>(qq)</span>
+<span id="cb26-12"><a href="#cb26-12" tabindex="-1"></a><span class="co"># Shapiro-Wilk test (formal normality test)</span></span>
+<span id="cb26-13"><a href="#cb26-13" tabindex="-1"></a><span class="fu">shapiro.test</span>(my_data<span class="sc">$</span>X52)</span>
+<span id="cb26-14"><a href="#cb26-14" tabindex="-1"></a><span class="co"># p &gt; 0.05 suggests data are approximately normal</span></span></code></pre></div>
 </div>
 <div id="summary-statistics" class="section level2" number="7.2">
 <h2><span class="header-section-number">7.2</span> Summary
 Statistics</h2>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>sch_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/EX 1/schoolData.csv&#39;</span>, <span class="at">header =</span> T, </span>
-<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>                    <span class="at">encoding =</span> <span class="st">&#39;UTC-8&#39;</span>)</span>
-<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a></span>
-<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a><span class="co"># Data frame columns can be indexed using $ following the format dataframe$columnName.</span></span>
-<span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a><span class="co"># New columns can also be created using this syntax:</span></span>
-<span id="cb26-6"><a href="#cb26-6" tabindex="-1"></a></span>
-<span id="cb26-7"><a href="#cb26-7" tabindex="-1"></a>sch_data<span class="sc">$</span>sum <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(sch_data[ , <span class="fu">c</span>(<span class="dv">7</span><span class="sc">:</span><span class="fu">length</span>(sch_data))])</span>
-<span id="cb26-8"><a href="#cb26-8" tabindex="-1"></a></span>
-<span id="cb26-9"><a href="#cb26-9" tabindex="-1"></a><span class="co"># Base R summary</span></span>
-<span id="cb26-10"><a href="#cb26-10" tabindex="-1"></a><span class="fu">summary</span>(sch_data<span class="sc">$</span>sum)</span>
-<span id="cb26-11"><a href="#cb26-11" tabindex="-1"></a></span>
-<span id="cb26-12"><a href="#cb26-12" tabindex="-1"></a><span class="co"># The dplyr library is a powerful library that allows users to easily manipulate matrices and data frames.</span></span>
-<span id="cb26-13"><a href="#cb26-13" tabindex="-1"></a><span class="co"># For more information, run ?dplyr in the console.</span></span>
-<span id="cb26-14"><a href="#cb26-14" tabindex="-1"></a></span>
-<span id="cb26-15"><a href="#cb26-15" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb26-16"><a href="#cb26-16" tabindex="-1"></a></span>
-<span id="cb26-17"><a href="#cb26-17" tabindex="-1"></a><span class="co"># The %&gt;% operator is known as the &quot;pipe operator&quot; and is used in R to pass the </span></span>
-<span id="cb26-18"><a href="#cb26-18" tabindex="-1"></a><span class="co"># output of one function as the first argument to the next function in the </span></span>
-<span id="cb26-19"><a href="#cb26-19" tabindex="-1"></a><span class="co"># sequence</span></span>
-<span id="cb26-20"><a href="#cb26-20" tabindex="-1"></a></span>
-<span id="cb26-21"><a href="#cb26-21" tabindex="-1"></a><span class="co"># summarize() creates a new data frame. It returns one row for each combination </span></span>
-<span id="cb26-22"><a href="#cb26-22" tabindex="-1"></a><span class="co"># of grouping variables. </span></span>
-<span id="cb26-23"><a href="#cb26-23" tabindex="-1"></a></span>
-<span id="cb26-24"><a href="#cb26-24" tabindex="-1"></a>total.summary <span class="ot">&lt;-</span> sch_data <span class="sc">%&gt;%</span></span>
-<span id="cb26-25"><a href="#cb26-25" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb26-26"><a href="#cb26-26" tabindex="-1"></a>    <span class="at">minimum =</span> <span class="fu">min</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb26-27"><a href="#cb26-27" tabindex="-1"></a>    <span class="at">mean =</span> <span class="fu">mean</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb26-28"><a href="#cb26-28" tabindex="-1"></a>    <span class="at">sd =</span> <span class="fu">sd</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb26-29"><a href="#cb26-29" tabindex="-1"></a>    <span class="at">maximum =</span> <span class="fu">max</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb26-30"><a href="#cb26-30" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>()</span>
-<span id="cb26-31"><a href="#cb26-31" tabindex="-1"></a>  )</span>
-<span id="cb26-32"><a href="#cb26-32" tabindex="-1"></a></span>
-<span id="cb26-33"><a href="#cb26-33" tabindex="-1"></a>total.summary</span>
-<span id="cb26-34"><a href="#cb26-34" tabindex="-1"></a></span>
-<span id="cb26-35"><a href="#cb26-35" tabindex="-1"></a><span class="co"># The dplyr library also makes it easy to group categories together. For example, you can group data from this dataset by school, sample type (air or emissions), materials, or room. The categories in this case are the columns.</span></span>
-<span id="cb26-36"><a href="#cb26-36" tabindex="-1"></a></span>
-<span id="cb26-37"><a href="#cb26-37" tabindex="-1"></a><span class="co"># Summary grouped by sample type. </span></span>
-<span id="cb26-38"><a href="#cb26-38" tabindex="-1"></a></span>
-<span id="cb26-39"><a href="#cb26-39" tabindex="-1"></a>type.sum <span class="ot">&lt;-</span> sch_data <span class="sc">%&gt;%</span></span>
-<span id="cb26-40"><a href="#cb26-40" tabindex="-1"></a>  <span class="fu">group_by</span>(sampletype) <span class="sc">%&gt;%</span></span>
-<span id="cb26-41"><a href="#cb26-41" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb26-42"><a href="#cb26-42" tabindex="-1"></a>    <span class="at">minimum    =</span> <span class="fu">min</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb26-43"><a href="#cb26-43" tabindex="-1"></a>    <span class="at">mean_val   =</span> <span class="fu">mean</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb26-44"><a href="#cb26-44" tabindex="-1"></a>    <span class="at">sd_val     =</span> <span class="fu">sd</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb26-45"><a href="#cb26-45" tabindex="-1"></a>    <span class="at">maximum    =</span> <span class="fu">max</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb26-46"><a href="#cb26-46" tabindex="-1"></a>    <span class="at">n          =</span> <span class="fu">n</span>()</span>
-<span id="cb26-47"><a href="#cb26-47" tabindex="-1"></a>  )</span>
-<span id="cb26-48"><a href="#cb26-48" tabindex="-1"></a></span>
-<span id="cb26-49"><a href="#cb26-49" tabindex="-1"></a>type.sum</span>
-<span id="cb26-50"><a href="#cb26-50" tabindex="-1"></a>  </span>
-<span id="cb26-51"><a href="#cb26-51" tabindex="-1"></a><span class="co"># Summary grouped by school.</span></span>
-<span id="cb26-52"><a href="#cb26-52" tabindex="-1"></a></span>
-<span id="cb26-53"><a href="#cb26-53" tabindex="-1"></a>sch.sum <span class="ot">&lt;-</span> sch_data <span class="sc">%&gt;%</span></span>
-<span id="cb26-54"><a href="#cb26-54" tabindex="-1"></a>  <span class="fu">group_by</span>(school) <span class="sc">%&gt;%</span></span>
-<span id="cb26-55"><a href="#cb26-55" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb26-56"><a href="#cb26-56" tabindex="-1"></a>    <span class="at">minimum    =</span> <span class="fu">min</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb26-57"><a href="#cb26-57" tabindex="-1"></a>    <span class="at">mean_val   =</span> <span class="fu">mean</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb26-58"><a href="#cb26-58" tabindex="-1"></a>    <span class="at">sd_val     =</span> <span class="fu">sd</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb26-59"><a href="#cb26-59" tabindex="-1"></a>    <span class="at">maximum    =</span> <span class="fu">max</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb26-60"><a href="#cb26-60" tabindex="-1"></a>    <span class="at">n          =</span> <span class="fu">n</span>()</span>
-<span id="cb26-61"><a href="#cb26-61" tabindex="-1"></a>  )</span>
-<span id="cb26-62"><a href="#cb26-62" tabindex="-1"></a></span>
-<span id="cb26-63"><a href="#cb26-63" tabindex="-1"></a>sch.sum</span>
-<span id="cb26-64"><a href="#cb26-64" tabindex="-1"></a></span>
-<span id="cb26-65"><a href="#cb26-65" tabindex="-1"></a><span class="co"># You can also group multiple categories at once.</span></span>
-<span id="cb26-66"><a href="#cb26-66" tabindex="-1"></a></span>
-<span id="cb26-67"><a href="#cb26-67" tabindex="-1"></a>combo.sum <span class="ot">&lt;-</span> sch_data <span class="sc">%&gt;%</span></span>
-<span id="cb26-68"><a href="#cb26-68" tabindex="-1"></a>  <span class="fu">group_by</span>(sampletype, school, materials) <span class="sc">%&gt;%</span></span>
-<span id="cb26-69"><a href="#cb26-69" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb26-70"><a href="#cb26-70" tabindex="-1"></a>    <span class="at">minimum    =</span> <span class="fu">min</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb26-71"><a href="#cb26-71" tabindex="-1"></a>    <span class="at">mean_val   =</span> <span class="fu">mean</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb26-72"><a href="#cb26-72" tabindex="-1"></a>    <span class="at">sd_val     =</span> <span class="fu">sd</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb26-73"><a href="#cb26-73" tabindex="-1"></a>    <span class="at">maximum    =</span> <span class="fu">max</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb26-74"><a href="#cb26-74" tabindex="-1"></a>    <span class="at">n          =</span> <span class="fu">n</span>()</span>
-<span id="cb26-75"><a href="#cb26-75" tabindex="-1"></a>  )</span>
-<span id="cb26-76"><a href="#cb26-76" tabindex="-1"></a></span>
-<span id="cb26-77"><a href="#cb26-77" tabindex="-1"></a>combo.sum</span>
-<span id="cb26-78"><a href="#cb26-78" tabindex="-1"></a></span>
-<span id="cb26-79"><a href="#cb26-79" tabindex="-1"></a><span class="co"># Sometimes, there might be NAs in the resulting summary. In this case, there isn&#39;t always enough samples from a category to calculate a standard deviation. Therefore, it will return an NA in its place.</span></span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a>sch_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/EX 1/schoolData.csv&#39;</span>, <span class="at">header =</span> T, </span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a>                    <span class="at">encoding =</span> <span class="st">&#39;UTC-8&#39;</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a><span class="co"># Data frame columns can be indexed using $ following the format dataframe$columnName.</span></span>
+<span id="cb27-5"><a href="#cb27-5" tabindex="-1"></a><span class="co"># New columns can also be created using this syntax:</span></span>
+<span id="cb27-6"><a href="#cb27-6" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="#cb27-7" tabindex="-1"></a>sch_data<span class="sc">$</span>sum <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(sch_data[ , <span class="fu">c</span>(<span class="dv">7</span><span class="sc">:</span><span class="fu">length</span>(sch_data))])</span>
+<span id="cb27-8"><a href="#cb27-8" tabindex="-1"></a></span>
+<span id="cb27-9"><a href="#cb27-9" tabindex="-1"></a><span class="co"># Base R summary</span></span>
+<span id="cb27-10"><a href="#cb27-10" tabindex="-1"></a><span class="fu">summary</span>(sch_data<span class="sc">$</span>sum)</span>
+<span id="cb27-11"><a href="#cb27-11" tabindex="-1"></a></span>
+<span id="cb27-12"><a href="#cb27-12" tabindex="-1"></a><span class="co"># The dplyr library is a powerful library that allows users to easily manipulate matrices and data frames.</span></span>
+<span id="cb27-13"><a href="#cb27-13" tabindex="-1"></a><span class="co"># For more information, run ?dplyr in the console.</span></span>
+<span id="cb27-14"><a href="#cb27-14" tabindex="-1"></a></span>
+<span id="cb27-15"><a href="#cb27-15" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb27-16"><a href="#cb27-16" tabindex="-1"></a></span>
+<span id="cb27-17"><a href="#cb27-17" tabindex="-1"></a><span class="co"># The %&gt;% operator is known as the &quot;pipe operator&quot; and is used in R to pass the </span></span>
+<span id="cb27-18"><a href="#cb27-18" tabindex="-1"></a><span class="co"># output of one function as the first argument to the next function in the </span></span>
+<span id="cb27-19"><a href="#cb27-19" tabindex="-1"></a><span class="co"># sequence</span></span>
+<span id="cb27-20"><a href="#cb27-20" tabindex="-1"></a></span>
+<span id="cb27-21"><a href="#cb27-21" tabindex="-1"></a><span class="co"># summarize() creates a new data frame. It returns one row for each combination </span></span>
+<span id="cb27-22"><a href="#cb27-22" tabindex="-1"></a><span class="co"># of grouping variables. </span></span>
+<span id="cb27-23"><a href="#cb27-23" tabindex="-1"></a></span>
+<span id="cb27-24"><a href="#cb27-24" tabindex="-1"></a>total.summary <span class="ot">&lt;-</span> sch_data <span class="sc">%&gt;%</span></span>
+<span id="cb27-25"><a href="#cb27-25" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb27-26"><a href="#cb27-26" tabindex="-1"></a>    <span class="at">minimum =</span> <span class="fu">min</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-27"><a href="#cb27-27" tabindex="-1"></a>    <span class="at">mean =</span> <span class="fu">mean</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-28"><a href="#cb27-28" tabindex="-1"></a>    <span class="at">sd =</span> <span class="fu">sd</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-29"><a href="#cb27-29" tabindex="-1"></a>    <span class="at">maximum =</span> <span class="fu">max</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-30"><a href="#cb27-30" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>()</span>
+<span id="cb27-31"><a href="#cb27-31" tabindex="-1"></a>  )</span>
+<span id="cb27-32"><a href="#cb27-32" tabindex="-1"></a></span>
+<span id="cb27-33"><a href="#cb27-33" tabindex="-1"></a>total.summary</span>
+<span id="cb27-34"><a href="#cb27-34" tabindex="-1"></a></span>
+<span id="cb27-35"><a href="#cb27-35" tabindex="-1"></a><span class="co"># The dplyr library also makes it easy to group categories together. For example, you can group data from this dataset by school, sample type (air or emissions), materials, or room. The categories in this case are the columns.</span></span>
+<span id="cb27-36"><a href="#cb27-36" tabindex="-1"></a></span>
+<span id="cb27-37"><a href="#cb27-37" tabindex="-1"></a><span class="co"># Summary grouped by sample type. </span></span>
+<span id="cb27-38"><a href="#cb27-38" tabindex="-1"></a></span>
+<span id="cb27-39"><a href="#cb27-39" tabindex="-1"></a>type.sum <span class="ot">&lt;-</span> sch_data <span class="sc">%&gt;%</span></span>
+<span id="cb27-40"><a href="#cb27-40" tabindex="-1"></a>  <span class="fu">group_by</span>(sampletype) <span class="sc">%&gt;%</span></span>
+<span id="cb27-41"><a href="#cb27-41" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb27-42"><a href="#cb27-42" tabindex="-1"></a>    <span class="at">minimum    =</span> <span class="fu">min</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-43"><a href="#cb27-43" tabindex="-1"></a>    <span class="at">mean_val   =</span> <span class="fu">mean</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-44"><a href="#cb27-44" tabindex="-1"></a>    <span class="at">sd_val     =</span> <span class="fu">sd</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-45"><a href="#cb27-45" tabindex="-1"></a>    <span class="at">maximum    =</span> <span class="fu">max</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-46"><a href="#cb27-46" tabindex="-1"></a>    <span class="at">n          =</span> <span class="fu">n</span>()</span>
+<span id="cb27-47"><a href="#cb27-47" tabindex="-1"></a>  )</span>
+<span id="cb27-48"><a href="#cb27-48" tabindex="-1"></a></span>
+<span id="cb27-49"><a href="#cb27-49" tabindex="-1"></a>type.sum</span>
+<span id="cb27-50"><a href="#cb27-50" tabindex="-1"></a>  </span>
+<span id="cb27-51"><a href="#cb27-51" tabindex="-1"></a><span class="co"># Summary grouped by school.</span></span>
+<span id="cb27-52"><a href="#cb27-52" tabindex="-1"></a></span>
+<span id="cb27-53"><a href="#cb27-53" tabindex="-1"></a>sch.sum <span class="ot">&lt;-</span> sch_data <span class="sc">%&gt;%</span></span>
+<span id="cb27-54"><a href="#cb27-54" tabindex="-1"></a>  <span class="fu">group_by</span>(school) <span class="sc">%&gt;%</span></span>
+<span id="cb27-55"><a href="#cb27-55" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb27-56"><a href="#cb27-56" tabindex="-1"></a>    <span class="at">minimum    =</span> <span class="fu">min</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-57"><a href="#cb27-57" tabindex="-1"></a>    <span class="at">mean_val   =</span> <span class="fu">mean</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-58"><a href="#cb27-58" tabindex="-1"></a>    <span class="at">sd_val     =</span> <span class="fu">sd</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-59"><a href="#cb27-59" tabindex="-1"></a>    <span class="at">maximum    =</span> <span class="fu">max</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-60"><a href="#cb27-60" tabindex="-1"></a>    <span class="at">n          =</span> <span class="fu">n</span>()</span>
+<span id="cb27-61"><a href="#cb27-61" tabindex="-1"></a>  )</span>
+<span id="cb27-62"><a href="#cb27-62" tabindex="-1"></a></span>
+<span id="cb27-63"><a href="#cb27-63" tabindex="-1"></a>sch.sum</span>
+<span id="cb27-64"><a href="#cb27-64" tabindex="-1"></a></span>
+<span id="cb27-65"><a href="#cb27-65" tabindex="-1"></a><span class="co"># You can also group multiple categories at once.</span></span>
+<span id="cb27-66"><a href="#cb27-66" tabindex="-1"></a></span>
+<span id="cb27-67"><a href="#cb27-67" tabindex="-1"></a>combo.sum <span class="ot">&lt;-</span> sch_data <span class="sc">%&gt;%</span></span>
+<span id="cb27-68"><a href="#cb27-68" tabindex="-1"></a>  <span class="fu">group_by</span>(sampletype, school, materials) <span class="sc">%&gt;%</span></span>
+<span id="cb27-69"><a href="#cb27-69" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb27-70"><a href="#cb27-70" tabindex="-1"></a>    <span class="at">minimum    =</span> <span class="fu">min</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-71"><a href="#cb27-71" tabindex="-1"></a>    <span class="at">mean_val   =</span> <span class="fu">mean</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-72"><a href="#cb27-72" tabindex="-1"></a>    <span class="at">sd_val     =</span> <span class="fu">sd</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-73"><a href="#cb27-73" tabindex="-1"></a>    <span class="at">maximum    =</span> <span class="fu">max</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-74"><a href="#cb27-74" tabindex="-1"></a>    <span class="at">n          =</span> <span class="fu">n</span>()</span>
+<span id="cb27-75"><a href="#cb27-75" tabindex="-1"></a>  )</span>
+<span id="cb27-76"><a href="#cb27-76" tabindex="-1"></a></span>
+<span id="cb27-77"><a href="#cb27-77" tabindex="-1"></a>combo.sum</span>
+<span id="cb27-78"><a href="#cb27-78" tabindex="-1"></a></span>
+<span id="cb27-79"><a href="#cb27-79" tabindex="-1"></a><span class="co"># Sometimes, there might be NAs in the resulting summary. In this case, there isn&#39;t always enough samples from a category to calculate a standard deviation. Therefore, it will return an NA in its place.</span></span></code></pre></div>
 </div>
 <div id="hypothesis-testing" class="section level2" number="7.3">
 <h2><span class="header-section-number">7.3</span> Hypothesis
 Testing</h2>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="co"># Built-in dataset comparing tooth growth in guinea pigs.</span></span>
-<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;ToothGrowth&quot;</span>)</span>
-<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a></span>
-<span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a><span class="co"># Two groups: vitamin C delivered via orange juice (OJ) vs ascorbic acid (VC)</span></span>
-<span id="cb27-5"><a href="#cb27-5" tabindex="-1"></a>oj <span class="ot">&lt;-</span> ToothGrowth<span class="sc">$</span>len[ToothGrowth<span class="sc">$</span>supp <span class="sc">==</span> <span class="st">&quot;OJ&quot;</span>]</span>
-<span id="cb27-6"><a href="#cb27-6" tabindex="-1"></a>vc <span class="ot">&lt;-</span> ToothGrowth<span class="sc">$</span>len[ToothGrowth<span class="sc">$</span>supp <span class="sc">==</span> <span class="st">&quot;VC&quot;</span>]</span>
-<span id="cb27-7"><a href="#cb27-7" tabindex="-1"></a></span>
-<span id="cb27-8"><a href="#cb27-8" tabindex="-1"></a><span class="co"># Check normality for each group before testing</span></span>
-<span id="cb27-9"><a href="#cb27-9" tabindex="-1"></a><span class="fu">shapiro.test</span>(oj)</span>
-<span id="cb27-10"><a href="#cb27-10" tabindex="-1"></a><span class="fu">shapiro.test</span>(vc)</span>
-<span id="cb27-11"><a href="#cb27-11" tabindex="-1"></a></span>
-<span id="cb27-12"><a href="#cb27-12" tabindex="-1"></a><span class="co"># Independent samples t-test</span></span>
-<span id="cb27-13"><a href="#cb27-13" tabindex="-1"></a><span class="co"># H0: There is no difference in mean tooth length between groups</span></span>
-<span id="cb27-14"><a href="#cb27-14" tabindex="-1"></a><span class="co"># H1: There is a difference in mean tooth length between groups</span></span>
-<span id="cb27-15"><a href="#cb27-15" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">t.test</span>(oj, vc)</span>
-<span id="cb27-16"><a href="#cb27-16" tabindex="-1"></a><span class="fu">print</span>(result)</span>
-<span id="cb27-17"><a href="#cb27-17" tabindex="-1"></a></span>
-<span id="cb27-18"><a href="#cb27-18" tabindex="-1"></a><span class="co"># p-value = 0.06, therefore we fail to reject the null hypothesis.</span></span>
-<span id="cb27-19"><a href="#cb27-19" tabindex="-1"></a></span>
-<span id="cb27-20"><a href="#cb27-20" tabindex="-1"></a><span class="co"># Visualize the comparison</span></span>
-<span id="cb27-21"><a href="#cb27-21" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
-<span id="cb27-22"><a href="#cb27-22" tabindex="-1"></a><span class="fu">ggboxplot</span>(ToothGrowth, <span class="at">x =</span> <span class="st">&quot;supp&quot;</span>, <span class="at">y =</span> <span class="st">&quot;len&quot;</span>,</span>
-<span id="cb27-23"><a href="#cb27-23" tabindex="-1"></a>          <span class="at">color =</span> <span class="st">&quot;supp&quot;</span>,</span>
-<span id="cb27-24"><a href="#cb27-24" tabindex="-1"></a>          <span class="at">xlab =</span> <span class="st">&quot;Supplement Type&quot;</span>,</span>
-<span id="cb27-25"><a href="#cb27-25" tabindex="-1"></a>          <span class="at">ylab =</span> <span class="st">&quot;Tooth Length&quot;</span>,</span>
-<span id="cb27-26"><a href="#cb27-26" tabindex="-1"></a>          <span class="at">title =</span> <span class="st">&quot;Tooth Length by Supplement Type&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="co"># Built-in dataset comparing tooth growth in guinea pigs.</span></span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;ToothGrowth&quot;</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a><span class="co"># Two groups: vitamin C delivered via orange juice (OJ) vs ascorbic acid (VC)</span></span>
+<span id="cb28-5"><a href="#cb28-5" tabindex="-1"></a>oj <span class="ot">&lt;-</span> ToothGrowth<span class="sc">$</span>len[ToothGrowth<span class="sc">$</span>supp <span class="sc">==</span> <span class="st">&quot;OJ&quot;</span>]</span>
+<span id="cb28-6"><a href="#cb28-6" tabindex="-1"></a>vc <span class="ot">&lt;-</span> ToothGrowth<span class="sc">$</span>len[ToothGrowth<span class="sc">$</span>supp <span class="sc">==</span> <span class="st">&quot;VC&quot;</span>]</span>
+<span id="cb28-7"><a href="#cb28-7" tabindex="-1"></a></span>
+<span id="cb28-8"><a href="#cb28-8" tabindex="-1"></a><span class="co"># Check normality for each group before testing</span></span>
+<span id="cb28-9"><a href="#cb28-9" tabindex="-1"></a><span class="fu">shapiro.test</span>(oj)</span>
+<span id="cb28-10"><a href="#cb28-10" tabindex="-1"></a><span class="fu">shapiro.test</span>(vc)</span>
+<span id="cb28-11"><a href="#cb28-11" tabindex="-1"></a></span>
+<span id="cb28-12"><a href="#cb28-12" tabindex="-1"></a><span class="co"># Independent samples t-test</span></span>
+<span id="cb28-13"><a href="#cb28-13" tabindex="-1"></a><span class="co"># H0: There is no difference in mean tooth length between groups</span></span>
+<span id="cb28-14"><a href="#cb28-14" tabindex="-1"></a><span class="co"># H1: There is a difference in mean tooth length between groups</span></span>
+<span id="cb28-15"><a href="#cb28-15" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">t.test</span>(oj, vc)</span>
+<span id="cb28-16"><a href="#cb28-16" tabindex="-1"></a><span class="fu">print</span>(result)</span>
+<span id="cb28-17"><a href="#cb28-17" tabindex="-1"></a></span>
+<span id="cb28-18"><a href="#cb28-18" tabindex="-1"></a><span class="co"># p-value = 0.06, therefore we fail to reject the null hypothesis.</span></span>
+<span id="cb28-19"><a href="#cb28-19" tabindex="-1"></a></span>
+<span id="cb28-20"><a href="#cb28-20" tabindex="-1"></a><span class="co"># Visualize the comparison</span></span>
+<span id="cb28-21"><a href="#cb28-21" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
+<span id="cb28-22"><a href="#cb28-22" tabindex="-1"></a><span class="fu">ggboxplot</span>(ToothGrowth, <span class="at">x =</span> <span class="st">&quot;supp&quot;</span>, <span class="at">y =</span> <span class="st">&quot;len&quot;</span>,</span>
+<span id="cb28-23"><a href="#cb28-23" tabindex="-1"></a>          <span class="at">color =</span> <span class="st">&quot;supp&quot;</span>,</span>
+<span id="cb28-24"><a href="#cb28-24" tabindex="-1"></a>          <span class="at">xlab =</span> <span class="st">&quot;Supplement Type&quot;</span>,</span>
+<span id="cb28-25"><a href="#cb28-25" tabindex="-1"></a>          <span class="at">ylab =</span> <span class="st">&quot;Tooth Length&quot;</span>,</span>
+<span id="cb28-26"><a href="#cb28-26" tabindex="-1"></a>          <span class="at">title =</span> <span class="st">&quot;Tooth Length by Supplement Type&quot;</span>)</span></code></pre></div>
 </div>
 <div id="anova" class="section level2" number="7.4">
 <h2><span class="header-section-number">7.4</span> ANOVA</h2>
@@ -2519,31 +2529,31 @@ that you are comfortable with setting up and performing an ANOVA test
 before using this code. The example here was only produced to
 demonstrate how the code functions. This is not a statistics
 tutorial.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
-<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a></span>
-<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a><span class="co"># Using the built-in PlantGrowth dataset</span></span>
-<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a><span class="co"># Three groups: control, treatment 1, treatment 2</span></span>
-<span id="cb28-5"><a href="#cb28-5" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;PlantGrowth&quot;</span>)</span>
-<span id="cb28-6"><a href="#cb28-6" tabindex="-1"></a></span>
-<span id="cb28-7"><a href="#cb28-7" tabindex="-1"></a><span class="co"># Check normality for each group</span></span>
-<span id="cb28-8"><a href="#cb28-8" tabindex="-1"></a><span class="fu">by</span>(PlantGrowth<span class="sc">$</span>weight, PlantGrowth<span class="sc">$</span>group, shapiro.test)</span>
-<span id="cb28-9"><a href="#cb28-9" tabindex="-1"></a></span>
-<span id="cb28-10"><a href="#cb28-10" tabindex="-1"></a><span class="co"># One-way ANOVA</span></span>
-<span id="cb28-11"><a href="#cb28-11" tabindex="-1"></a><span class="co"># H0: There is no difference in mean plant weight across groups</span></span>
-<span id="cb28-12"><a href="#cb28-12" tabindex="-1"></a><span class="co"># H1: At least one group mean differs from the others</span></span>
-<span id="cb28-13"><a href="#cb28-13" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">aov</span>(weight <span class="sc">~</span> group, <span class="at">data =</span> PlantGrowth)</span>
-<span id="cb28-14"><a href="#cb28-14" tabindex="-1"></a><span class="fu">summary</span>(result)</span>
-<span id="cb28-15"><a href="#cb28-15" tabindex="-1"></a></span>
-<span id="cb28-16"><a href="#cb28-16" tabindex="-1"></a><span class="co"># Post-hoc test (Tukey&#39;s HSD) to identify WHICH groups differ</span></span>
-<span id="cb28-17"><a href="#cb28-17" tabindex="-1"></a><span class="co"># Only interpreted if ANOVA p-value is significant</span></span>
-<span id="cb28-18"><a href="#cb28-18" tabindex="-1"></a><span class="fu">TukeyHSD</span>(result)</span>
-<span id="cb28-19"><a href="#cb28-19" tabindex="-1"></a></span>
-<span id="cb28-20"><a href="#cb28-20" tabindex="-1"></a><span class="co"># Visualize</span></span>
-<span id="cb28-21"><a href="#cb28-21" tabindex="-1"></a><span class="fu">ggboxplot</span>(PlantGrowth, <span class="at">x =</span> <span class="st">&quot;group&quot;</span>, <span class="at">y =</span> <span class="st">&quot;weight&quot;</span>,</span>
-<span id="cb28-22"><a href="#cb28-22" tabindex="-1"></a>          <span class="at">color =</span> <span class="st">&quot;group&quot;</span>,</span>
-<span id="cb28-23"><a href="#cb28-23" tabindex="-1"></a>          <span class="at">xlab =</span> <span class="st">&quot;Treatment Group&quot;</span>,</span>
-<span id="cb28-24"><a href="#cb28-24" tabindex="-1"></a>          <span class="at">ylab =</span> <span class="st">&quot;Plant Weight&quot;</span>,</span>
-<span id="cb28-25"><a href="#cb28-25" tabindex="-1"></a>          <span class="at">title =</span> <span class="st">&quot;Plant Weight by Treatment Group&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a><span class="co"># Using the built-in PlantGrowth dataset</span></span>
+<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a><span class="co"># Three groups: control, treatment 1, treatment 2</span></span>
+<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;PlantGrowth&quot;</span>)</span>
+<span id="cb29-6"><a href="#cb29-6" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="#cb29-7" tabindex="-1"></a><span class="co"># Check normality for each group</span></span>
+<span id="cb29-8"><a href="#cb29-8" tabindex="-1"></a><span class="fu">by</span>(PlantGrowth<span class="sc">$</span>weight, PlantGrowth<span class="sc">$</span>group, shapiro.test)</span>
+<span id="cb29-9"><a href="#cb29-9" tabindex="-1"></a></span>
+<span id="cb29-10"><a href="#cb29-10" tabindex="-1"></a><span class="co"># One-way ANOVA</span></span>
+<span id="cb29-11"><a href="#cb29-11" tabindex="-1"></a><span class="co"># H0: There is no difference in mean plant weight across groups</span></span>
+<span id="cb29-12"><a href="#cb29-12" tabindex="-1"></a><span class="co"># H1: At least one group mean differs from the others</span></span>
+<span id="cb29-13"><a href="#cb29-13" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">aov</span>(weight <span class="sc">~</span> group, <span class="at">data =</span> PlantGrowth)</span>
+<span id="cb29-14"><a href="#cb29-14" tabindex="-1"></a><span class="fu">summary</span>(result)</span>
+<span id="cb29-15"><a href="#cb29-15" tabindex="-1"></a></span>
+<span id="cb29-16"><a href="#cb29-16" tabindex="-1"></a><span class="co"># Post-hoc test (Tukey&#39;s HSD) to identify WHICH groups differ</span></span>
+<span id="cb29-17"><a href="#cb29-17" tabindex="-1"></a><span class="co"># Only interpreted if ANOVA p-value is significant</span></span>
+<span id="cb29-18"><a href="#cb29-18" tabindex="-1"></a><span class="fu">TukeyHSD</span>(result)</span>
+<span id="cb29-19"><a href="#cb29-19" tabindex="-1"></a></span>
+<span id="cb29-20"><a href="#cb29-20" tabindex="-1"></a><span class="co"># Visualize</span></span>
+<span id="cb29-21"><a href="#cb29-21" tabindex="-1"></a><span class="fu">ggboxplot</span>(PlantGrowth, <span class="at">x =</span> <span class="st">&quot;group&quot;</span>, <span class="at">y =</span> <span class="st">&quot;weight&quot;</span>,</span>
+<span id="cb29-22"><a href="#cb29-22" tabindex="-1"></a>          <span class="at">color =</span> <span class="st">&quot;group&quot;</span>,</span>
+<span id="cb29-23"><a href="#cb29-23" tabindex="-1"></a>          <span class="at">xlab =</span> <span class="st">&quot;Treatment Group&quot;</span>,</span>
+<span id="cb29-24"><a href="#cb29-24" tabindex="-1"></a>          <span class="at">ylab =</span> <span class="st">&quot;Plant Weight&quot;</span>,</span>
+<span id="cb29-25"><a href="#cb29-25" tabindex="-1"></a>          <span class="at">title =</span> <span class="st">&quot;Plant Weight by Treatment Group&quot;</span>)</span></code></pre></div>
 <hr />
 </div>
 </div>
@@ -2556,40 +2566,40 @@ method blanks.</p>
 <p><strong>Note:</strong> Some projects may require including field
 blank masses in the LOQ calculations.</p>
 </blockquote>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a></span>
-<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a><span class="co"># import data</span></span>
-<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a>blank.mass <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 2/blanks_LOQ_20220919.csv&#39;</span>, <span class="at">header =</span> T)</span>
-<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a></span>
-<span id="cb29-6"><a href="#cb29-6" tabindex="-1"></a><span class="co"># extract congener list</span></span>
-<span id="cb29-7"><a href="#cb29-7" tabindex="-1"></a>congener.list <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 2/blanks_LOQ_20220919.csv&#39;</span>, <span class="at">header =</span> F)</span>
-<span id="cb29-8"><a href="#cb29-8" tabindex="-1"></a></span>
-<span id="cb29-9"><a href="#cb29-9" tabindex="-1"></a><span class="co"># clean data frames so that they can be used for matrix operations</span></span>
-<span id="cb29-10"><a href="#cb29-10" tabindex="-1"></a>blank.ids <span class="ot">&lt;-</span> blank.mass[,<span class="dv">1</span>]</span>
-<span id="cb29-11"><a href="#cb29-11" tabindex="-1"></a>blank.mass <span class="ot">&lt;-</span> blank.mass[,<span class="sc">-</span><span class="dv">1</span>]</span>
-<span id="cb29-12"><a href="#cb29-12" tabindex="-1"></a>congener.list <span class="ot">&lt;-</span> congener.list[<span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>]</span>
-<span id="cb29-13"><a href="#cb29-13" tabindex="-1"></a>congener.list <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(congener.list))</span>
-<span id="cb29-14"><a href="#cb29-14" tabindex="-1"></a></span>
-<span id="cb29-15"><a href="#cb29-15" tabindex="-1"></a><span class="co"># ensure there are no zeroes in the data otherwise you cannot log10 transform</span></span>
-<span id="cb29-16"><a href="#cb29-16" tabindex="-1"></a>blank.mass[blank.mass <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="fl">1e-6</span></span>
-<span id="cb29-17"><a href="#cb29-17" tabindex="-1"></a></span>
-<span id="cb29-18"><a href="#cb29-18" tabindex="-1"></a><span class="co"># log 10</span></span>
-<span id="cb29-19"><a href="#cb29-19" tabindex="-1"></a>log.mass <span class="ot">&lt;-</span> <span class="fu">log10</span>(blank.mass)</span>
-<span id="cb29-20"><a href="#cb29-20" tabindex="-1"></a></span>
-<span id="cb29-21"><a href="#cb29-21" tabindex="-1"></a><span class="co"># LOQ calculation</span></span>
-<span id="cb29-22"><a href="#cb29-22" tabindex="-1"></a>log.mass <span class="ot">&lt;-</span> <span class="fu">log10</span>(blank.mass)</span>
-<span id="cb29-23"><a href="#cb29-23" tabindex="-1"></a>log.mass <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(log.mass))</span>
-<span id="cb29-24"><a href="#cb29-24" tabindex="-1"></a>log.avg <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(log.mass)</span>
-<span id="cb29-25"><a href="#cb29-25" tabindex="-1"></a>log.sd <span class="ot">&lt;-</span> <span class="fu">apply</span>(log.mass, <span class="dv">1</span>, sd)</span>
-<span id="cb29-26"><a href="#cb29-26" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(blank.mass)</span>
-<span id="cb29-27"><a href="#cb29-27" tabindex="-1"></a>log.loq <span class="ot">&lt;-</span> log.avg <span class="sc">+</span> (<span class="fl">2.325</span> <span class="sc">*</span> (log.sd<span class="sc">/</span><span class="fu">sqrt</span>(n)))</span>
-<span id="cb29-28"><a href="#cb29-28" tabindex="-1"></a>loq <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="dv">10</span><span class="sc">^</span>log.loq)</span>
-<span id="cb29-29"><a href="#cb29-29" tabindex="-1"></a></span>
-<span id="cb29-30"><a href="#cb29-30" tabindex="-1"></a><span class="co"># rerrange into presentable table</span></span>
-<span id="cb29-31"><a href="#cb29-31" tabindex="-1"></a>final.loq <span class="ot">&lt;-</span> <span class="fu">cbind</span>(congener.list, loq)</span>
-<span id="cb29-32"><a href="#cb29-32" tabindex="-1"></a><span class="fu">colnames</span>(final.loq) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;Congener&#39;</span>, <span class="st">&#39;LOQ&#39;</span>)</span>
-<span id="cb29-33"><a href="#cb29-33" tabindex="-1"></a>final.loq<span class="sc">$</span>Congener <span class="ot">&lt;-</span> <span class="fu">factor</span>(final.loq<span class="sc">$</span>Congener, <span class="at">levels =</span> final.loq<span class="sc">$</span>Congener)</span>
-<span id="cb29-34"><a href="#cb29-34" tabindex="-1"></a><span class="fu">summary</span>(final.loq)</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a><span class="co"># import data</span></span>
+<span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a>blank.mass <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 2/blanks_LOQ_20220919.csv&#39;</span>, <span class="at">header =</span> T)</span>
+<span id="cb30-5"><a href="#cb30-5" tabindex="-1"></a></span>
+<span id="cb30-6"><a href="#cb30-6" tabindex="-1"></a><span class="co"># extract congener list</span></span>
+<span id="cb30-7"><a href="#cb30-7" tabindex="-1"></a>congener.list <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 2/blanks_LOQ_20220919.csv&#39;</span>, <span class="at">header =</span> F)</span>
+<span id="cb30-8"><a href="#cb30-8" tabindex="-1"></a></span>
+<span id="cb30-9"><a href="#cb30-9" tabindex="-1"></a><span class="co"># clean data frames so that they can be used for matrix operations</span></span>
+<span id="cb30-10"><a href="#cb30-10" tabindex="-1"></a>blank.ids <span class="ot">&lt;-</span> blank.mass[,<span class="dv">1</span>]</span>
+<span id="cb30-11"><a href="#cb30-11" tabindex="-1"></a>blank.mass <span class="ot">&lt;-</span> blank.mass[,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb30-12"><a href="#cb30-12" tabindex="-1"></a>congener.list <span class="ot">&lt;-</span> congener.list[<span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb30-13"><a href="#cb30-13" tabindex="-1"></a>congener.list <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(congener.list))</span>
+<span id="cb30-14"><a href="#cb30-14" tabindex="-1"></a></span>
+<span id="cb30-15"><a href="#cb30-15" tabindex="-1"></a><span class="co"># ensure there are no zeroes in the data otherwise you cannot log10 transform</span></span>
+<span id="cb30-16"><a href="#cb30-16" tabindex="-1"></a>blank.mass[blank.mass <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="fl">1e-6</span></span>
+<span id="cb30-17"><a href="#cb30-17" tabindex="-1"></a></span>
+<span id="cb30-18"><a href="#cb30-18" tabindex="-1"></a><span class="co"># log 10</span></span>
+<span id="cb30-19"><a href="#cb30-19" tabindex="-1"></a>log.mass <span class="ot">&lt;-</span> <span class="fu">log10</span>(blank.mass)</span>
+<span id="cb30-20"><a href="#cb30-20" tabindex="-1"></a></span>
+<span id="cb30-21"><a href="#cb30-21" tabindex="-1"></a><span class="co"># LOQ calculation</span></span>
+<span id="cb30-22"><a href="#cb30-22" tabindex="-1"></a>log.mass <span class="ot">&lt;-</span> <span class="fu">log10</span>(blank.mass)</span>
+<span id="cb30-23"><a href="#cb30-23" tabindex="-1"></a>log.mass <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(log.mass))</span>
+<span id="cb30-24"><a href="#cb30-24" tabindex="-1"></a>log.avg <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(log.mass)</span>
+<span id="cb30-25"><a href="#cb30-25" tabindex="-1"></a>log.sd <span class="ot">&lt;-</span> <span class="fu">apply</span>(log.mass, <span class="dv">1</span>, sd)</span>
+<span id="cb30-26"><a href="#cb30-26" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(blank.mass)</span>
+<span id="cb30-27"><a href="#cb30-27" tabindex="-1"></a>log.loq <span class="ot">&lt;-</span> log.avg <span class="sc">+</span> (<span class="fl">2.325</span> <span class="sc">*</span> (log.sd<span class="sc">/</span><span class="fu">sqrt</span>(n)))</span>
+<span id="cb30-28"><a href="#cb30-28" tabindex="-1"></a>loq <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="dv">10</span><span class="sc">^</span>log.loq)</span>
+<span id="cb30-29"><a href="#cb30-29" tabindex="-1"></a></span>
+<span id="cb30-30"><a href="#cb30-30" tabindex="-1"></a><span class="co"># rerrange into presentable table</span></span>
+<span id="cb30-31"><a href="#cb30-31" tabindex="-1"></a>final.loq <span class="ot">&lt;-</span> <span class="fu">cbind</span>(congener.list, loq)</span>
+<span id="cb30-32"><a href="#cb30-32" tabindex="-1"></a><span class="fu">colnames</span>(final.loq) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;Congener&#39;</span>, <span class="st">&#39;LOQ&#39;</span>)</span>
+<span id="cb30-33"><a href="#cb30-33" tabindex="-1"></a>final.loq<span class="sc">$</span>Congener <span class="ot">&lt;-</span> <span class="fu">factor</span>(final.loq<span class="sc">$</span>Congener, <span class="at">levels =</span> final.loq<span class="sc">$</span>Congener)</span>
+<span id="cb30-34"><a href="#cb30-34" tabindex="-1"></a><span class="fu">summary</span>(final.loq)</span></code></pre></div>
 <hr />
 </div>
 <div id="example-3-calculate-air-concentration" class="section level1" number="9">
@@ -2615,22 +2625,22 @@ through each element one by one and applies the same logic to each.</p>
 <p>For loops are a type of loop that iterates over a user-specified
 interval. Code inside the for loop will repeat until the end condition
 is met.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="co"># A vector of numbers</span></span>
-<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a></span>
-<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a>numbers <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">10</span>)</span>
-<span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a></span>
-<span id="cb30-5"><a href="#cb30-5" tabindex="-1"></a><span class="co"># For loop that prints the square of each number</span></span>
-<span id="cb30-6"><a href="#cb30-6" tabindex="-1"></a><span class="co"># i is the variable or value being iterated. Each time the loop restarts, i increases.</span></span>
-<span id="cb30-7"><a href="#cb30-7" tabindex="-1"></a></span>
-<span id="cb30-8"><a href="#cb30-8" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> numbers) {</span>
-<span id="cb30-9"><a href="#cb30-9" tabindex="-1"></a>  </span>
-<span id="cb30-10"><a href="#cb30-10" tabindex="-1"></a>  squared <span class="ot">&lt;-</span> i<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb30-11"><a href="#cb30-11" tabindex="-1"></a>  </span>
-<span id="cb30-12"><a href="#cb30-12" tabindex="-1"></a>  <span class="co"># cat() (concatenate) prints the combination of variables or text provided in the parentheses. </span></span>
-<span id="cb30-13"><a href="#cb30-13" tabindex="-1"></a>  </span>
-<span id="cb30-14"><a href="#cb30-14" tabindex="-1"></a>  <span class="fu">cat</span>(i, <span class="st">&quot;squared is&quot;</span>, squared, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>) </span>
-<span id="cb30-15"><a href="#cb30-15" tabindex="-1"></a>  </span>
-<span id="cb30-16"><a href="#cb30-16" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="co"># A vector of numbers</span></span>
+<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a>numbers <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">10</span>)</span>
+<span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" tabindex="-1"></a><span class="co"># For loop that prints the square of each number</span></span>
+<span id="cb31-6"><a href="#cb31-6" tabindex="-1"></a><span class="co"># i is the variable or value being iterated. Each time the loop restarts, i increases.</span></span>
+<span id="cb31-7"><a href="#cb31-7" tabindex="-1"></a></span>
+<span id="cb31-8"><a href="#cb31-8" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> numbers) {</span>
+<span id="cb31-9"><a href="#cb31-9" tabindex="-1"></a>  </span>
+<span id="cb31-10"><a href="#cb31-10" tabindex="-1"></a>  squared <span class="ot">&lt;-</span> i<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb31-11"><a href="#cb31-11" tabindex="-1"></a>  </span>
+<span id="cb31-12"><a href="#cb31-12" tabindex="-1"></a>  <span class="co"># cat() (concatenate) prints the combination of variables or text provided in the parentheses. </span></span>
+<span id="cb31-13"><a href="#cb31-13" tabindex="-1"></a>  </span>
+<span id="cb31-14"><a href="#cb31-14" tabindex="-1"></a>  <span class="fu">cat</span>(i, <span class="st">&quot;squared is&quot;</span>, squared, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>) </span>
+<span id="cb31-15"><a href="#cb31-15" tabindex="-1"></a>  </span>
+<span id="cb31-16"><a href="#cb31-16" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div id="functions" class="section level2" number="9.2">
 <h2><span class="header-section-number">9.2</span> Functions</h2>
@@ -2647,42 +2657,42 @@ keeping your code organized, readable, and less prone to errors that can
 creep in when duplicating code manually.</p>
 <p>This example shows how to structure a custom function and how it can
 be used to calculate air concentrations.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="co"># To calculate PCB air concentrations from a PUF-PAS, first, the k_puf must be calculated.</span></span>
-<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a></span>
-<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a><span class="co"># kpuf calculations</span></span>
-<span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a></span>
-<span id="cb31-5"><a href="#cb31-5" tabindex="-1"></a>kpuf.calc <span class="ot">&lt;-</span> <span class="cf">function</span>(pcb, R, temp.c) {</span>
-<span id="cb31-6"><a href="#cb31-6" tabindex="-1"></a>  duoa <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> <span class="fu">nrow</span>(pcb), <span class="at">ncol =</span> <span class="dv">1</span>))</span>
-<span id="cb31-7"><a href="#cb31-7" tabindex="-1"></a>  koa <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> <span class="fu">nrow</span>(pcb), <span class="at">ncol =</span> <span class="dv">1</span>))</span>
-<span id="cb31-8"><a href="#cb31-8" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(pcb)) {</span>
-<span id="cb31-9"><a href="#cb31-9" tabindex="-1"></a>    duoa[i,<span class="dv">1</span>] <span class="ot">&lt;-</span> (<span class="sc">-</span><span class="fl">0.13</span> <span class="sc">*</span> pcb[i,<span class="dv">3</span>] <span class="sc">+</span> <span class="fl">2.9</span> <span class="sc">*</span> pcb[i,<span class="dv">2</span>] <span class="sc">-</span> <span class="fl">47.8</span>) <span class="sc">*</span> <span class="dv">1000</span></span>
-<span id="cb31-10"><a href="#cb31-10" tabindex="-1"></a>  }</span>
-<span id="cb31-11"><a href="#cb31-11" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(pcb)) {</span>
-<span id="cb31-12"><a href="#cb31-12" tabindex="-1"></a>    koa[j,<span class="dv">1</span>] <span class="ot">&lt;-</span> pcb[j,<span class="dv">5</span>] <span class="sc">-</span> (duoa[j,<span class="dv">1</span>] <span class="sc">/</span> (<span class="fl">2.303</span> <span class="sc">*</span> R)) <span class="sc">*</span> ((<span class="dv">1</span> <span class="sc">/</span> (<span class="fl">273.15</span> <span class="sc">+</span> temp.c)) <span class="sc">-</span> (<span class="dv">1</span> <span class="sc">/</span> <span class="fl">298.15</span>))</span>
-<span id="cb31-13"><a href="#cb31-13" tabindex="-1"></a>  }</span>
-<span id="cb31-14"><a href="#cb31-14" tabindex="-1"></a>  l.kpuf <span class="ot">&lt;-</span> (<span class="fl">0.6366</span> <span class="sc">*</span> koa) <span class="sc">-</span> <span class="fl">3.1774</span></span>
-<span id="cb31-15"><a href="#cb31-15" tabindex="-1"></a>  kpuf <span class="ot">&lt;-</span> <span class="dv">10</span><span class="sc">^</span>(l.kpuf)</span>
-<span id="cb31-16"><a href="#cb31-16" tabindex="-1"></a>  <span class="fu">return</span>(kpuf)</span>
-<span id="cb31-17"><a href="#cb31-17" tabindex="-1"></a>}</span>
-<span id="cb31-18"><a href="#cb31-18" tabindex="-1"></a></span>
-<span id="cb31-19"><a href="#cb31-19" tabindex="-1"></a><span class="co"># concentration calculation</span></span>
-<span id="cb31-20"><a href="#cb31-20" tabindex="-1"></a><span class="co"># Here, a new function is defined that can be called and executed in a later part of a script </span></span>
-<span id="cb31-21"><a href="#cb31-21" tabindex="-1"></a></span>
-<span id="cb31-22"><a href="#cb31-22" tabindex="-1"></a>conc.calc <span class="ot">&lt;-</span> <span class="cf">function</span>(fsch.air,veff,flist){</span>
-<span id="cb31-23"><a href="#cb31-23" tabindex="-1"></a>  <span class="co"># Begins by creating a data frame named &quot;sch.conc&quot; with an equal number of rows and columns as fsch.air data frame</span></span>
-<span id="cb31-24"><a href="#cb31-24" tabindex="-1"></a>  sch.conc <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> <span class="fu">nrow</span>(fsch.air), <span class="at">ncol =</span> <span class="fu">ncol</span>(fsch.air))) </span>
-<span id="cb31-25"><a href="#cb31-25" tabindex="-1"></a>  <span class="cf">for</span> (c.i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(fsch.air)) {</span>
-<span id="cb31-26"><a href="#cb31-26" tabindex="-1"></a>    <span class="cf">for</span> (c.j <span class="cf">in</span>  <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(fsch.air)) {</span>
-<span id="cb31-27"><a href="#cb31-27" tabindex="-1"></a>      sch.conc[c.i,c.j] <span class="ot">&lt;-</span> fsch.air[c.i,c.j] <span class="sc">/</span> veff[c.j,<span class="dv">2</span>]  <span class="co"># References row i and column j from the fsch.air data frame</span></span>
-<span id="cb31-28"><a href="#cb31-28" tabindex="-1"></a>    }</span>
-<span id="cb31-29"><a href="#cb31-29" tabindex="-1"></a>  }</span>
-<span id="cb31-30"><a href="#cb31-30" tabindex="-1"></a>  sch.conc.t <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">rowSums</span>(sch.conc)) <span class="co"># Sums the rows of sch.conc </span></span>
-<span id="cb31-31"><a href="#cb31-31" tabindex="-1"></a>  sch.conc.t <span class="ot">&lt;-</span> <span class="fu">signif</span>(sch.conc.t,<span class="dv">2</span>)        <span class="co"># significant figures</span></span>
-<span id="cb31-32"><a href="#cb31-32" tabindex="-1"></a>  <span class="fu">names</span>(sch.conc.t) <span class="ot">&lt;-</span> <span class="st">&#39;Concentration&#39;</span>     <span class="co"># Sets column name to &#39;Concentration&#39; </span></span>
-<span id="cb31-33"><a href="#cb31-33" tabindex="-1"></a>  sch.conc.t <span class="ot">&lt;-</span> <span class="fu">cbind</span>(flist, sch.conc.t)   <span class="co"># final concentrations ng/m3</span></span>
-<span id="cb31-34"><a href="#cb31-34" tabindex="-1"></a>  </span>
-<span id="cb31-35"><a href="#cb31-35" tabindex="-1"></a>  <span class="fu">return</span>(sch.conc.t)</span>
-<span id="cb31-36"><a href="#cb31-36" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="co"># To calculate PCB air concentrations from a PUF-PAS, first, the k_puf must be calculated.</span></span>
+<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" tabindex="-1"></a><span class="co"># kpuf calculations</span></span>
+<span id="cb32-4"><a href="#cb32-4" tabindex="-1"></a></span>
+<span id="cb32-5"><a href="#cb32-5" tabindex="-1"></a>kpuf.calc <span class="ot">&lt;-</span> <span class="cf">function</span>(pcb, R, temp.c) {</span>
+<span id="cb32-6"><a href="#cb32-6" tabindex="-1"></a>  duoa <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> <span class="fu">nrow</span>(pcb), <span class="at">ncol =</span> <span class="dv">1</span>))</span>
+<span id="cb32-7"><a href="#cb32-7" tabindex="-1"></a>  koa <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> <span class="fu">nrow</span>(pcb), <span class="at">ncol =</span> <span class="dv">1</span>))</span>
+<span id="cb32-8"><a href="#cb32-8" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(pcb)) {</span>
+<span id="cb32-9"><a href="#cb32-9" tabindex="-1"></a>    duoa[i,<span class="dv">1</span>] <span class="ot">&lt;-</span> (<span class="sc">-</span><span class="fl">0.13</span> <span class="sc">*</span> pcb[i,<span class="dv">3</span>] <span class="sc">+</span> <span class="fl">2.9</span> <span class="sc">*</span> pcb[i,<span class="dv">2</span>] <span class="sc">-</span> <span class="fl">47.8</span>) <span class="sc">*</span> <span class="dv">1000</span></span>
+<span id="cb32-10"><a href="#cb32-10" tabindex="-1"></a>  }</span>
+<span id="cb32-11"><a href="#cb32-11" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(pcb)) {</span>
+<span id="cb32-12"><a href="#cb32-12" tabindex="-1"></a>    koa[j,<span class="dv">1</span>] <span class="ot">&lt;-</span> pcb[j,<span class="dv">5</span>] <span class="sc">-</span> (duoa[j,<span class="dv">1</span>] <span class="sc">/</span> (<span class="fl">2.303</span> <span class="sc">*</span> R)) <span class="sc">*</span> ((<span class="dv">1</span> <span class="sc">/</span> (<span class="fl">273.15</span> <span class="sc">+</span> temp.c)) <span class="sc">-</span> (<span class="dv">1</span> <span class="sc">/</span> <span class="fl">298.15</span>))</span>
+<span id="cb32-13"><a href="#cb32-13" tabindex="-1"></a>  }</span>
+<span id="cb32-14"><a href="#cb32-14" tabindex="-1"></a>  l.kpuf <span class="ot">&lt;-</span> (<span class="fl">0.6366</span> <span class="sc">*</span> koa) <span class="sc">-</span> <span class="fl">3.1774</span></span>
+<span id="cb32-15"><a href="#cb32-15" tabindex="-1"></a>  kpuf <span class="ot">&lt;-</span> <span class="dv">10</span><span class="sc">^</span>(l.kpuf)</span>
+<span id="cb32-16"><a href="#cb32-16" tabindex="-1"></a>  <span class="fu">return</span>(kpuf)</span>
+<span id="cb32-17"><a href="#cb32-17" tabindex="-1"></a>}</span>
+<span id="cb32-18"><a href="#cb32-18" tabindex="-1"></a></span>
+<span id="cb32-19"><a href="#cb32-19" tabindex="-1"></a><span class="co"># concentration calculation</span></span>
+<span id="cb32-20"><a href="#cb32-20" tabindex="-1"></a><span class="co"># Here, a new function is defined that can be called and executed in a later part of a script </span></span>
+<span id="cb32-21"><a href="#cb32-21" tabindex="-1"></a></span>
+<span id="cb32-22"><a href="#cb32-22" tabindex="-1"></a>conc.calc <span class="ot">&lt;-</span> <span class="cf">function</span>(fsch.air,veff,flist){</span>
+<span id="cb32-23"><a href="#cb32-23" tabindex="-1"></a>  <span class="co"># Begins by creating a data frame named &quot;sch.conc&quot; with an equal number of rows and columns as fsch.air data frame</span></span>
+<span id="cb32-24"><a href="#cb32-24" tabindex="-1"></a>  sch.conc <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> <span class="fu">nrow</span>(fsch.air), <span class="at">ncol =</span> <span class="fu">ncol</span>(fsch.air))) </span>
+<span id="cb32-25"><a href="#cb32-25" tabindex="-1"></a>  <span class="cf">for</span> (c.i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(fsch.air)) {</span>
+<span id="cb32-26"><a href="#cb32-26" tabindex="-1"></a>    <span class="cf">for</span> (c.j <span class="cf">in</span>  <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(fsch.air)) {</span>
+<span id="cb32-27"><a href="#cb32-27" tabindex="-1"></a>      sch.conc[c.i,c.j] <span class="ot">&lt;-</span> fsch.air[c.i,c.j] <span class="sc">/</span> veff[c.j,<span class="dv">2</span>]  <span class="co"># References row i and column j from the fsch.air data frame</span></span>
+<span id="cb32-28"><a href="#cb32-28" tabindex="-1"></a>    }</span>
+<span id="cb32-29"><a href="#cb32-29" tabindex="-1"></a>  }</span>
+<span id="cb32-30"><a href="#cb32-30" tabindex="-1"></a>  sch.conc.t <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">rowSums</span>(sch.conc)) <span class="co"># Sums the rows of sch.conc </span></span>
+<span id="cb32-31"><a href="#cb32-31" tabindex="-1"></a>  sch.conc.t <span class="ot">&lt;-</span> <span class="fu">signif</span>(sch.conc.t,<span class="dv">2</span>)        <span class="co"># significant figures</span></span>
+<span id="cb32-32"><a href="#cb32-32" tabindex="-1"></a>  <span class="fu">names</span>(sch.conc.t) <span class="ot">&lt;-</span> <span class="st">&#39;Concentration&#39;</span>     <span class="co"># Sets column name to &#39;Concentration&#39; </span></span>
+<span id="cb32-33"><a href="#cb32-33" tabindex="-1"></a>  sch.conc.t <span class="ot">&lt;-</span> <span class="fu">cbind</span>(flist, sch.conc.t)   <span class="co"># final concentrations ng/m3</span></span>
+<span id="cb32-34"><a href="#cb32-34" tabindex="-1"></a>  </span>
+<span id="cb32-35"><a href="#cb32-35" tabindex="-1"></a>  <span class="fu">return</span>(sch.conc.t)</span>
+<span id="cb32-36"><a href="#cb32-36" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div id="import-data" class="section level2" number="9.3">
 <h2><span class="header-section-number">9.3</span> Import Data</h2>
@@ -2691,15 +2701,15 @@ congener properties, sample mass from Hua et al. 2023 (<a href="https://doi.org
 type information.</p>
 <p>Parameters used in this model are from Herkert et al. 2018 (<a href="https://doi.org/10.1039/C7EM00360A" class="uri">https://doi.org/10.1039/C7EM00360A</a>) and Bannavti and
 Jahnke et al. 2021 (<a href="https://doi.org/10.1021/acs.est.0c08149" class="uri">https://doi.org/10.1021/acs.est.0c08149</a>).</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a>pcb <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 3/koaCalc.csv&#39;</span>, <span class="at">header =</span> T)      <span class="co"># pcb values for calculation koa</span></span>
-<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a>kpuf <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 3/kpuf.csv&#39;</span>, <span class="at">header =</span> T)</span>
-<span id="cb32-3"><a href="#cb32-3" tabindex="-1"></a>sample.mass <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 3/ogMass_practice.csv&#39;</span>, <span class="at">header =</span> T)</span>
-<span id="cb32-4"><a href="#cb32-4" tabindex="-1"></a>congener.list <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 3/ogMass_practice.csv&#39;</span>, <span class="at">header =</span> F)</span>
-<span id="cb32-5"><a href="#cb32-5" tabindex="-1"></a>sample.type <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 3/ogSampleType_20220927.csv&#39;</span>, <span class="at">header =</span> T)</span>
-<span id="cb32-6"><a href="#cb32-6" tabindex="-1"></a></span>
-<span id="cb32-7"><a href="#cb32-7" tabindex="-1"></a><span class="co"># Takes the first row, removes first two columns, transposing the remaining </span></span>
-<span id="cb32-8"><a href="#cb32-8" tabindex="-1"></a><span class="co"># values into a column, and converting to a data frame</span></span>
-<span id="cb32-9"><a href="#cb32-9" tabindex="-1"></a>congener.list <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(congener.list[<span class="dv">1</span>,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)])) </span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a>pcb <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 3/koaCalc.csv&#39;</span>, <span class="at">header =</span> T)      <span class="co"># pcb values for calculation koa</span></span>
+<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a>kpuf <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 3/kpuf.csv&#39;</span>, <span class="at">header =</span> T)</span>
+<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a>sample.mass <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 3/ogMass_practice.csv&#39;</span>, <span class="at">header =</span> T)</span>
+<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a>congener.list <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 3/ogMass_practice.csv&#39;</span>, <span class="at">header =</span> F)</span>
+<span id="cb33-5"><a href="#cb33-5" tabindex="-1"></a>sample.type <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 3/ogSampleType_20220927.csv&#39;</span>, <span class="at">header =</span> T)</span>
+<span id="cb33-6"><a href="#cb33-6" tabindex="-1"></a></span>
+<span id="cb33-7"><a href="#cb33-7" tabindex="-1"></a><span class="co"># Takes the first row, removes first two columns, transposing the remaining </span></span>
+<span id="cb33-8"><a href="#cb33-8" tabindex="-1"></a><span class="co"># values into a column, and converting to a data frame</span></span>
+<span id="cb33-9"><a href="#cb33-9" tabindex="-1"></a>congener.list <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(congener.list[<span class="dv">1</span>,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)])) </span></code></pre></div>
 </div>
 <div id="set-indoor-air-parameters" class="section level2" number="9.4">
 <h2><span class="header-section-number">9.4</span> Set Indoor Air
@@ -2707,26 +2717,26 @@ Parameters</h2>
 <p>Here, we initialize our variables based on values from Herkert et
 al. 2018 and Bannavti and Jahnke et al. 2021. These can differ depending
 on the nature of the project.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a>t.days <span class="ot">&lt;-</span> <span class="dv">29</span>    <span class="co">#deployment time, days</span></span>
-<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a>ws.on <span class="ot">&lt;-</span> <span class="fl">0.11</span>   <span class="co">#indoor wind speed when HVAC is on, m/s</span></span>
-<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a>ws.off <span class="ot">&lt;-</span> <span class="fl">0.07</span>  <span class="co">#indoor wind speed when HVAC is off, m/s</span></span>
-<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a>f.on <span class="ot">&lt;-</span> <span class="fl">0.36</span>    <span class="co">#fraction HVAC is on, unitless</span></span>
-<span id="cb33-5"><a href="#cb33-5" tabindex="-1"></a>f.off <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> f.on <span class="co">#fraction HVAC is off, unitless</span></span>
-<span id="cb33-6"><a href="#cb33-6" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fl">1.326</span>      <span class="co">#sampler constant, unitless</span></span>
-<span id="cb33-7"><a href="#cb33-7" tabindex="-1"></a>puf.sa <span class="ot">&lt;-</span> <span class="fl">0.0153</span> <span class="co">#PUF surface area, m2</span></span>
-<span id="cb33-8"><a href="#cb33-8" tabindex="-1"></a>v.puf <span class="ot">&lt;-</span> <span class="fl">2.295e-04</span> <span class="co">#PUF volume, m3 </span></span>
-<span id="cb33-9"><a href="#cb33-9" tabindex="-1"></a>den.puf <span class="ot">&lt;-</span> <span class="dv">21300</span> <span class="co">#PUF density, g/m3 </span></span>
-<span id="cb33-10"><a href="#cb33-10" tabindex="-1"></a>temp.c <span class="ot">=</span> <span class="dv">23</span>      <span class="co"># temperature in C (73 F used)</span></span>
-<span id="cb33-11"><a href="#cb33-11" tabindex="-1"></a>R <span class="ot">=</span> <span class="fl">8.3144</span>       <span class="co"># gas constant</span></span>
-<span id="cb33-12"><a href="#cb33-12" tabindex="-1"></a></span>
-<span id="cb33-13"><a href="#cb33-13" tabindex="-1"></a>cong <span class="ot">&lt;-</span> pcb[,<span class="dv">1</span>]</span>
-<span id="cb33-14"><a href="#cb33-14" tabindex="-1"></a><span class="fu">names</span>(cong) <span class="ot">&lt;-</span> <span class="st">&#39;Congener&#39;</span></span>
-<span id="cb33-15"><a href="#cb33-15" tabindex="-1"></a></span>
-<span id="cb33-16"><a href="#cb33-16" tabindex="-1"></a><span class="co"># koa to kpuf based on temperature</span></span>
-<span id="cb33-17"><a href="#cb33-17" tabindex="-1"></a><span class="co"># Calls a previously defined function that is to use pcb, R, and temp.c values</span></span>
-<span id="cb33-18"><a href="#cb33-18" tabindex="-1"></a></span>
-<span id="cb33-19"><a href="#cb33-19" tabindex="-1"></a>kpuf <span class="ot">&lt;-</span> <span class="fu">kpuf.calc</span>(pcb,R,temp.c) </span>
-<span id="cb33-20"><a href="#cb33-20" tabindex="-1"></a>kpuf <span class="ot">&lt;-</span> kpuf <span class="sc">*</span> den.puf</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a>t.days <span class="ot">&lt;-</span> <span class="dv">29</span>    <span class="co">#deployment time, days</span></span>
+<span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a>ws.on <span class="ot">&lt;-</span> <span class="fl">0.11</span>   <span class="co">#indoor wind speed when HVAC is on, m/s</span></span>
+<span id="cb34-3"><a href="#cb34-3" tabindex="-1"></a>ws.off <span class="ot">&lt;-</span> <span class="fl">0.07</span>  <span class="co">#indoor wind speed when HVAC is off, m/s</span></span>
+<span id="cb34-4"><a href="#cb34-4" tabindex="-1"></a>f.on <span class="ot">&lt;-</span> <span class="fl">0.36</span>    <span class="co">#fraction HVAC is on, unitless</span></span>
+<span id="cb34-5"><a href="#cb34-5" tabindex="-1"></a>f.off <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> f.on <span class="co">#fraction HVAC is off, unitless</span></span>
+<span id="cb34-6"><a href="#cb34-6" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fl">1.326</span>      <span class="co">#sampler constant, unitless</span></span>
+<span id="cb34-7"><a href="#cb34-7" tabindex="-1"></a>puf.sa <span class="ot">&lt;-</span> <span class="fl">0.0153</span> <span class="co">#PUF surface area, m2</span></span>
+<span id="cb34-8"><a href="#cb34-8" tabindex="-1"></a>v.puf <span class="ot">&lt;-</span> <span class="fl">2.295e-04</span> <span class="co">#PUF volume, m3 </span></span>
+<span id="cb34-9"><a href="#cb34-9" tabindex="-1"></a>den.puf <span class="ot">&lt;-</span> <span class="dv">21300</span> <span class="co">#PUF density, g/m3 </span></span>
+<span id="cb34-10"><a href="#cb34-10" tabindex="-1"></a>temp.c <span class="ot">=</span> <span class="dv">23</span>      <span class="co"># temperature in C (73 F used)</span></span>
+<span id="cb34-11"><a href="#cb34-11" tabindex="-1"></a>R <span class="ot">=</span> <span class="fl">8.3144</span>       <span class="co"># gas constant</span></span>
+<span id="cb34-12"><a href="#cb34-12" tabindex="-1"></a></span>
+<span id="cb34-13"><a href="#cb34-13" tabindex="-1"></a>cong <span class="ot">&lt;-</span> pcb[,<span class="dv">1</span>]</span>
+<span id="cb34-14"><a href="#cb34-14" tabindex="-1"></a><span class="fu">names</span>(cong) <span class="ot">&lt;-</span> <span class="st">&#39;Congener&#39;</span></span>
+<span id="cb34-15"><a href="#cb34-15" tabindex="-1"></a></span>
+<span id="cb34-16"><a href="#cb34-16" tabindex="-1"></a><span class="co"># koa to kpuf based on temperature</span></span>
+<span id="cb34-17"><a href="#cb34-17" tabindex="-1"></a><span class="co"># Calls a previously defined function that is to use pcb, R, and temp.c values</span></span>
+<span id="cb34-18"><a href="#cb34-18" tabindex="-1"></a></span>
+<span id="cb34-19"><a href="#cb34-19" tabindex="-1"></a>kpuf <span class="ot">&lt;-</span> <span class="fu">kpuf.calc</span>(pcb,R,temp.c) </span>
+<span id="cb34-20"><a href="#cb34-20" tabindex="-1"></a>kpuf <span class="ot">&lt;-</span> kpuf <span class="sc">*</span> den.puf</span></code></pre></div>
 </div>
 <div id="calculate-sampling-rate-rs" class="section level2" number="9.5">
 <h2><span class="header-section-number">9.5</span> Calculate Sampling
@@ -2734,50 +2744,50 @@ Rate (R<sub>s</sub>)</h2>
 <p><span class="math display">\[ R_{s} =
 (f_{on}\sqrt{WS_{on}}+f_{off}\sqrt{WS_{off}})({1 \over \root
 3\of{MW}})10^{[0.0012T+c]}\]</span></p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a><span class="co"># Creates a data frame with an equal number of rows as the pcb data frame with </span></span>
-<span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a><span class="co"># 1 column</span></span>
-<span id="cb34-3"><a href="#cb34-3" tabindex="-1"></a>rs <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> <span class="fu">nrow</span>(pcb), <span class="at">ncol =</span> <span class="dv">1</span>))</span>
-<span id="cb34-4"><a href="#cb34-4" tabindex="-1"></a></span>
-<span id="cb34-5"><a href="#cb34-5" tabindex="-1"></a><span class="cf">for</span> (l <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(pcb)) {</span>
-<span id="cb34-6"><a href="#cb34-6" tabindex="-1"></a>  rs[l,<span class="dv">1</span>] <span class="ot">&lt;-</span> ((f.on <span class="sc">*</span> (<span class="fu">sqrt</span>(ws.on))) <span class="sc">+</span> (f.off <span class="sc">*</span> (<span class="fu">sqrt</span>(ws.off))))<span class="sc">*</span>(<span class="dv">1</span><span class="sc">/</span>(pcb[l,<span class="dv">3</span>]<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>)))<span class="sc">*</span>(<span class="dv">10</span><span class="sc">^</span>((<span class="fl">0.0012</span><span class="sc">*</span>t.days)<span class="sc">+</span>c))</span>
-<span id="cb34-7"><a href="#cb34-7" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="co"># Creates a data frame with an equal number of rows as the pcb data frame with </span></span>
+<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a><span class="co"># 1 column</span></span>
+<span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a>rs <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> <span class="fu">nrow</span>(pcb), <span class="at">ncol =</span> <span class="dv">1</span>))</span>
+<span id="cb35-4"><a href="#cb35-4" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" tabindex="-1"></a><span class="cf">for</span> (l <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(pcb)) {</span>
+<span id="cb35-6"><a href="#cb35-6" tabindex="-1"></a>  rs[l,<span class="dv">1</span>] <span class="ot">&lt;-</span> ((f.on <span class="sc">*</span> (<span class="fu">sqrt</span>(ws.on))) <span class="sc">+</span> (f.off <span class="sc">*</span> (<span class="fu">sqrt</span>(ws.off))))<span class="sc">*</span>(<span class="dv">1</span><span class="sc">/</span>(pcb[l,<span class="dv">3</span>]<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>)))<span class="sc">*</span>(<span class="dv">10</span><span class="sc">^</span>((<span class="fl">0.0012</span><span class="sc">*</span>t.days)<span class="sc">+</span>c))</span>
+<span id="cb35-7"><a href="#cb35-7" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div id="calculate-effective-volume-veff" class="section level2" number="9.6">
 <h2><span class="header-section-number">9.6</span> Calculate Effective
 Volume (V<sub>eff</sub>)</h2>
 <p><span class="math display">\[V_{eff} =
 (V_{PUF}K_{PUF})[1-e^{-R_{S}t\over V_{PUF}K_{PUF}}]\]</span></p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a>v.eff <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> <span class="fu">nrow</span>(pcb), <span class="at">ncol =</span> <span class="dv">1</span>))</span>
-<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a></span>
-<span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a><span class="cf">for</span> (ii <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(pcb)) {</span>
-<span id="cb35-4"><a href="#cb35-4" tabindex="-1"></a>  v.eff[ii,<span class="dv">1</span>] <span class="ot">&lt;-</span> (v.puf <span class="sc">*</span> kpuf[ii,<span class="dv">1</span>]) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> (<span class="fu">exp</span>((<span class="sc">-</span>(rs[ii,<span class="dv">1</span>] <span class="sc">/</span> (v.puf <span class="sc">*</span> kpuf[ii,<span class="dv">1</span>]))<span class="sc">*</span> t.days))))</span>
-<span id="cb35-5"><a href="#cb35-5" tabindex="-1"></a>}</span>
-<span id="cb35-6"><a href="#cb35-6" tabindex="-1"></a><span class="fu">names</span>(v.eff) <span class="ot">&lt;-</span> <span class="st">&#39;V_eff&#39;</span></span>
-<span id="cb35-7"><a href="#cb35-7" tabindex="-1"></a></span>
-<span id="cb35-8"><a href="#cb35-8" tabindex="-1"></a>v.eff <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(v.eff)</span>
-<span id="cb35-9"><a href="#cb35-9" tabindex="-1"></a></span>
-<span id="cb35-10"><a href="#cb35-10" tabindex="-1"></a><span class="co"># Remove specific congeners from data frame</span></span>
-<span id="cb35-11"><a href="#cb35-11" tabindex="-1"></a>V.eff <span class="ot">&lt;-</span> v.eff[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">13</span>,<span class="dv">28</span>,<span class="dv">29</span>,<span class="dv">30</span>,<span class="dv">33</span>,<span class="dv">47</span>,<span class="dv">53</span>,<span class="dv">62</span>,<span class="dv">65</span>,<span class="dv">69</span>,<span class="dv">70</span>,<span class="dv">71</span>,<span class="dv">74</span>,<span class="dv">75</span>,<span class="dv">76</span>,<span class="dv">97</span>,<span class="dv">100</span>,<span class="dv">101</span>,<span class="dv">109</span>,<span class="dv">113</span>,<span class="dv">116</span>,<span class="dv">119</span>,<span class="dv">124</span>,<span class="dv">125</span>,<span class="dv">138</span>,<span class="dv">140</span>,<span class="dv">149</span>,</span>
-<span id="cb35-12"><a href="#cb35-12" tabindex="-1"></a>                  <span class="dv">151</span>,<span class="dv">157</span>,<span class="dv">163</span>,<span class="dv">166</span>,<span class="dv">168</span>,<span class="dv">173</span>,<span class="dv">193</span>,<span class="dv">199</span>,<span class="dv">204</span>),]</span>
-<span id="cb35-13"><a href="#cb35-13" tabindex="-1"></a></span>
-<span id="cb35-14"><a href="#cb35-14" tabindex="-1"></a><span class="co"># Combine the congener.list and V.eff data frame into a single data frame </span></span>
-<span id="cb35-15"><a href="#cb35-15" tabindex="-1"></a>V.eff <span class="ot">&lt;-</span> <span class="fu">cbind</span>(congener.list,V.eff) </span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a>v.eff <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> <span class="fu">nrow</span>(pcb), <span class="at">ncol =</span> <span class="dv">1</span>))</span>
+<span id="cb36-2"><a href="#cb36-2" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" tabindex="-1"></a><span class="cf">for</span> (ii <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(pcb)) {</span>
+<span id="cb36-4"><a href="#cb36-4" tabindex="-1"></a>  v.eff[ii,<span class="dv">1</span>] <span class="ot">&lt;-</span> (v.puf <span class="sc">*</span> kpuf[ii,<span class="dv">1</span>]) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> (<span class="fu">exp</span>((<span class="sc">-</span>(rs[ii,<span class="dv">1</span>] <span class="sc">/</span> (v.puf <span class="sc">*</span> kpuf[ii,<span class="dv">1</span>]))<span class="sc">*</span> t.days))))</span>
+<span id="cb36-5"><a href="#cb36-5" tabindex="-1"></a>}</span>
+<span id="cb36-6"><a href="#cb36-6" tabindex="-1"></a><span class="fu">names</span>(v.eff) <span class="ot">&lt;-</span> <span class="st">&#39;V_eff&#39;</span></span>
+<span id="cb36-7"><a href="#cb36-7" tabindex="-1"></a></span>
+<span id="cb36-8"><a href="#cb36-8" tabindex="-1"></a>v.eff <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(v.eff)</span>
+<span id="cb36-9"><a href="#cb36-9" tabindex="-1"></a></span>
+<span id="cb36-10"><a href="#cb36-10" tabindex="-1"></a><span class="co"># Remove specific congeners from data frame</span></span>
+<span id="cb36-11"><a href="#cb36-11" tabindex="-1"></a>V.eff <span class="ot">&lt;-</span> v.eff[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">13</span>,<span class="dv">28</span>,<span class="dv">29</span>,<span class="dv">30</span>,<span class="dv">33</span>,<span class="dv">47</span>,<span class="dv">53</span>,<span class="dv">62</span>,<span class="dv">65</span>,<span class="dv">69</span>,<span class="dv">70</span>,<span class="dv">71</span>,<span class="dv">74</span>,<span class="dv">75</span>,<span class="dv">76</span>,<span class="dv">97</span>,<span class="dv">100</span>,<span class="dv">101</span>,<span class="dv">109</span>,<span class="dv">113</span>,<span class="dv">116</span>,<span class="dv">119</span>,<span class="dv">124</span>,<span class="dv">125</span>,<span class="dv">138</span>,<span class="dv">140</span>,<span class="dv">149</span>,</span>
+<span id="cb36-12"><a href="#cb36-12" tabindex="-1"></a>                  <span class="dv">151</span>,<span class="dv">157</span>,<span class="dv">163</span>,<span class="dv">166</span>,<span class="dv">168</span>,<span class="dv">173</span>,<span class="dv">193</span>,<span class="dv">199</span>,<span class="dv">204</span>),]</span>
+<span id="cb36-13"><a href="#cb36-13" tabindex="-1"></a></span>
+<span id="cb36-14"><a href="#cb36-14" tabindex="-1"></a><span class="co"># Combine the congener.list and V.eff data frame into a single data frame </span></span>
+<span id="cb36-15"><a href="#cb36-15" tabindex="-1"></a>V.eff <span class="ot">&lt;-</span> <span class="fu">cbind</span>(congener.list,V.eff) </span></code></pre></div>
 </div>
 <div id="calculate-total-air-concentration" class="section level2" number="9.7">
 <h2><span class="header-section-number">9.7</span> Calculate Total Air
 Concentration</h2>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a><span class="co"># subset only air samples</span></span>
-<span id="cb36-2"><a href="#cb36-2" tabindex="-1"></a></span>
-<span id="cb36-3"><a href="#cb36-3" tabindex="-1"></a>sch.mass.idx <span class="ot">&lt;-</span> sample.mass</span>
-<span id="cb36-4"><a href="#cb36-4" tabindex="-1"></a>sch.air.t <span class="ot">&lt;-</span> <span class="fu">merge.data.frame</span>(sch.mass.idx, sample.type)</span>
-<span id="cb36-5"><a href="#cb36-5" tabindex="-1"></a>sch.air <span class="ot">&lt;-</span> sch.air.t[sch.air.t<span class="sc">$</span>sample.type <span class="sc">==</span> <span class="st">&#39;Air&#39;</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">176</span>]</span>
-<span id="cb36-6"><a href="#cb36-6" tabindex="-1"></a>sch.air.list <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(sch.air[,<span class="dv">1</span>])</span>
-<span id="cb36-7"><a href="#cb36-7" tabindex="-1"></a><span class="fu">names</span>(sch.air.list) <span class="ot">&lt;-</span> <span class="st">&#39;bid&#39;</span></span>
-<span id="cb36-8"><a href="#cb36-8" tabindex="-1"></a>sch.air <span class="ot">&lt;-</span> sch.air[,<span class="sc">-</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">176</span>))]</span>
-<span id="cb36-9"><a href="#cb36-9" tabindex="-1"></a></span>
-<span id="cb36-10"><a href="#cb36-10" tabindex="-1"></a><span class="co"># concentration calculation - run function</span></span>
-<span id="cb36-11"><a href="#cb36-11" tabindex="-1"></a></span>
-<span id="cb36-12"><a href="#cb36-12" tabindex="-1"></a>sch.air.conc <span class="ot">&lt;-</span> <span class="fu">conc.calc</span>(sch.air,V.eff,sch.air.list)</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" tabindex="-1"></a><span class="co"># subset only air samples</span></span>
+<span id="cb37-2"><a href="#cb37-2" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" tabindex="-1"></a>sch.mass.idx <span class="ot">&lt;-</span> sample.mass</span>
+<span id="cb37-4"><a href="#cb37-4" tabindex="-1"></a>sch.air.t <span class="ot">&lt;-</span> <span class="fu">merge.data.frame</span>(sch.mass.idx, sample.type)</span>
+<span id="cb37-5"><a href="#cb37-5" tabindex="-1"></a>sch.air <span class="ot">&lt;-</span> sch.air.t[sch.air.t<span class="sc">$</span>sample.type <span class="sc">==</span> <span class="st">&#39;Air&#39;</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">176</span>]</span>
+<span id="cb37-6"><a href="#cb37-6" tabindex="-1"></a>sch.air.list <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(sch.air[,<span class="dv">1</span>])</span>
+<span id="cb37-7"><a href="#cb37-7" tabindex="-1"></a><span class="fu">names</span>(sch.air.list) <span class="ot">&lt;-</span> <span class="st">&#39;bid&#39;</span></span>
+<span id="cb37-8"><a href="#cb37-8" tabindex="-1"></a>sch.air <span class="ot">&lt;-</span> sch.air[,<span class="sc">-</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">176</span>))]</span>
+<span id="cb37-9"><a href="#cb37-9" tabindex="-1"></a></span>
+<span id="cb37-10"><a href="#cb37-10" tabindex="-1"></a><span class="co"># concentration calculation - run function</span></span>
+<span id="cb37-11"><a href="#cb37-11" tabindex="-1"></a></span>
+<span id="cb37-12"><a href="#cb37-12" tabindex="-1"></a>sch.air.conc <span class="ot">&lt;-</span> <span class="fu">conc.calc</span>(sch.air,V.eff,sch.air.list)</span></code></pre></div>
 <hr />
 </div>
 </div>
@@ -2792,16 +2802,16 @@ use plotting functions. Thess are found in the “Cheat Sheets”
 folder.</p>
 <div id="simple-plot" class="section level2" number="10.1">
 <h2><span class="header-section-number">10.1</span> Simple Plot</h2>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" tabindex="-1"></a><span class="co"># Simple scatter plot</span></span>
-<span id="cb37-2"><a href="#cb37-2" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)</span>
-<span id="cb37-3"><a href="#cb37-3" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">2.3</span>, <span class="fl">4.1</span>, <span class="fl">3.8</span>, <span class="fl">6.2</span>, <span class="fl">5.9</span>)</span>
-<span id="cb37-4"><a href="#cb37-4" tabindex="-1"></a></span>
-<span id="cb37-5"><a href="#cb37-5" tabindex="-1"></a><span class="fu">plot</span>(x, y,</span>
-<span id="cb37-6"><a href="#cb37-6" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;My Plot Title&quot;</span>,  <span class="co"># Plot title</span></span>
-<span id="cb37-7"><a href="#cb37-7" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;X Axis Label&quot;</span>,   <span class="co"># X axis title</span></span>
-<span id="cb37-8"><a href="#cb37-8" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Y Axis Label&quot;</span>,   <span class="co"># Y axis title</span></span>
-<span id="cb37-9"><a href="#cb37-9" tabindex="-1"></a>     <span class="at">pch  =</span> <span class="dv">16</span>,      <span class="co"># filled circle points</span></span>
-<span id="cb37-10"><a href="#cb37-10" tabindex="-1"></a>     <span class="at">col  =</span> <span class="st">&quot;steelblue&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a><span class="co"># Simple scatter plot</span></span>
+<span id="cb38-2"><a href="#cb38-2" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)</span>
+<span id="cb38-3"><a href="#cb38-3" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">2.3</span>, <span class="fl">4.1</span>, <span class="fl">3.8</span>, <span class="fl">6.2</span>, <span class="fl">5.9</span>)</span>
+<span id="cb38-4"><a href="#cb38-4" tabindex="-1"></a></span>
+<span id="cb38-5"><a href="#cb38-5" tabindex="-1"></a><span class="fu">plot</span>(x, y,</span>
+<span id="cb38-6"><a href="#cb38-6" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;My Plot Title&quot;</span>,  <span class="co"># Plot title</span></span>
+<span id="cb38-7"><a href="#cb38-7" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;X Axis Label&quot;</span>,   <span class="co"># X axis title</span></span>
+<span id="cb38-8"><a href="#cb38-8" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Y Axis Label&quot;</span>,   <span class="co"># Y axis title</span></span>
+<span id="cb38-9"><a href="#cb38-9" tabindex="-1"></a>     <span class="at">pch  =</span> <span class="dv">16</span>,      <span class="co"># filled circle points</span></span>
+<span id="cb38-10"><a href="#cb38-10" tabindex="-1"></a>     <span class="at">col  =</span> <span class="st">&quot;steelblue&quot;</span>)</span></code></pre></div>
 </div>
 <div id="ggplot2" class="section level2" number="10.2">
 <h2><span class="header-section-number">10.2</span> ggplot2</h2>
@@ -2809,106 +2819,106 @@ folder.</p>
 is a powerful tool for customizing plots and figures. There is also a
 cheat sheet for using ggplot2 available in the “Cheat Sheets”
 folder.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb38-2"><a href="#cb38-2" tabindex="-1"></a></span>
-<span id="cb38-3"><a href="#cb38-3" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> my_data, <span class="fu">aes</span>(<span class="at">x =</span> variable_x, <span class="at">y =</span> variable_y)) <span class="sc">+</span></span>
-<span id="cb38-4"><a href="#cb38-4" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb38-5"><a href="#cb38-5" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">TRUE</span>, <span class="at">color =</span> <span class="st">&quot;darkred&quot;</span>) <span class="sc">+</span></span>
-<span id="cb38-6"><a href="#cb38-6" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb38-7"><a href="#cb38-7" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;My Plot Title&quot;</span>,</span>
-<span id="cb38-8"><a href="#cb38-8" tabindex="-1"></a>    <span class="at">x     =</span> <span class="st">&quot;X Axis Label&quot;</span>,</span>
-<span id="cb38-9"><a href="#cb38-9" tabindex="-1"></a>    <span class="at">y     =</span> <span class="st">&quot;Y Axis Label&quot;</span></span>
-<span id="cb38-10"><a href="#cb38-10" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb38-11"><a href="#cb38-11" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
-<p>This example introduces how to use ggplot2 with a boxplot
-example.</p>
 <div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb39-2"><a href="#cb39-2" tabindex="-1"></a></span>
-<span id="cb39-3"><a href="#cb39-3" tabindex="-1"></a><span class="co"># all school concentration stats</span></span>
-<span id="cb39-4"><a href="#cb39-4" tabindex="-1"></a></span>
-<span id="cb39-5"><a href="#cb39-5" tabindex="-1"></a>all.conc <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 4/allSchoolConc.csv&#39;</span>, <span class="at">header =</span> T, <span class="at">fileEncoding =</span> <span class="st">&#39;UTF-8-BOM&#39;</span>, <span class="at">check.names =</span> F)</span>
-<span id="cb39-6"><a href="#cb39-6" tabindex="-1"></a></span>
-<span id="cb39-7"><a href="#cb39-7" tabindex="-1"></a><span class="co"># subsets data into two new data frames, one with Vermont concentration data and one with UIowa data</span></span>
-<span id="cb39-8"><a href="#cb39-8" tabindex="-1"></a></span>
-<span id="cb39-9"><a href="#cb39-9" tabindex="-1"></a>vt.samp <span class="ot">&lt;-</span> all.conc[all.conc<span class="sc">$</span>Sampler<span class="sc">==</span><span class="st">&#39;vt&#39;</span>,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>)]</span>
-<span id="cb39-10"><a href="#cb39-10" tabindex="-1"></a>ui.samp <span class="ot">&lt;-</span> all.conc[all.conc<span class="sc">$</span>Sampler<span class="sc">==</span><span class="st">&#39;ui&#39;</span>,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>)]</span>
-<span id="cb39-11"><a href="#cb39-11" tabindex="-1"></a></span>
-<span id="cb39-12"><a href="#cb39-12" tabindex="-1"></a>sch.list <span class="ot">&lt;-</span> <span class="fu">distinct</span>(ui.samp, school)</span>
-<span id="cb39-13"><a href="#cb39-13" tabindex="-1"></a></span>
-<span id="cb39-14"><a href="#cb39-14" tabindex="-1"></a>low.sch <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;C P Smith School&#39;</span>, <span class="st">&#39;Cabot School&#39;</span>, <span class="st">&#39;Cavendish Town Elem School&#39;</span>,</span>
-<span id="cb39-15"><a href="#cb39-15" tabindex="-1"></a>             <span class="st">&#39;Charlotte Central School&#39;</span>, <span class="st">&#39;Danville School&#39;</span>, <span class="st">&#39;Essential Early Education&#39;</span>,</span>
-<span id="cb39-16"><a href="#cb39-16" tabindex="-1"></a>             <span class="st">&#39;J J Flynn School&#39;</span>, <span class="st">&#39;North Hero School&#39;</span>, <span class="st">&#39;Twinfield US #33&#39;</span>)</span>
-<span id="cb39-17"><a href="#cb39-17" tabindex="-1"></a>high.sch <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;Bellows Falls UHS #27&#39;</span>, <span class="st">&#39;Brighton Elementary School&#39;</span>, <span class="st">&#39;Green Mountain UHS #35&#39;</span>,</span>
-<span id="cb39-18"><a href="#cb39-18" tabindex="-1"></a>              <span class="st">&#39;North Country UHS #22A&#39;</span>, <span class="st">&#39;Oak Grove School&#39;</span>, <span class="st">&#39;Soar Learning Center&#39;</span>, <span class="st">&#39;Twin Valley Elementary School&#39;</span>)</span>
-<span id="cb39-19"><a href="#cb39-19" tabindex="-1"></a></span>
-<span id="cb39-20"><a href="#cb39-20" tabindex="-1"></a><span class="fu">ggplot</span>(filtered, <span class="fu">aes</span>(<span class="at">x =</span> materials, <span class="at">y =</span> em, <span class="at">fill =</span> school_group)) <span class="sc">+</span></span>
-<span id="cb39-21"><a href="#cb39-21" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.8</span>), <span class="at">width =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb39-22"><a href="#cb39-22" tabindex="-1"></a>  <span class="fu">stat_compare_means</span>(</span>
-<span id="cb39-23"><a href="#cb39-23" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">&quot;wilcox.test&quot;</span>,</span>
-<span id="cb39-24"><a href="#cb39-24" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">&quot;p.format&quot;</span></span>
-<span id="cb39-25"><a href="#cb39-25" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb39-26"><a href="#cb39-26" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span>
-<span id="cb39-27"><a href="#cb39-27" tabindex="-1"></a>  <span class="er">)</span> </span>
-<span id="cb39-28"><a href="#cb39-28" tabindex="-1"></a></span>
-<span id="cb39-29"><a href="#cb39-29" tabindex="-1"></a><span class="fu">ggplot</span>(filtered, <span class="fu">aes</span>(<span class="at">x =</span> materials, <span class="at">y =</span> em, <span class="at">fill =</span> school_group)) <span class="sc">+</span></span>
-<span id="cb39-30"><a href="#cb39-30" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.8</span>), <span class="at">width =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb39-31"><a href="#cb39-31" tabindex="-1"></a>  <span class="fu">stat_compare_means</span>(</span>
-<span id="cb39-32"><a href="#cb39-32" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">&quot;wilcox.test&quot;</span>,</span>
-<span id="cb39-33"><a href="#cb39-33" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">&quot;p.format&quot;</span></span>
-<span id="cb39-34"><a href="#cb39-34" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb39-35"><a href="#cb39-35" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb39-36"><a href="#cb39-36" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">&#39;Emissions (ng m&#39;</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">2</span>}<span class="sc">*</span><span class="st">&#39; d&#39;</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">1</span>}<span class="sc">*</span><span class="st">&#39;)&#39;</span>))) <span class="sc">+</span></span>
-<span id="cb39-37"><a href="#cb39-37" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb39-38"><a href="#cb39-38" tabindex="-1"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb39-39"><a href="#cb39-39" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
-<span id="cb39-40"><a href="#cb39-40" tabindex="-1"></a>    <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb39-41"><a href="#cb39-41" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
-<span id="cb39-42"><a href="#cb39-42" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
-<span id="cb39-43"><a href="#cb39-43" tabindex="-1"></a>    <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">size =</span> <span class="dv">2</span>)</span>
-<span id="cb39-44"><a href="#cb39-44" tabindex="-1"></a>  ) </span>
-<span id="cb39-45"><a href="#cb39-45" tabindex="-1"></a>  </span>
-<span id="cb39-46"><a href="#cb39-46" tabindex="-1"></a> </span>
-<span id="cb39-47"><a href="#cb39-47" tabindex="-1"></a><span class="fu">ggplot</span>(filtered, <span class="fu">aes</span>(<span class="at">x =</span> materials, <span class="at">y =</span> em, <span class="at">fill =</span> school_group)) <span class="sc">+</span></span>
-<span id="cb39-48"><a href="#cb39-48" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.8</span>), <span class="at">width =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb39-49"><a href="#cb39-49" tabindex="-1"></a>  <span class="fu">stat_compare_means</span>(</span>
-<span id="cb39-50"><a href="#cb39-50" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">&quot;wilcox.test&quot;</span>,</span>
-<span id="cb39-51"><a href="#cb39-51" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">&quot;p.format&quot;</span></span>
-<span id="cb39-52"><a href="#cb39-52" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb39-53"><a href="#cb39-53" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb39-54"><a href="#cb39-54" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">&#39;Emissions (ng m&#39;</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">2</span>}<span class="sc">*</span><span class="st">&#39; d&#39;</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">1</span>}<span class="sc">*</span><span class="st">&#39;)&#39;</span>))) <span class="sc">+</span></span>
-<span id="cb39-55"><a href="#cb39-55" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb39-56"><a href="#cb39-56" tabindex="-1"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb39-57"><a href="#cb39-57" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
-<span id="cb39-58"><a href="#cb39-58" tabindex="-1"></a>    <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb39-59"><a href="#cb39-59" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
-<span id="cb39-60"><a href="#cb39-60" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
-<span id="cb39-61"><a href="#cb39-61" tabindex="-1"></a>    <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">size =</span> <span class="dv">2</span>)</span>
-<span id="cb39-62"><a href="#cb39-62" tabindex="-1"></a>  )</span>
-<span id="cb39-63"><a href="#cb39-63" tabindex="-1"></a>  <span class="er">)</span> </span>
-<span id="cb39-64"><a href="#cb39-64" tabindex="-1"></a></span>
-<span id="cb39-65"><a href="#cb39-65" tabindex="-1"></a><span class="fu">ggplot</span>(filtered, <span class="fu">aes</span>(<span class="at">x =</span> materials, <span class="at">y =</span> em, <span class="at">fill =</span> school_group)) <span class="sc">+</span></span>
-<span id="cb39-66"><a href="#cb39-66" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.8</span>), <span class="at">width =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb39-67"><a href="#cb39-67" tabindex="-1"></a>  <span class="fu">stat_compare_means</span>(</span>
-<span id="cb39-68"><a href="#cb39-68" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">&quot;wilcox.test&quot;</span>,</span>
-<span id="cb39-69"><a href="#cb39-69" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">&quot;p.format&quot;</span></span>
-<span id="cb39-70"><a href="#cb39-70" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb39-71"><a href="#cb39-71" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb39-72"><a href="#cb39-72" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">&#39;Emissions (ng m&#39;</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">2</span>}<span class="sc">*</span><span class="st">&#39; d&#39;</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">1</span>}<span class="sc">*</span><span class="st">&#39;)&#39;</span>))) <span class="sc">+</span></span>
-<span id="cb39-73"><a href="#cb39-73" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb39-74"><a href="#cb39-74" tabindex="-1"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb39-75"><a href="#cb39-75" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
-<span id="cb39-76"><a href="#cb39-76" tabindex="-1"></a>    <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb39-77"><a href="#cb39-77" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
-<span id="cb39-78"><a href="#cb39-78" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
-<span id="cb39-79"><a href="#cb39-79" tabindex="-1"></a>    <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">size =</span> <span class="dv">2</span>)</span>
-<span id="cb39-80"><a href="#cb39-80" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb39-81"><a href="#cb39-81" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">100000</span>), <span class="at">labels =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span></span>
-<span id="cb39-82"><a href="#cb39-82" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;Low&quot;</span> <span class="ot">=</span> <span class="st">&quot;#1f77b4&quot;</span>, <span class="st">&quot;High&quot;</span> <span class="ot">=</span> <span class="st">&quot;#ff7f0e&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb39-83"><a href="#cb39-83" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(</span>
-<span id="cb39-84"><a href="#cb39-84" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">&quot;&quot;</span>,</span>
-<span id="cb39-85"><a href="#cb39-85" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;Low&quot;</span> <span class="ot">=</span> <span class="st">&quot;#1f77b4&quot;</span>, <span class="st">&quot;High&quot;</span> <span class="ot">=</span> <span class="st">&quot;#ff7f0e&quot;</span>),</span>
-<span id="cb39-86"><a href="#cb39-86" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Low&quot;</span> <span class="ot">=</span> <span class="st">&quot;Schools Below SAL&quot;</span>, <span class="st">&quot;High&quot;</span> <span class="ot">=</span> <span class="st">&quot;Schools Above SAL&quot;</span>)</span>
-<span id="cb39-87"><a href="#cb39-87" tabindex="-1"></a>  ) </span></code></pre></div>
+<span id="cb39-3"><a href="#cb39-3" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> my_data, <span class="fu">aes</span>(<span class="at">x =</span> variable_x, <span class="at">y =</span> variable_y)) <span class="sc">+</span></span>
+<span id="cb39-4"><a href="#cb39-4" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb39-5"><a href="#cb39-5" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">TRUE</span>, <span class="at">color =</span> <span class="st">&quot;darkred&quot;</span>) <span class="sc">+</span></span>
+<span id="cb39-6"><a href="#cb39-6" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb39-7"><a href="#cb39-7" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;My Plot Title&quot;</span>,</span>
+<span id="cb39-8"><a href="#cb39-8" tabindex="-1"></a>    <span class="at">x     =</span> <span class="st">&quot;X Axis Label&quot;</span>,</span>
+<span id="cb39-9"><a href="#cb39-9" tabindex="-1"></a>    <span class="at">y     =</span> <span class="st">&quot;Y Axis Label&quot;</span></span>
+<span id="cb39-10"><a href="#cb39-10" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb39-11"><a href="#cb39-11" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
+<p>This example introduces how to use ggplot2 with a boxplot
+example.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb40-2"><a href="#cb40-2" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="#cb40-3" tabindex="-1"></a><span class="co"># all school concentration stats</span></span>
+<span id="cb40-4"><a href="#cb40-4" tabindex="-1"></a></span>
+<span id="cb40-5"><a href="#cb40-5" tabindex="-1"></a>all.conc <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 4/allSchoolConc.csv&#39;</span>, <span class="at">header =</span> T, <span class="at">fileEncoding =</span> <span class="st">&#39;UTF-8-BOM&#39;</span>, <span class="at">check.names =</span> F)</span>
+<span id="cb40-6"><a href="#cb40-6" tabindex="-1"></a></span>
+<span id="cb40-7"><a href="#cb40-7" tabindex="-1"></a><span class="co"># subsets data into two new data frames, one with Vermont concentration data and one with UIowa data</span></span>
+<span id="cb40-8"><a href="#cb40-8" tabindex="-1"></a></span>
+<span id="cb40-9"><a href="#cb40-9" tabindex="-1"></a>vt.samp <span class="ot">&lt;-</span> all.conc[all.conc<span class="sc">$</span>Sampler<span class="sc">==</span><span class="st">&#39;vt&#39;</span>,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>)]</span>
+<span id="cb40-10"><a href="#cb40-10" tabindex="-1"></a>ui.samp <span class="ot">&lt;-</span> all.conc[all.conc<span class="sc">$</span>Sampler<span class="sc">==</span><span class="st">&#39;ui&#39;</span>,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>)]</span>
+<span id="cb40-11"><a href="#cb40-11" tabindex="-1"></a></span>
+<span id="cb40-12"><a href="#cb40-12" tabindex="-1"></a>sch.list <span class="ot">&lt;-</span> <span class="fu">distinct</span>(ui.samp, school)</span>
+<span id="cb40-13"><a href="#cb40-13" tabindex="-1"></a></span>
+<span id="cb40-14"><a href="#cb40-14" tabindex="-1"></a>low.sch <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;C P Smith School&#39;</span>, <span class="st">&#39;Cabot School&#39;</span>, <span class="st">&#39;Cavendish Town Elem School&#39;</span>,</span>
+<span id="cb40-15"><a href="#cb40-15" tabindex="-1"></a>             <span class="st">&#39;Charlotte Central School&#39;</span>, <span class="st">&#39;Danville School&#39;</span>, <span class="st">&#39;Essential Early Education&#39;</span>,</span>
+<span id="cb40-16"><a href="#cb40-16" tabindex="-1"></a>             <span class="st">&#39;J J Flynn School&#39;</span>, <span class="st">&#39;North Hero School&#39;</span>, <span class="st">&#39;Twinfield US #33&#39;</span>)</span>
+<span id="cb40-17"><a href="#cb40-17" tabindex="-1"></a>high.sch <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;Bellows Falls UHS #27&#39;</span>, <span class="st">&#39;Brighton Elementary School&#39;</span>, <span class="st">&#39;Green Mountain UHS #35&#39;</span>,</span>
+<span id="cb40-18"><a href="#cb40-18" tabindex="-1"></a>              <span class="st">&#39;North Country UHS #22A&#39;</span>, <span class="st">&#39;Oak Grove School&#39;</span>, <span class="st">&#39;Soar Learning Center&#39;</span>, <span class="st">&#39;Twin Valley Elementary School&#39;</span>)</span>
+<span id="cb40-19"><a href="#cb40-19" tabindex="-1"></a></span>
+<span id="cb40-20"><a href="#cb40-20" tabindex="-1"></a><span class="fu">ggplot</span>(filtered, <span class="fu">aes</span>(<span class="at">x =</span> materials, <span class="at">y =</span> em, <span class="at">fill =</span> school_group)) <span class="sc">+</span></span>
+<span id="cb40-21"><a href="#cb40-21" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.8</span>), <span class="at">width =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb40-22"><a href="#cb40-22" tabindex="-1"></a>  <span class="fu">stat_compare_means</span>(</span>
+<span id="cb40-23"><a href="#cb40-23" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">&quot;wilcox.test&quot;</span>,</span>
+<span id="cb40-24"><a href="#cb40-24" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">&quot;p.format&quot;</span></span>
+<span id="cb40-25"><a href="#cb40-25" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb40-26"><a href="#cb40-26" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span>
+<span id="cb40-27"><a href="#cb40-27" tabindex="-1"></a>  <span class="er">)</span> </span>
+<span id="cb40-28"><a href="#cb40-28" tabindex="-1"></a></span>
+<span id="cb40-29"><a href="#cb40-29" tabindex="-1"></a><span class="fu">ggplot</span>(filtered, <span class="fu">aes</span>(<span class="at">x =</span> materials, <span class="at">y =</span> em, <span class="at">fill =</span> school_group)) <span class="sc">+</span></span>
+<span id="cb40-30"><a href="#cb40-30" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.8</span>), <span class="at">width =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb40-31"><a href="#cb40-31" tabindex="-1"></a>  <span class="fu">stat_compare_means</span>(</span>
+<span id="cb40-32"><a href="#cb40-32" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">&quot;wilcox.test&quot;</span>,</span>
+<span id="cb40-33"><a href="#cb40-33" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">&quot;p.format&quot;</span></span>
+<span id="cb40-34"><a href="#cb40-34" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb40-35"><a href="#cb40-35" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb40-36"><a href="#cb40-36" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">&#39;Emissions (ng m&#39;</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">2</span>}<span class="sc">*</span><span class="st">&#39; d&#39;</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">1</span>}<span class="sc">*</span><span class="st">&#39;)&#39;</span>))) <span class="sc">+</span></span>
+<span id="cb40-37"><a href="#cb40-37" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb40-38"><a href="#cb40-38" tabindex="-1"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb40-39"><a href="#cb40-39" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
+<span id="cb40-40"><a href="#cb40-40" tabindex="-1"></a>    <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb40-41"><a href="#cb40-41" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
+<span id="cb40-42"><a href="#cb40-42" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
+<span id="cb40-43"><a href="#cb40-43" tabindex="-1"></a>    <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">size =</span> <span class="dv">2</span>)</span>
+<span id="cb40-44"><a href="#cb40-44" tabindex="-1"></a>  ) </span>
+<span id="cb40-45"><a href="#cb40-45" tabindex="-1"></a>  </span>
+<span id="cb40-46"><a href="#cb40-46" tabindex="-1"></a> </span>
+<span id="cb40-47"><a href="#cb40-47" tabindex="-1"></a><span class="fu">ggplot</span>(filtered, <span class="fu">aes</span>(<span class="at">x =</span> materials, <span class="at">y =</span> em, <span class="at">fill =</span> school_group)) <span class="sc">+</span></span>
+<span id="cb40-48"><a href="#cb40-48" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.8</span>), <span class="at">width =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb40-49"><a href="#cb40-49" tabindex="-1"></a>  <span class="fu">stat_compare_means</span>(</span>
+<span id="cb40-50"><a href="#cb40-50" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">&quot;wilcox.test&quot;</span>,</span>
+<span id="cb40-51"><a href="#cb40-51" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">&quot;p.format&quot;</span></span>
+<span id="cb40-52"><a href="#cb40-52" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb40-53"><a href="#cb40-53" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb40-54"><a href="#cb40-54" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">&#39;Emissions (ng m&#39;</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">2</span>}<span class="sc">*</span><span class="st">&#39; d&#39;</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">1</span>}<span class="sc">*</span><span class="st">&#39;)&#39;</span>))) <span class="sc">+</span></span>
+<span id="cb40-55"><a href="#cb40-55" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb40-56"><a href="#cb40-56" tabindex="-1"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb40-57"><a href="#cb40-57" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
+<span id="cb40-58"><a href="#cb40-58" tabindex="-1"></a>    <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb40-59"><a href="#cb40-59" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
+<span id="cb40-60"><a href="#cb40-60" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
+<span id="cb40-61"><a href="#cb40-61" tabindex="-1"></a>    <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">size =</span> <span class="dv">2</span>)</span>
+<span id="cb40-62"><a href="#cb40-62" tabindex="-1"></a>  )</span>
+<span id="cb40-63"><a href="#cb40-63" tabindex="-1"></a>  <span class="er">)</span> </span>
+<span id="cb40-64"><a href="#cb40-64" tabindex="-1"></a></span>
+<span id="cb40-65"><a href="#cb40-65" tabindex="-1"></a><span class="fu">ggplot</span>(filtered, <span class="fu">aes</span>(<span class="at">x =</span> materials, <span class="at">y =</span> em, <span class="at">fill =</span> school_group)) <span class="sc">+</span></span>
+<span id="cb40-66"><a href="#cb40-66" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.8</span>), <span class="at">width =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb40-67"><a href="#cb40-67" tabindex="-1"></a>  <span class="fu">stat_compare_means</span>(</span>
+<span id="cb40-68"><a href="#cb40-68" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">&quot;wilcox.test&quot;</span>,</span>
+<span id="cb40-69"><a href="#cb40-69" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">&quot;p.format&quot;</span></span>
+<span id="cb40-70"><a href="#cb40-70" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb40-71"><a href="#cb40-71" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb40-72"><a href="#cb40-72" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">&#39;Emissions (ng m&#39;</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">2</span>}<span class="sc">*</span><span class="st">&#39; d&#39;</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">1</span>}<span class="sc">*</span><span class="st">&#39;)&#39;</span>))) <span class="sc">+</span></span>
+<span id="cb40-73"><a href="#cb40-73" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb40-74"><a href="#cb40-74" tabindex="-1"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb40-75"><a href="#cb40-75" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
+<span id="cb40-76"><a href="#cb40-76" tabindex="-1"></a>    <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb40-77"><a href="#cb40-77" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
+<span id="cb40-78"><a href="#cb40-78" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
+<span id="cb40-79"><a href="#cb40-79" tabindex="-1"></a>    <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">size =</span> <span class="dv">2</span>)</span>
+<span id="cb40-80"><a href="#cb40-80" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb40-81"><a href="#cb40-81" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">100000</span>), <span class="at">labels =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span></span>
+<span id="cb40-82"><a href="#cb40-82" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;Low&quot;</span> <span class="ot">=</span> <span class="st">&quot;#1f77b4&quot;</span>, <span class="st">&quot;High&quot;</span> <span class="ot">=</span> <span class="st">&quot;#ff7f0e&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb40-83"><a href="#cb40-83" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(</span>
+<span id="cb40-84"><a href="#cb40-84" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">&quot;&quot;</span>,</span>
+<span id="cb40-85"><a href="#cb40-85" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;Low&quot;</span> <span class="ot">=</span> <span class="st">&quot;#1f77b4&quot;</span>, <span class="st">&quot;High&quot;</span> <span class="ot">=</span> <span class="st">&quot;#ff7f0e&quot;</span>),</span>
+<span id="cb40-86"><a href="#cb40-86" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Low&quot;</span> <span class="ot">=</span> <span class="st">&quot;Schools Below SAL&quot;</span>, <span class="st">&quot;High&quot;</span> <span class="ot">=</span> <span class="st">&quot;Schools Above SAL&quot;</span>)</span>
+<span id="cb40-87"><a href="#cb40-87" tabindex="-1"></a>  ) </span></code></pre></div>
 </div>
 <div id="congener-profile-plots" class="section level2" number="10.3">
 <h2><span class="header-section-number">10.3</span> Congener Profile
@@ -2926,76 +2936,76 @@ i, and <code>mass~total~</code> is the total mass of the sample. When
 the mass fraction is summed for all congeners in a sample, the total
 should be 1. Mass fraction can, and often is, expressed as a
 percentage.</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a><span class="co"># first calculate mass fraction</span></span>
-<span id="cb40-2"><a href="#cb40-2" tabindex="-1"></a></span>
-<span id="cb40-3"><a href="#cb40-3" tabindex="-1"></a>mass.fraction <span class="ot">&lt;-</span> <span class="cf">function</span>(sums, cong.list){</span>
-<span id="cb40-4"><a href="#cb40-4" tabindex="-1"></a>  r <span class="ot">&lt;-</span> <span class="fu">nrow</span>(sums)</span>
-<span id="cb40-5"><a href="#cb40-5" tabindex="-1"></a>  c <span class="ot">&lt;-</span> <span class="fu">ncol</span>(sums)</span>
-<span id="cb40-6"><a href="#cb40-6" tabindex="-1"></a>  sums.t <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">rowSums</span>(sums))</span>
-<span id="cb40-7"><a href="#cb40-7" tabindex="-1"></a>  mass.f <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> r, <span class="at">ncol =</span> c))</span>
-<span id="cb40-8"><a href="#cb40-8" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>r) {</span>
-<span id="cb40-9"><a href="#cb40-9" tabindex="-1"></a>    <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>c) {</span>
-<span id="cb40-10"><a href="#cb40-10" tabindex="-1"></a>      mass.f[i,j] <span class="ot">&lt;-</span> sums[i,j] <span class="sc">/</span> sums.t[i,]</span>
-<span id="cb40-11"><a href="#cb40-11" tabindex="-1"></a>    }</span>
-<span id="cb40-12"><a href="#cb40-12" tabindex="-1"></a>  }</span>
-<span id="cb40-13"><a href="#cb40-13" tabindex="-1"></a>  <span class="fu">colnames</span>(mass.f) <span class="ot">&lt;-</span> <span class="fu">t</span>(cong.list)</span>
-<span id="cb40-14"><a href="#cb40-14" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">rowSums</span>(mass.f))</span>
-<span id="cb40-15"><a href="#cb40-15" tabindex="-1"></a>  <span class="fu">return</span>(mass.f)</span>
-<span id="cb40-16"><a href="#cb40-16" tabindex="-1"></a>}</span>
-<span id="cb40-17"><a href="#cb40-17" tabindex="-1"></a></span>
-<span id="cb40-18"><a href="#cb40-18" tabindex="-1"></a><span class="co"># import data</span></span>
-<span id="cb40-19"><a href="#cb40-19" tabindex="-1"></a></span>
-<span id="cb40-20"><a href="#cb40-20" tabindex="-1"></a>mass <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 4/sampleMass.csv&#39;</span>, <span class="at">header =</span> T, <span class="at">fileEncoding =</span> <span class="st">&#39;UTF-8-BOM&#39;</span>, <span class="at">check.names =</span> F)</span>
-<span id="cb40-21"><a href="#cb40-21" tabindex="-1"></a>cong.list <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 4/sampleMass.csv&#39;</span>, <span class="at">header =</span> F, <span class="at">fileEncoding =</span> <span class="st">&#39;UTF-8-BOM&#39;</span>, <span class="at">check.names =</span> F)</span>
-<span id="cb40-22"><a href="#cb40-22" tabindex="-1"></a></span>
-<span id="cb40-23"><a href="#cb40-23" tabindex="-1"></a><span class="co">#extract congener list</span></span>
-<span id="cb40-24"><a href="#cb40-24" tabindex="-1"></a></span>
-<span id="cb40-25"><a href="#cb40-25" tabindex="-1"></a>cong.list <span class="ot">&lt;-</span> cong.list[<span class="dv">1</span>,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)]</span>
-<span id="cb40-26"><a href="#cb40-26" tabindex="-1"></a>cong.list <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(cong.list))</span>
-<span id="cb40-27"><a href="#cb40-27" tabindex="-1"></a></span>
-<span id="cb40-28"><a href="#cb40-28" tabindex="-1"></a><span class="co"># clean data frames so they can be used for calculations</span></span>
-<span id="cb40-29"><a href="#cb40-29" tabindex="-1"></a></span>
-<span id="cb40-30"><a href="#cb40-30" tabindex="-1"></a>bid <span class="ot">&lt;-</span> mass[,<span class="dv">1</span>]       <span class="co"># extract batch id list for later</span></span>
-<span id="cb40-31"><a href="#cb40-31" tabindex="-1"></a>mass<span class="fl">.1</span> <span class="ot">&lt;-</span> mass[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)]</span>
-<span id="cb40-32"><a href="#cb40-32" tabindex="-1"></a>mf <span class="ot">&lt;-</span> <span class="fu">mass.fraction</span>(mass<span class="fl">.1</span>,cong.list)   <span class="co"># runs mass fraction calculation </span></span>
-<span id="cb40-33"><a href="#cb40-33" tabindex="-1"></a>mf <span class="ot">&lt;-</span> mf <span class="sc">*</span> <span class="dv">100</span>                <span class="co"># multiplied by 100 to present as a percentage in the figure</span></span>
-<span id="cb40-34"><a href="#cb40-34" tabindex="-1"></a>mf.t <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(mf))</span>
-<span id="cb40-35"><a href="#cb40-35" tabindex="-1"></a>mf.t <span class="ot">&lt;-</span> <span class="fu">cbind</span>(cong.list,mf.t)</span>
-<span id="cb40-36"><a href="#cb40-36" tabindex="-1"></a></span>
-<span id="cb40-37"><a href="#cb40-37" tabindex="-1"></a>mf <span class="ot">&lt;-</span> <span class="fu">cbind</span>(bid,mf)</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a><span class="co"># first calculate mass fraction</span></span>
+<span id="cb41-2"><a href="#cb41-2" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" tabindex="-1"></a>mass.fraction <span class="ot">&lt;-</span> <span class="cf">function</span>(sums, cong.list){</span>
+<span id="cb41-4"><a href="#cb41-4" tabindex="-1"></a>  r <span class="ot">&lt;-</span> <span class="fu">nrow</span>(sums)</span>
+<span id="cb41-5"><a href="#cb41-5" tabindex="-1"></a>  c <span class="ot">&lt;-</span> <span class="fu">ncol</span>(sums)</span>
+<span id="cb41-6"><a href="#cb41-6" tabindex="-1"></a>  sums.t <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">rowSums</span>(sums))</span>
+<span id="cb41-7"><a href="#cb41-7" tabindex="-1"></a>  mass.f <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> r, <span class="at">ncol =</span> c))</span>
+<span id="cb41-8"><a href="#cb41-8" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>r) {</span>
+<span id="cb41-9"><a href="#cb41-9" tabindex="-1"></a>    <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>c) {</span>
+<span id="cb41-10"><a href="#cb41-10" tabindex="-1"></a>      mass.f[i,j] <span class="ot">&lt;-</span> sums[i,j] <span class="sc">/</span> sums.t[i,]</span>
+<span id="cb41-11"><a href="#cb41-11" tabindex="-1"></a>    }</span>
+<span id="cb41-12"><a href="#cb41-12" tabindex="-1"></a>  }</span>
+<span id="cb41-13"><a href="#cb41-13" tabindex="-1"></a>  <span class="fu">colnames</span>(mass.f) <span class="ot">&lt;-</span> <span class="fu">t</span>(cong.list)</span>
+<span id="cb41-14"><a href="#cb41-14" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">rowSums</span>(mass.f))</span>
+<span id="cb41-15"><a href="#cb41-15" tabindex="-1"></a>  <span class="fu">return</span>(mass.f)</span>
+<span id="cb41-16"><a href="#cb41-16" tabindex="-1"></a>}</span>
+<span id="cb41-17"><a href="#cb41-17" tabindex="-1"></a></span>
+<span id="cb41-18"><a href="#cb41-18" tabindex="-1"></a><span class="co"># import data</span></span>
+<span id="cb41-19"><a href="#cb41-19" tabindex="-1"></a></span>
+<span id="cb41-20"><a href="#cb41-20" tabindex="-1"></a>mass <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 4/sampleMass.csv&#39;</span>, <span class="at">header =</span> T, <span class="at">fileEncoding =</span> <span class="st">&#39;UTF-8-BOM&#39;</span>, <span class="at">check.names =</span> F)</span>
+<span id="cb41-21"><a href="#cb41-21" tabindex="-1"></a>cong.list <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/Ex 4/sampleMass.csv&#39;</span>, <span class="at">header =</span> F, <span class="at">fileEncoding =</span> <span class="st">&#39;UTF-8-BOM&#39;</span>, <span class="at">check.names =</span> F)</span>
+<span id="cb41-22"><a href="#cb41-22" tabindex="-1"></a></span>
+<span id="cb41-23"><a href="#cb41-23" tabindex="-1"></a><span class="co">#extract congener list</span></span>
+<span id="cb41-24"><a href="#cb41-24" tabindex="-1"></a></span>
+<span id="cb41-25"><a href="#cb41-25" tabindex="-1"></a>cong.list <span class="ot">&lt;-</span> cong.list[<span class="dv">1</span>,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)]</span>
+<span id="cb41-26"><a href="#cb41-26" tabindex="-1"></a>cong.list <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(cong.list))</span>
+<span id="cb41-27"><a href="#cb41-27" tabindex="-1"></a></span>
+<span id="cb41-28"><a href="#cb41-28" tabindex="-1"></a><span class="co"># clean data frames so they can be used for calculations</span></span>
+<span id="cb41-29"><a href="#cb41-29" tabindex="-1"></a></span>
+<span id="cb41-30"><a href="#cb41-30" tabindex="-1"></a>bid <span class="ot">&lt;-</span> mass[,<span class="dv">1</span>]       <span class="co"># extract batch id list for later</span></span>
+<span id="cb41-31"><a href="#cb41-31" tabindex="-1"></a>mass<span class="fl">.1</span> <span class="ot">&lt;-</span> mass[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)]</span>
+<span id="cb41-32"><a href="#cb41-32" tabindex="-1"></a>mf <span class="ot">&lt;-</span> <span class="fu">mass.fraction</span>(mass<span class="fl">.1</span>,cong.list)   <span class="co"># runs mass fraction calculation </span></span>
+<span id="cb41-33"><a href="#cb41-33" tabindex="-1"></a>mf <span class="ot">&lt;-</span> mf <span class="sc">*</span> <span class="dv">100</span>                <span class="co"># multiplied by 100 to present as a percentage in the figure</span></span>
+<span id="cb41-34"><a href="#cb41-34" tabindex="-1"></a>mf.t <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(mf))</span>
+<span id="cb41-35"><a href="#cb41-35" tabindex="-1"></a>mf.t <span class="ot">&lt;-</span> <span class="fu">cbind</span>(cong.list,mf.t)</span>
+<span id="cb41-36"><a href="#cb41-36" tabindex="-1"></a></span>
+<span id="cb41-37"><a href="#cb41-37" tabindex="-1"></a>mf <span class="ot">&lt;-</span> <span class="fu">cbind</span>(bid,mf)</span></code></pre></div>
 <p>After the mass fraction is calculated, use the code below to plot the
 congener profile. Multiple profile plots are typically created at a
 time, therefore, it is more efficient to create a function that will
 create many plots simultaneously. The example below is a function that
 loops through a data frame of</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb41-2"><a href="#cb41-2" tabindex="-1"></a></span>
-<span id="cb41-3"><a href="#cb41-3" tabindex="-1"></a>prof.plot <span class="ot">&lt;-</span> <span class="cf">function</span>(data, title){</span>
-<span id="cb41-4"><a href="#cb41-4" tabindex="-1"></a>  </span>
-<span id="cb41-5"><a href="#cb41-5" tabindex="-1"></a> data[,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">factor</span>(data[,<span class="dv">1</span>], <span class="at">level =</span> data[,<span class="dv">1</span>])    <span class="co"># this keeps the plot from changing the congener order</span></span>
-<span id="cb41-6"><a href="#cb41-6" tabindex="-1"></a>  </span>
-<span id="cb41-7"><a href="#cb41-7" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(data)) {</span>
-<span id="cb41-8"><a href="#cb41-8" tabindex="-1"></a>    temp.plot <span class="ot">&lt;-</span>  <span class="fu">ggplot</span>(<span class="at">data =</span> data, <span class="fu">aes</span>(<span class="at">x =</span> data[,<span class="dv">1</span>], <span class="at">y =</span> data[,i])) <span class="sc">+</span>    <span class="co"># profile graph</span></span>
-<span id="cb41-9"><a href="#cb41-9" tabindex="-1"></a>      <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">width =</span> .<span class="dv">5</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
-<span id="cb41-10"><a href="#cb41-10" tabindex="-1"></a>      <span class="fu">geom_abline</span>(<span class="at">slope=</span><span class="dv">0</span>, <span class="at">intercept=</span><span class="dv">0</span>,  <span class="at">col =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
-<span id="cb41-11"><a href="#cb41-11" tabindex="-1"></a>      <span class="fu">ggtitle</span>(title[i<span class="dv">-1</span>]) <span class="sc">+</span></span>
-<span id="cb41-12"><a href="#cb41-12" tabindex="-1"></a>      <span class="fu">scale_x_discrete</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">add=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))) <span class="sc">+</span></span>
-<span id="cb41-13"><a href="#cb41-13" tabindex="-1"></a>      <span class="co"># scale_y_continuous(expand = c(0,0)) +   #, limits = c(0,30)</span></span>
-<span id="cb41-14"><a href="#cb41-14" tabindex="-1"></a>      <span class="fu">xlab</span>(<span class="fu">expression</span>(<span class="fu">bold</span>(<span class="st">&quot;Congener&quot;</span>))) <span class="sc">+</span></span>
-<span id="cb41-15"><a href="#cb41-15" tabindex="-1"></a>      <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb41-16"><a href="#cb41-16" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">family =</span> <span class="st">&#39;serif&#39;</span>)) <span class="sc">+</span></span>
-<span id="cb41-17"><a href="#cb41-17" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">aspect.ratio =</span> <span class="dv">2</span><span class="sc">/</span><span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb41-18"><a href="#cb41-18" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb41-19"><a href="#cb41-19" tabindex="-1"></a>            <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb41-20"><a href="#cb41-20" tabindex="-1"></a>            <span class="at">axis.line.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb41-21"><a href="#cb41-21" tabindex="-1"></a>            <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
-<span id="cb41-22"><a href="#cb41-22" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">color =</span>  <span class="st">&#39;black&#39;</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">size =</span> <span class="fl">1.1</span>)) <span class="sc">+</span></span>
-<span id="cb41-23"><a href="#cb41-23" tabindex="-1"></a>      <span class="fu">ylab</span>(<span class="fu">expression</span>(<span class="fu">bold</span>(<span class="st">&quot;Mass Fraction (%)&quot;</span>)))</span>
-<span id="cb41-24"><a href="#cb41-24" tabindex="-1"></a>    <span class="fu">print</span>(temp.plot)</span>
-<span id="cb41-25"><a href="#cb41-25" tabindex="-1"></a>  }</span>
-<span id="cb41-26"><a href="#cb41-26" tabindex="-1"></a>}</span>
-<span id="cb41-27"><a href="#cb41-27" tabindex="-1"></a></span>
-<span id="cb41-28"><a href="#cb41-28" tabindex="-1"></a><span class="fu">prof.plot</span>(mf.t,bid)</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb42-2"><a href="#cb42-2" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" tabindex="-1"></a>prof.plot <span class="ot">&lt;-</span> <span class="cf">function</span>(data, title){</span>
+<span id="cb42-4"><a href="#cb42-4" tabindex="-1"></a>  </span>
+<span id="cb42-5"><a href="#cb42-5" tabindex="-1"></a> data[,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">factor</span>(data[,<span class="dv">1</span>], <span class="at">level =</span> data[,<span class="dv">1</span>])    <span class="co"># this keeps the plot from changing the congener order</span></span>
+<span id="cb42-6"><a href="#cb42-6" tabindex="-1"></a>  </span>
+<span id="cb42-7"><a href="#cb42-7" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(data)) {</span>
+<span id="cb42-8"><a href="#cb42-8" tabindex="-1"></a>    temp.plot <span class="ot">&lt;-</span>  <span class="fu">ggplot</span>(<span class="at">data =</span> data, <span class="fu">aes</span>(<span class="at">x =</span> data[,<span class="dv">1</span>], <span class="at">y =</span> data[,i])) <span class="sc">+</span>    <span class="co"># profile graph</span></span>
+<span id="cb42-9"><a href="#cb42-9" tabindex="-1"></a>      <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">width =</span> .<span class="dv">5</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb42-10"><a href="#cb42-10" tabindex="-1"></a>      <span class="fu">geom_abline</span>(<span class="at">slope=</span><span class="dv">0</span>, <span class="at">intercept=</span><span class="dv">0</span>,  <span class="at">col =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb42-11"><a href="#cb42-11" tabindex="-1"></a>      <span class="fu">ggtitle</span>(title[i<span class="dv">-1</span>]) <span class="sc">+</span></span>
+<span id="cb42-12"><a href="#cb42-12" tabindex="-1"></a>      <span class="fu">scale_x_discrete</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">add=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))) <span class="sc">+</span></span>
+<span id="cb42-13"><a href="#cb42-13" tabindex="-1"></a>      <span class="co"># scale_y_continuous(expand = c(0,0)) +   #, limits = c(0,30)</span></span>
+<span id="cb42-14"><a href="#cb42-14" tabindex="-1"></a>      <span class="fu">xlab</span>(<span class="fu">expression</span>(<span class="fu">bold</span>(<span class="st">&quot;Congener&quot;</span>))) <span class="sc">+</span></span>
+<span id="cb42-15"><a href="#cb42-15" tabindex="-1"></a>      <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb42-16"><a href="#cb42-16" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">family =</span> <span class="st">&#39;serif&#39;</span>)) <span class="sc">+</span></span>
+<span id="cb42-17"><a href="#cb42-17" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">aspect.ratio =</span> <span class="dv">2</span><span class="sc">/</span><span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb42-18"><a href="#cb42-18" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb42-19"><a href="#cb42-19" tabindex="-1"></a>            <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb42-20"><a href="#cb42-20" tabindex="-1"></a>            <span class="at">axis.line.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb42-21"><a href="#cb42-21" tabindex="-1"></a>            <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb42-22"><a href="#cb42-22" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">color =</span>  <span class="st">&#39;black&#39;</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">size =</span> <span class="fl">1.1</span>)) <span class="sc">+</span></span>
+<span id="cb42-23"><a href="#cb42-23" tabindex="-1"></a>      <span class="fu">ylab</span>(<span class="fu">expression</span>(<span class="fu">bold</span>(<span class="st">&quot;Mass Fraction (%)&quot;</span>)))</span>
+<span id="cb42-24"><a href="#cb42-24" tabindex="-1"></a>    <span class="fu">print</span>(temp.plot)</span>
+<span id="cb42-25"><a href="#cb42-25" tabindex="-1"></a>  }</span>
+<span id="cb42-26"><a href="#cb42-26" tabindex="-1"></a>}</span>
+<span id="cb42-27"><a href="#cb42-27" tabindex="-1"></a></span>
+<span id="cb42-28"><a href="#cb42-28" tabindex="-1"></a><span class="fu">prof.plot</span>(mf.t,bid)</span></code></pre></div>
 <hr />
 </div>
 </div>
@@ -3116,8 +3126,8 @@ need to know HTML or LaTeX; Markdown handles the formatting.</p>
 <p><strong>3. Code Chunks</strong></p>
 <p>Code chunks contain executable R code. They are enclosed by triple
 backticks and <code>{r}</code>:</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a><span class="co"># Your R code goes here</span></span>
-<span id="cb42-2"><a href="#cb42-2" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" tabindex="-1"></a><span class="co"># Your R code goes here</span></span>
+<span id="cb43-2"><a href="#cb43-2" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>))</span></code></pre></div>
 <p>When you knit the document, the code runs and the output appears
 directly below the chunk.</p>
 </div>
@@ -3224,9 +3234,9 @@ Variables</h3>
 This is one of the most powerful features of R Markdown; values update
 automatically when your data or code changes, so you never have to
 manually edit numbers in a report.</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" tabindex="-1"></a>mean_conc <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">mean</span>(<span class="fu">c</span>(<span class="fl">12.1</span>, <span class="fl">10.4</span>, <span class="fl">11.8</span>, <span class="fl">9.7</span>)), <span class="dv">2</span>)</span>
-<span id="cb43-2"><a href="#cb43-2" tabindex="-1"></a>sample_n  <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb43-3"><a href="#cb43-3" tabindex="-1"></a>test_date <span class="ot">&lt;-</span> <span class="fu">format</span>(<span class="fu">Sys.Date</span>(), <span class="st">&quot;%B %d, %Y&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" tabindex="-1"></a>mean_conc <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">mean</span>(<span class="fu">c</span>(<span class="fl">12.1</span>, <span class="fl">10.4</span>, <span class="fl">11.8</span>, <span class="fl">9.7</span>)), <span class="dv">2</span>)</span>
+<span id="cb44-2"><a href="#cb44-2" tabindex="-1"></a>sample_n  <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb44-3"><a href="#cb44-3" tabindex="-1"></a>test_date <span class="ot">&lt;-</span> <span class="fu">format</span>(<span class="fu">Sys.Date</span>(), <span class="st">&quot;%B %d, %Y&quot;</span>)</span></code></pre></div>
 <p>Writing this in your text:</p>
 <pre><code>A total of ` r sample_n` samples were collected. The mean concentration was ` r mean_conc` ng/m^3^.</code></pre>
 <p>Renders as:</p>
@@ -3239,12 +3249,12 @@ ng/m<sup>3</sup>.</p>
 <h3><span class="header-section-number">11.4.3</span> Dates</h3>
 <p>You can insert a static or auto-updating date anywhere in the
 document:</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" tabindex="-1"></a><span class="co"># In the YAML header — updates every time you knit:</span></span>
-<span id="cb45-2"><a href="#cb45-2" tabindex="-1"></a>date<span class="sc">:</span> <span class="st">&quot;`r format(Sys.Date(), &#39;%B %d, %Y&#39;)`&quot;</span></span>
-<span id="cb45-3"><a href="#cb45-3" tabindex="-1"></a></span>
-<span id="cb45-4"><a href="#cb45-4" tabindex="-1"></a><span class="co"># In the body of the document:</span></span>
-<span id="cb45-5"><a href="#cb45-5" tabindex="-1"></a><span class="co"># Report generated on `r format(Sys.Date(), &quot;%B %d, %Y&quot;)`</span></span>
-<span id="cb45-6"><a href="#cb45-6" tabindex="-1"></a><span class="co"># Outputs: Report generated on March 19, 2026</span></span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" tabindex="-1"></a><span class="co"># In the YAML header — updates every time you knit:</span></span>
+<span id="cb46-2"><a href="#cb46-2" tabindex="-1"></a>date<span class="sc">:</span> <span class="st">&quot;`r format(Sys.Date(), &#39;%B %d, %Y&#39;)`&quot;</span></span>
+<span id="cb46-3"><a href="#cb46-3" tabindex="-1"></a></span>
+<span id="cb46-4"><a href="#cb46-4" tabindex="-1"></a><span class="co"># In the body of the document:</span></span>
+<span id="cb46-5"><a href="#cb46-5" tabindex="-1"></a><span class="co"># Report generated on `r format(Sys.Date(), &quot;%B %d, %Y&quot;)`</span></span>
+<span id="cb46-6"><a href="#cb46-6" tabindex="-1"></a><span class="co"># Outputs: Report generated on March 19, 2026</span></span></code></pre></div>
 <p>Common date format codes:</p>
 <table>
 <thead>
@@ -3419,11 +3429,11 @@ Document</h2>
 <p>To render your <code>.Rmd</code> file into the output format
 specified in the YAML header, click the <strong>Knit</strong> button at
 the top of the RStudio editor, or run:</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" tabindex="-1"></a>rmarkdown<span class="sc">::</span><span class="fu">render</span>(<span class="st">&quot;R_SOP_tutorial.Rmd&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a>rmarkdown<span class="sc">::</span><span class="fu">render</span>(<span class="st">&quot;R_SOP_tutorial.Rmd&quot;</span>)</span></code></pre></div>
 <p>You can also knit to a specific format regardless of what is set in
 the YAML:</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a>rmarkdown<span class="sc">::</span><span class="fu">render</span>(<span class="st">&quot;R_SOP_tutorial.Rmd&quot;</span>, <span class="at">output_format =</span> <span class="st">&quot;pdf_document&quot;</span>)</span>
-<span id="cb50-2"><a href="#cb50-2" tabindex="-1"></a>rmarkdown<span class="sc">::</span><span class="fu">render</span>(<span class="st">&quot;R_SOP_tutorial.Rmd&quot;</span>, <span class="at">output_format =</span> <span class="st">&quot;word_document&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" tabindex="-1"></a>rmarkdown<span class="sc">::</span><span class="fu">render</span>(<span class="st">&quot;R_SOP_tutorial.Rmd&quot;</span>, <span class="at">output_format =</span> <span class="st">&quot;pdf_document&quot;</span>)</span>
+<span id="cb51-2"><a href="#cb51-2" tabindex="-1"></a>rmarkdown<span class="sc">::</span><span class="fu">render</span>(<span class="st">&quot;R_SOP_tutorial.Rmd&quot;</span>, <span class="at">output_format =</span> <span class="st">&quot;word_document&quot;</span>)</span></code></pre></div>
 <blockquote>
 <p><strong>Tip:</strong> If you get an error when knitting, read the
 error message in the R Markdown tab at the bottom of RStudio. It will
@@ -3476,12 +3486,12 @@ simply re-knit the document to update all results automatically.</p>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" tabindex="-1"></a><span class="co"># Example: inline R values in text</span></span>
-<span id="cb51-2"><a href="#cb51-2" tabindex="-1"></a><span class="co"># &quot;The mean concentration was `r round(mean(concentration), 2)` pg/m³.&quot;</span></span>
-<span id="cb51-3"><a href="#cb51-3" tabindex="-1"></a></span>
-<span id="cb51-4"><a href="#cb51-4" tabindex="-1"></a><span class="co"># Example: auto-formatted table</span></span>
-<span id="cb51-5"><a href="#cb51-5" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb51-6"><a href="#cb51-6" tabindex="-1"></a><span class="fu">kable</span>(loq_stats, <span class="at">digits =</span> <span class="dv">3</span>, <span class="at">caption =</span> <span class="st">&quot;LOQ Summary by Congener&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" tabindex="-1"></a><span class="co"># Example: inline R values in text</span></span>
+<span id="cb52-2"><a href="#cb52-2" tabindex="-1"></a><span class="co"># &quot;The mean concentration was `r round(mean(concentration), 2)` pg/m³.&quot;</span></span>
+<span id="cb52-3"><a href="#cb52-3" tabindex="-1"></a></span>
+<span id="cb52-4"><a href="#cb52-4" tabindex="-1"></a><span class="co"># Example: auto-formatted table</span></span>
+<span id="cb52-5"><a href="#cb52-5" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb52-6"><a href="#cb52-6" tabindex="-1"></a><span class="fu">kable</span>(loq_stats, <span class="at">digits =</span> <span class="dv">3</span>, <span class="at">caption =</span> <span class="st">&quot;LOQ Summary by Congener&quot;</span>)</span></code></pre></div>
 <hr />
 <p><em>End of SOP Tutorial</em></p>
 </div>
