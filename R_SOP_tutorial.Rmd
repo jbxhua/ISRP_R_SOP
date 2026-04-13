@@ -480,8 +480,7 @@ Data frames are most commonly created by reading in data files:
 # Read a CSV file into a data frame
 my_data <- read.csv("Example Data/my_file.csv")
 
-# Read a tab-delimited file
-my_data <- read.table("data/my_file.txt", header = TRUE, sep = "\t")
+
 ```
 
 **Working with data frames:**
@@ -491,6 +490,21 @@ my_data <- read.table("data/my_file.txt", header = TRUE, sep = "\t")
 - **Transforming data frames** — use `dplyr` and `tidyr` for reshaping and summarizing
 - **Matrix operations** — `t()` (transpose), `%*%` (matrix multiplication)
 
+```{r data-frames-index}
+# indexing is similar to matrices
+
+# call entire data frame
+my_data[,]
+
+# call the first row
+my_data[1,]
+
+# call the first column
+my_data[,1]
+
+# call a specific column by name
+my_data$materials
+```
 ---
 
 ## Lists

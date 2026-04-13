@@ -1,0 +1,17 @@
+school					sch_id
+Bellows Falls UHS #27			SCH A
+Brighton Elementary School		SCH B
+Cabot School				SCH D
+Charlotte Central School		SCH F
+C P Smith School			SCH C
+Cavendish Town Elem School		SCH E
+Danville School				SCH G
+Early Essential Education		SCH H
+Green Mountain UHS #35			SCH I
+J J Flynn School			SCH J
+North Country UHS #22A			SCH K
+North Hero School			SCH L
+Oak Grove School			SCH M
+Soar Learning Center			SCH N
+Twin Valley Elementary School		SCH O
+Twinfield US #33			SCH P
