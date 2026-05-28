@@ -2395,19 +2395,21 @@ test are commonly used in tandem because the plot offers intuitive
 visual insight while the test provides an objective, quantifiable
 decision criterion.</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="co"># The ggpubr library is an extension of the ggplot library and is considered a convenient interface for creating publication ready plots </span></span>
-<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
-<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a></span>
-<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a><span class="co"># Reading in data from a blanks LOQ file stored in the working directory</span></span>
-<span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/EX 1/blanks_LOQ_20220919.csv&#39;</span>, <span class="at">header =</span> T, </span>
-<span id="cb26-6"><a href="#cb26-6" tabindex="-1"></a>                    <span class="at">encoding =</span> <span class="st">&#39;UTC-8&#39;</span>)</span>
-<span id="cb26-7"><a href="#cb26-7" tabindex="-1"></a></span>
-<span id="cb26-8"><a href="#cb26-8" tabindex="-1"></a><span class="co"># QQ plot to visually assess normality</span></span>
-<span id="cb26-9"><a href="#cb26-9" tabindex="-1"></a>qq <span class="ot">&lt;-</span> <span class="fu">ggqqplot</span>(my_data<span class="sc">$</span>X52)</span>
-<span id="cb26-10"><a href="#cb26-10" tabindex="-1"></a></span>
-<span id="cb26-11"><a href="#cb26-11" tabindex="-1"></a><span class="fu">print</span>(qq)</span>
-<span id="cb26-12"><a href="#cb26-12" tabindex="-1"></a><span class="co"># Shapiro-Wilk test (formal normality test)</span></span>
-<span id="cb26-13"><a href="#cb26-13" tabindex="-1"></a><span class="fu">shapiro.test</span>(my_data<span class="sc">$</span>X52)</span>
-<span id="cb26-14"><a href="#cb26-14" tabindex="-1"></a><span class="co"># p &gt; 0.05 suggests data are approximately normal</span></span></code></pre></div>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a><span class="co"># install.packages(&quot;ggpubr&quot;)</span></span>
+<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
+<span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="#cb26-6" tabindex="-1"></a><span class="co"># Reading in data from a blanks LOQ file stored in the working directory</span></span>
+<span id="cb26-7"><a href="#cb26-7" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./Example Data/EX 1/blanks_LOQ_20220919.csv&#39;</span>, <span class="at">header =</span> T, </span>
+<span id="cb26-8"><a href="#cb26-8" tabindex="-1"></a>                    <span class="at">encoding =</span> <span class="st">&#39;UTC-8&#39;</span>)</span>
+<span id="cb26-9"><a href="#cb26-9" tabindex="-1"></a></span>
+<span id="cb26-10"><a href="#cb26-10" tabindex="-1"></a><span class="co"># QQ plot to visually assess normality</span></span>
+<span id="cb26-11"><a href="#cb26-11" tabindex="-1"></a>qq <span class="ot">&lt;-</span> <span class="fu">ggqqplot</span>(my_data<span class="sc">$</span>X52)</span>
+<span id="cb26-12"><a href="#cb26-12" tabindex="-1"></a></span>
+<span id="cb26-13"><a href="#cb26-13" tabindex="-1"></a><span class="fu">print</span>(qq)</span>
+<span id="cb26-14"><a href="#cb26-14" tabindex="-1"></a><span class="co"># Shapiro-Wilk test (formal normality test)</span></span>
+<span id="cb26-15"><a href="#cb26-15" tabindex="-1"></a><span class="fu">shapiro.test</span>(my_data<span class="sc">$</span>X52)</span>
+<span id="cb26-16"><a href="#cb26-16" tabindex="-1"></a><span class="co"># p &gt; 0.05 suggests data are approximately normal</span></span></code></pre></div>
 </div>
 <div id="summary-statistics" class="section level2" number="7.2">
 <h2><span class="header-section-number">7.2</span> Summary
@@ -2426,71 +2428,72 @@ Statistics</h2>
 <span id="cb27-12"><a href="#cb27-12" tabindex="-1"></a><span class="co"># The dplyr library is a powerful library that allows users to easily manipulate matrices and data frames.</span></span>
 <span id="cb27-13"><a href="#cb27-13" tabindex="-1"></a><span class="co"># For more information, run ?dplyr in the console.</span></span>
 <span id="cb27-14"><a href="#cb27-14" tabindex="-1"></a></span>
-<span id="cb27-15"><a href="#cb27-15" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb27-16"><a href="#cb27-16" tabindex="-1"></a></span>
-<span id="cb27-17"><a href="#cb27-17" tabindex="-1"></a><span class="co"># The %&gt;% operator is known as the &quot;pipe operator&quot; and is used in R to pass the </span></span>
-<span id="cb27-18"><a href="#cb27-18" tabindex="-1"></a><span class="co"># output of one function as the first argument to the next function in the </span></span>
-<span id="cb27-19"><a href="#cb27-19" tabindex="-1"></a><span class="co"># sequence</span></span>
-<span id="cb27-20"><a href="#cb27-20" tabindex="-1"></a></span>
-<span id="cb27-21"><a href="#cb27-21" tabindex="-1"></a><span class="co"># summarize() creates a new data frame. It returns one row for each combination </span></span>
-<span id="cb27-22"><a href="#cb27-22" tabindex="-1"></a><span class="co"># of grouping variables. </span></span>
-<span id="cb27-23"><a href="#cb27-23" tabindex="-1"></a></span>
-<span id="cb27-24"><a href="#cb27-24" tabindex="-1"></a>total.summary <span class="ot">&lt;-</span> sch_data <span class="sc">%&gt;%</span></span>
-<span id="cb27-25"><a href="#cb27-25" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb27-26"><a href="#cb27-26" tabindex="-1"></a>    <span class="at">minimum =</span> <span class="fu">min</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb27-27"><a href="#cb27-27" tabindex="-1"></a>    <span class="at">mean =</span> <span class="fu">mean</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb27-28"><a href="#cb27-28" tabindex="-1"></a>    <span class="at">sd =</span> <span class="fu">sd</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb27-29"><a href="#cb27-29" tabindex="-1"></a>    <span class="at">maximum =</span> <span class="fu">max</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb27-30"><a href="#cb27-30" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>()</span>
-<span id="cb27-31"><a href="#cb27-31" tabindex="-1"></a>  )</span>
-<span id="cb27-32"><a href="#cb27-32" tabindex="-1"></a></span>
-<span id="cb27-33"><a href="#cb27-33" tabindex="-1"></a>total.summary</span>
-<span id="cb27-34"><a href="#cb27-34" tabindex="-1"></a></span>
-<span id="cb27-35"><a href="#cb27-35" tabindex="-1"></a><span class="co"># The dplyr library also makes it easy to group categories together. For example, you can group data from this dataset by school, sample type (air or emissions), materials, or room. The categories in this case are the columns.</span></span>
-<span id="cb27-36"><a href="#cb27-36" tabindex="-1"></a></span>
-<span id="cb27-37"><a href="#cb27-37" tabindex="-1"></a><span class="co"># Summary grouped by sample type. </span></span>
-<span id="cb27-38"><a href="#cb27-38" tabindex="-1"></a></span>
-<span id="cb27-39"><a href="#cb27-39" tabindex="-1"></a>type.sum <span class="ot">&lt;-</span> sch_data <span class="sc">%&gt;%</span></span>
-<span id="cb27-40"><a href="#cb27-40" tabindex="-1"></a>  <span class="fu">group_by</span>(sampletype) <span class="sc">%&gt;%</span></span>
-<span id="cb27-41"><a href="#cb27-41" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb27-42"><a href="#cb27-42" tabindex="-1"></a>    <span class="at">minimum    =</span> <span class="fu">min</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb27-43"><a href="#cb27-43" tabindex="-1"></a>    <span class="at">mean_val   =</span> <span class="fu">mean</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb27-44"><a href="#cb27-44" tabindex="-1"></a>    <span class="at">sd_val     =</span> <span class="fu">sd</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb27-45"><a href="#cb27-45" tabindex="-1"></a>    <span class="at">maximum    =</span> <span class="fu">max</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb27-46"><a href="#cb27-46" tabindex="-1"></a>    <span class="at">n          =</span> <span class="fu">n</span>()</span>
-<span id="cb27-47"><a href="#cb27-47" tabindex="-1"></a>  )</span>
-<span id="cb27-48"><a href="#cb27-48" tabindex="-1"></a></span>
-<span id="cb27-49"><a href="#cb27-49" tabindex="-1"></a>type.sum</span>
-<span id="cb27-50"><a href="#cb27-50" tabindex="-1"></a>  </span>
-<span id="cb27-51"><a href="#cb27-51" tabindex="-1"></a><span class="co"># Summary grouped by school.</span></span>
-<span id="cb27-52"><a href="#cb27-52" tabindex="-1"></a></span>
-<span id="cb27-53"><a href="#cb27-53" tabindex="-1"></a>sch.sum <span class="ot">&lt;-</span> sch_data <span class="sc">%&gt;%</span></span>
-<span id="cb27-54"><a href="#cb27-54" tabindex="-1"></a>  <span class="fu">group_by</span>(school) <span class="sc">%&gt;%</span></span>
-<span id="cb27-55"><a href="#cb27-55" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb27-56"><a href="#cb27-56" tabindex="-1"></a>    <span class="at">minimum    =</span> <span class="fu">min</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb27-57"><a href="#cb27-57" tabindex="-1"></a>    <span class="at">mean_val   =</span> <span class="fu">mean</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb27-58"><a href="#cb27-58" tabindex="-1"></a>    <span class="at">sd_val     =</span> <span class="fu">sd</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb27-59"><a href="#cb27-59" tabindex="-1"></a>    <span class="at">maximum    =</span> <span class="fu">max</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb27-60"><a href="#cb27-60" tabindex="-1"></a>    <span class="at">n          =</span> <span class="fu">n</span>()</span>
-<span id="cb27-61"><a href="#cb27-61" tabindex="-1"></a>  )</span>
-<span id="cb27-62"><a href="#cb27-62" tabindex="-1"></a></span>
-<span id="cb27-63"><a href="#cb27-63" tabindex="-1"></a>sch.sum</span>
-<span id="cb27-64"><a href="#cb27-64" tabindex="-1"></a></span>
-<span id="cb27-65"><a href="#cb27-65" tabindex="-1"></a><span class="co"># You can also group multiple categories at once.</span></span>
-<span id="cb27-66"><a href="#cb27-66" tabindex="-1"></a></span>
-<span id="cb27-67"><a href="#cb27-67" tabindex="-1"></a>combo.sum <span class="ot">&lt;-</span> sch_data <span class="sc">%&gt;%</span></span>
-<span id="cb27-68"><a href="#cb27-68" tabindex="-1"></a>  <span class="fu">group_by</span>(sampletype, school, materials) <span class="sc">%&gt;%</span></span>
-<span id="cb27-69"><a href="#cb27-69" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb27-70"><a href="#cb27-70" tabindex="-1"></a>    <span class="at">minimum    =</span> <span class="fu">min</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb27-71"><a href="#cb27-71" tabindex="-1"></a>    <span class="at">mean_val   =</span> <span class="fu">mean</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb27-72"><a href="#cb27-72" tabindex="-1"></a>    <span class="at">sd_val     =</span> <span class="fu">sd</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb27-73"><a href="#cb27-73" tabindex="-1"></a>    <span class="at">maximum    =</span> <span class="fu">max</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb27-74"><a href="#cb27-74" tabindex="-1"></a>    <span class="at">n          =</span> <span class="fu">n</span>()</span>
-<span id="cb27-75"><a href="#cb27-75" tabindex="-1"></a>  )</span>
-<span id="cb27-76"><a href="#cb27-76" tabindex="-1"></a></span>
-<span id="cb27-77"><a href="#cb27-77" tabindex="-1"></a>combo.sum</span>
-<span id="cb27-78"><a href="#cb27-78" tabindex="-1"></a></span>
-<span id="cb27-79"><a href="#cb27-79" tabindex="-1"></a><span class="co"># Sometimes, there might be NAs in the resulting summary. In this case, there isn&#39;t always enough samples from a category to calculate a standard deviation. Therefore, it will return an NA in its place.</span></span></code></pre></div>
+<span id="cb27-15"><a href="#cb27-15" tabindex="-1"></a><span class="co"># install.packages(&quot;dplyr&quot;)</span></span>
+<span id="cb27-16"><a href="#cb27-16" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb27-17"><a href="#cb27-17" tabindex="-1"></a></span>
+<span id="cb27-18"><a href="#cb27-18" tabindex="-1"></a><span class="co"># The %&gt;% operator is known as the &quot;pipe operator&quot; and is used in R to pass the </span></span>
+<span id="cb27-19"><a href="#cb27-19" tabindex="-1"></a><span class="co"># output of one function as the first argument to the next function in the </span></span>
+<span id="cb27-20"><a href="#cb27-20" tabindex="-1"></a><span class="co"># sequence</span></span>
+<span id="cb27-21"><a href="#cb27-21" tabindex="-1"></a></span>
+<span id="cb27-22"><a href="#cb27-22" tabindex="-1"></a><span class="co"># summarize() creates a new data frame. It returns one row for each combination </span></span>
+<span id="cb27-23"><a href="#cb27-23" tabindex="-1"></a><span class="co"># of grouping variables. </span></span>
+<span id="cb27-24"><a href="#cb27-24" tabindex="-1"></a></span>
+<span id="cb27-25"><a href="#cb27-25" tabindex="-1"></a>total.summary <span class="ot">&lt;-</span> sch_data <span class="sc">%&gt;%</span></span>
+<span id="cb27-26"><a href="#cb27-26" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb27-27"><a href="#cb27-27" tabindex="-1"></a>    <span class="at">minimum =</span> <span class="fu">min</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-28"><a href="#cb27-28" tabindex="-1"></a>    <span class="at">mean =</span> <span class="fu">mean</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-29"><a href="#cb27-29" tabindex="-1"></a>    <span class="at">sd =</span> <span class="fu">sd</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-30"><a href="#cb27-30" tabindex="-1"></a>    <span class="at">maximum =</span> <span class="fu">max</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-31"><a href="#cb27-31" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>()</span>
+<span id="cb27-32"><a href="#cb27-32" tabindex="-1"></a>  )</span>
+<span id="cb27-33"><a href="#cb27-33" tabindex="-1"></a></span>
+<span id="cb27-34"><a href="#cb27-34" tabindex="-1"></a>total.summary</span>
+<span id="cb27-35"><a href="#cb27-35" tabindex="-1"></a></span>
+<span id="cb27-36"><a href="#cb27-36" tabindex="-1"></a><span class="co"># The dplyr library also makes it easy to group categories together. For example, you can group data from this dataset by school, sample type (air or emissions), materials, or room. The categories in this case are the columns.</span></span>
+<span id="cb27-37"><a href="#cb27-37" tabindex="-1"></a></span>
+<span id="cb27-38"><a href="#cb27-38" tabindex="-1"></a><span class="co"># Summary grouped by sample type. </span></span>
+<span id="cb27-39"><a href="#cb27-39" tabindex="-1"></a></span>
+<span id="cb27-40"><a href="#cb27-40" tabindex="-1"></a>type.sum <span class="ot">&lt;-</span> sch_data <span class="sc">%&gt;%</span></span>
+<span id="cb27-41"><a href="#cb27-41" tabindex="-1"></a>  <span class="fu">group_by</span>(sampletype) <span class="sc">%&gt;%</span></span>
+<span id="cb27-42"><a href="#cb27-42" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb27-43"><a href="#cb27-43" tabindex="-1"></a>    <span class="at">minimum    =</span> <span class="fu">min</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-44"><a href="#cb27-44" tabindex="-1"></a>    <span class="at">mean_val   =</span> <span class="fu">mean</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-45"><a href="#cb27-45" tabindex="-1"></a>    <span class="at">sd_val     =</span> <span class="fu">sd</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-46"><a href="#cb27-46" tabindex="-1"></a>    <span class="at">maximum    =</span> <span class="fu">max</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-47"><a href="#cb27-47" tabindex="-1"></a>    <span class="at">n          =</span> <span class="fu">n</span>()</span>
+<span id="cb27-48"><a href="#cb27-48" tabindex="-1"></a>  )</span>
+<span id="cb27-49"><a href="#cb27-49" tabindex="-1"></a></span>
+<span id="cb27-50"><a href="#cb27-50" tabindex="-1"></a>type.sum</span>
+<span id="cb27-51"><a href="#cb27-51" tabindex="-1"></a>  </span>
+<span id="cb27-52"><a href="#cb27-52" tabindex="-1"></a><span class="co"># Summary grouped by school.</span></span>
+<span id="cb27-53"><a href="#cb27-53" tabindex="-1"></a></span>
+<span id="cb27-54"><a href="#cb27-54" tabindex="-1"></a>sch.sum <span class="ot">&lt;-</span> sch_data <span class="sc">%&gt;%</span></span>
+<span id="cb27-55"><a href="#cb27-55" tabindex="-1"></a>  <span class="fu">group_by</span>(school) <span class="sc">%&gt;%</span></span>
+<span id="cb27-56"><a href="#cb27-56" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb27-57"><a href="#cb27-57" tabindex="-1"></a>    <span class="at">minimum    =</span> <span class="fu">min</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-58"><a href="#cb27-58" tabindex="-1"></a>    <span class="at">mean_val   =</span> <span class="fu">mean</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-59"><a href="#cb27-59" tabindex="-1"></a>    <span class="at">sd_val     =</span> <span class="fu">sd</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-60"><a href="#cb27-60" tabindex="-1"></a>    <span class="at">maximum    =</span> <span class="fu">max</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-61"><a href="#cb27-61" tabindex="-1"></a>    <span class="at">n          =</span> <span class="fu">n</span>()</span>
+<span id="cb27-62"><a href="#cb27-62" tabindex="-1"></a>  )</span>
+<span id="cb27-63"><a href="#cb27-63" tabindex="-1"></a></span>
+<span id="cb27-64"><a href="#cb27-64" tabindex="-1"></a>sch.sum</span>
+<span id="cb27-65"><a href="#cb27-65" tabindex="-1"></a></span>
+<span id="cb27-66"><a href="#cb27-66" tabindex="-1"></a><span class="co"># You can also group multiple categories at once.</span></span>
+<span id="cb27-67"><a href="#cb27-67" tabindex="-1"></a></span>
+<span id="cb27-68"><a href="#cb27-68" tabindex="-1"></a>combo.sum <span class="ot">&lt;-</span> sch_data <span class="sc">%&gt;%</span></span>
+<span id="cb27-69"><a href="#cb27-69" tabindex="-1"></a>  <span class="fu">group_by</span>(sampletype, school, materials) <span class="sc">%&gt;%</span></span>
+<span id="cb27-70"><a href="#cb27-70" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb27-71"><a href="#cb27-71" tabindex="-1"></a>    <span class="at">minimum    =</span> <span class="fu">min</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-72"><a href="#cb27-72" tabindex="-1"></a>    <span class="at">mean_val   =</span> <span class="fu">mean</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-73"><a href="#cb27-73" tabindex="-1"></a>    <span class="at">sd_val     =</span> <span class="fu">sd</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-74"><a href="#cb27-74" tabindex="-1"></a>    <span class="at">maximum    =</span> <span class="fu">max</span>(sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-75"><a href="#cb27-75" tabindex="-1"></a>    <span class="at">n          =</span> <span class="fu">n</span>()</span>
+<span id="cb27-76"><a href="#cb27-76" tabindex="-1"></a>  )</span>
+<span id="cb27-77"><a href="#cb27-77" tabindex="-1"></a></span>
+<span id="cb27-78"><a href="#cb27-78" tabindex="-1"></a>combo.sum</span>
+<span id="cb27-79"><a href="#cb27-79" tabindex="-1"></a></span>
+<span id="cb27-80"><a href="#cb27-80" tabindex="-1"></a><span class="co"># Sometimes, there might be NAs in the resulting summary. In this case, there isn&#39;t always enough samples from a category to calculate a standard deviation. Therefore, it will return an NA in its place.</span></span></code></pre></div>
 </div>
 <div id="hypothesis-testing" class="section level2" number="7.3">
 <h2><span class="header-section-number">7.3</span> Hypothesis
