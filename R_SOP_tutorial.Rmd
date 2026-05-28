@@ -598,6 +598,8 @@ The Shapiro-Wilk test complements this visual assessment by providing a formal s
 
 ```{r normality}
 # The ggpubr library is an extension of the ggplot library and is considered a convenient interface for creating publication ready plots 
+
+# install.packages("ggpubr")
 library(ggpubr)
 
 # Reading in data from a blanks LOQ file stored in the working directory
@@ -633,6 +635,7 @@ summary(sch_data$sum)
 # The dplyr library is a powerful library that allows users to easily manipulate matrices and data frames.
 # For more information, run ?dplyr in the console.
 
+# install.packages("dplyr")
 library(dplyr)
 
 # The %>% operator is known as the "pipe operator" and is used in R to pass the 
