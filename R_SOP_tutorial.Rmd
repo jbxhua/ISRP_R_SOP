@@ -6,9 +6,9 @@ author: |
   
   Matthew Rosonke (Undergraduate Research Assistant)
   
-  Dr. Rachel F. Marek (title)
+  Dr. Rachel F. Marek (Associate Research Scientist)
   
-  Dr. Andres Martinez (title)
+  Dr. Andres Martinez (Assocaite Research Engineer)
   
   4105 SC
   Dept. Civil and Environmental Engineering
@@ -771,7 +771,16 @@ ggboxplot(PlantGrowth, x = "group", y = "weight",
 
 # Example 2: Calculate LOQ
 
-In this example, we calculate the Limit of Quantitation (LOQ) using method blanks.
+In this example, we calculate the Limit of Quantitation (LOQ) using method blanks.There are different ways to calculate LOQ, but we will only focus on one method here. An LOQ is calculated for each congener, so the final product will be a table with one value for every congener.
+
+Before calculating the LOQ, it is important to check the normality of your data. Environmental data generally follows a log normal distribution. 
+
+Here, the LOQ is calculated as the upper limit of the 99% confidence interval of log 10-transformed blank masses.First, all congener masses are log 10-transformed. Next, the average and standard deviation are calculated for each congener. Then, the 99% confidence interval is calculate as: 
+
+$$
+\mu + 2.325 \left(\frac{\sigma}{\sqrt{n}}\right)
+$$
+where $\mu$ is the log-transformed congener mass, $\sigma$ is the log-transformed congener standard deviation, and n is the number of observations, or number of blanks. Finally, untransform the values to get your final LOQ as a mass for each congener.
 
 > **Note:** Some projects may require including field blank masses in the LOQ calculations.
 
@@ -791,6 +800,7 @@ congener.list <- congener.list[1,-1]
 congener.list <- as.data.frame(t(congener.list))
 
 # ensure there are no zeroes in the data otherwise you cannot log10 transform
+# this typcially isn't an issue if you don't quantify any zeroes, but sometimes they still slip through
 blank.mass[blank.mass == 0] <- 1e-6
 
 # log 10
@@ -1040,6 +1050,8 @@ One of the most common libraries used in R is ggplot2. This library is a powerfu
 ```{r ggplot-example}
 library(ggplot2)
 
+# find data to plot
+
 ggplot(data = my_data, aes(x = variable_x, y = variable_y)) +
   geom_point(color = "steelblue", size = 2, alpha = 0.7) +
   geom_smooth(method = "lm", se = TRUE, color = "darkred") +
@@ -1073,6 +1085,7 @@ low.sch <- c('C P Smith School', 'Cabot School', 'Cavendish Town Elem School',
 high.sch <- c('Bellows Falls UHS #27', 'Brighton Elementary School', 'Green Mountain UHS #35',
               'North Country UHS #22A', 'Oak Grove School', 'Soar Learning Center', 'Twin Valley Elementary School')
 
+# check: filtered not found
 ggplot(filtered, aes(x = materials, y = em, fill = school_group)) +
   geom_boxplot(position = position_dodge(width = 0.8), width = 0.7) +
   stat_compare_means(

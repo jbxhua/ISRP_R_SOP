@@ -1571,11 +1571,11 @@ border-radius: 0px;
 PCBs</h1>
 <h4 class="author"><p>Jason B.X. Hua (PhD Research Assiant)</p>
 <p>Matthew Rosonke (Undergraduate Research Assistant)</p>
-<p>Dr. Rachel F. Marek (title)</p>
-<p>Dr. Andres Martinez (title)</p>
+<p>Dr. Rachel F. Marek (Associate Research Scientist)</p>
+<p>Dr. Andres Martinez (Assocaite Research Engineer)</p>
 <p>4105 SC Dept. Civil and Environmental Engineering University of Iowa
 Iowa City, IA 52240 Email:</p></h4>
-<h4 class="date">Last Revised: May 25, 2026</h4>
+<h4 class="date">Last Revised: May 28, 2026</h4>
 
 </div>
 
@@ -2561,7 +2561,25 @@ tutorial.</p>
 <h1><span class="header-section-number">8</span> Example 2: Calculate
 LOQ</h1>
 <p>In this example, we calculate the Limit of Quantitation (LOQ) using
-method blanks.</p>
+method blanks.There are different ways to calculate LOQ, but we will
+only focus on one method here. An LOQ is calculated for each congener,
+so the final product will be a table with one value for every
+congener.</p>
+<p>Before calculating the LOQ, it is important to check the normality of
+your data. Environmental data generally follows a log normal
+distribution.</p>
+<p>Here, the LOQ is calculated as the upper limit of the 99% confidence
+interval of log 10-transformed blank masses.First, all congener masses
+are log 10-transformed. Next, the average and standard deviation are
+calculated for each congener. Then, the 99% confidence interval is
+calculate as:</p>
+<p><span class="math display">\[
+\mu + 2.325 \left(\frac{\sigma}{\sqrt{n}}\right)
+\]</span> where <span class="math inline">\(\mu\)</span> is the
+log-transformed congener mass, <span class="math inline">\(\sigma\)</span> is the log-transformed congener
+standard deviation, and n is the number of observations, or number of
+blanks. Finally, untransform the values to get your final LOQ as a mass
+for each congener.</p>
 <blockquote>
 <p><strong>Note:</strong> Some projects may require including field
 blank masses in the LOQ calculations.</p>
@@ -2581,25 +2599,26 @@ blank masses in the LOQ calculations.</p>
 <span id="cb30-13"><a href="#cb30-13" tabindex="-1"></a>congener.list <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(congener.list))</span>
 <span id="cb30-14"><a href="#cb30-14" tabindex="-1"></a></span>
 <span id="cb30-15"><a href="#cb30-15" tabindex="-1"></a><span class="co"># ensure there are no zeroes in the data otherwise you cannot log10 transform</span></span>
-<span id="cb30-16"><a href="#cb30-16" tabindex="-1"></a>blank.mass[blank.mass <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="fl">1e-6</span></span>
-<span id="cb30-17"><a href="#cb30-17" tabindex="-1"></a></span>
-<span id="cb30-18"><a href="#cb30-18" tabindex="-1"></a><span class="co"># log 10</span></span>
-<span id="cb30-19"><a href="#cb30-19" tabindex="-1"></a>log.mass <span class="ot">&lt;-</span> <span class="fu">log10</span>(blank.mass)</span>
-<span id="cb30-20"><a href="#cb30-20" tabindex="-1"></a></span>
-<span id="cb30-21"><a href="#cb30-21" tabindex="-1"></a><span class="co"># LOQ calculation</span></span>
-<span id="cb30-22"><a href="#cb30-22" tabindex="-1"></a>log.mass <span class="ot">&lt;-</span> <span class="fu">log10</span>(blank.mass)</span>
-<span id="cb30-23"><a href="#cb30-23" tabindex="-1"></a>log.mass <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(log.mass))</span>
-<span id="cb30-24"><a href="#cb30-24" tabindex="-1"></a>log.avg <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(log.mass)</span>
-<span id="cb30-25"><a href="#cb30-25" tabindex="-1"></a>log.sd <span class="ot">&lt;-</span> <span class="fu">apply</span>(log.mass, <span class="dv">1</span>, sd)</span>
-<span id="cb30-26"><a href="#cb30-26" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(blank.mass)</span>
-<span id="cb30-27"><a href="#cb30-27" tabindex="-1"></a>log.loq <span class="ot">&lt;-</span> log.avg <span class="sc">+</span> (<span class="fl">2.325</span> <span class="sc">*</span> (log.sd<span class="sc">/</span><span class="fu">sqrt</span>(n)))</span>
-<span id="cb30-28"><a href="#cb30-28" tabindex="-1"></a>loq <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="dv">10</span><span class="sc">^</span>log.loq)</span>
-<span id="cb30-29"><a href="#cb30-29" tabindex="-1"></a></span>
-<span id="cb30-30"><a href="#cb30-30" tabindex="-1"></a><span class="co"># rerrange into presentable table</span></span>
-<span id="cb30-31"><a href="#cb30-31" tabindex="-1"></a>final.loq <span class="ot">&lt;-</span> <span class="fu">cbind</span>(congener.list, loq)</span>
-<span id="cb30-32"><a href="#cb30-32" tabindex="-1"></a><span class="fu">colnames</span>(final.loq) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;Congener&#39;</span>, <span class="st">&#39;LOQ&#39;</span>)</span>
-<span id="cb30-33"><a href="#cb30-33" tabindex="-1"></a>final.loq<span class="sc">$</span>Congener <span class="ot">&lt;-</span> <span class="fu">factor</span>(final.loq<span class="sc">$</span>Congener, <span class="at">levels =</span> final.loq<span class="sc">$</span>Congener)</span>
-<span id="cb30-34"><a href="#cb30-34" tabindex="-1"></a><span class="fu">summary</span>(final.loq)</span></code></pre></div>
+<span id="cb30-16"><a href="#cb30-16" tabindex="-1"></a><span class="co"># this typcially isn&#39;t an issue if you don&#39;t quantify any zeroes, but sometimes they still slip through</span></span>
+<span id="cb30-17"><a href="#cb30-17" tabindex="-1"></a>blank.mass[blank.mass <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="fl">1e-6</span></span>
+<span id="cb30-18"><a href="#cb30-18" tabindex="-1"></a></span>
+<span id="cb30-19"><a href="#cb30-19" tabindex="-1"></a><span class="co"># log 10</span></span>
+<span id="cb30-20"><a href="#cb30-20" tabindex="-1"></a>log.mass <span class="ot">&lt;-</span> <span class="fu">log10</span>(blank.mass)</span>
+<span id="cb30-21"><a href="#cb30-21" tabindex="-1"></a></span>
+<span id="cb30-22"><a href="#cb30-22" tabindex="-1"></a><span class="co"># LOQ calculation</span></span>
+<span id="cb30-23"><a href="#cb30-23" tabindex="-1"></a>log.mass <span class="ot">&lt;-</span> <span class="fu">log10</span>(blank.mass)</span>
+<span id="cb30-24"><a href="#cb30-24" tabindex="-1"></a>log.mass <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(log.mass))</span>
+<span id="cb30-25"><a href="#cb30-25" tabindex="-1"></a>log.avg <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(log.mass)</span>
+<span id="cb30-26"><a href="#cb30-26" tabindex="-1"></a>log.sd <span class="ot">&lt;-</span> <span class="fu">apply</span>(log.mass, <span class="dv">1</span>, sd)</span>
+<span id="cb30-27"><a href="#cb30-27" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(blank.mass)</span>
+<span id="cb30-28"><a href="#cb30-28" tabindex="-1"></a>log.loq <span class="ot">&lt;-</span> log.avg <span class="sc">+</span> (<span class="fl">2.325</span> <span class="sc">*</span> (log.sd<span class="sc">/</span><span class="fu">sqrt</span>(n)))</span>
+<span id="cb30-29"><a href="#cb30-29" tabindex="-1"></a>loq <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="dv">10</span><span class="sc">^</span>log.loq)</span>
+<span id="cb30-30"><a href="#cb30-30" tabindex="-1"></a></span>
+<span id="cb30-31"><a href="#cb30-31" tabindex="-1"></a><span class="co"># rerrange into presentable table</span></span>
+<span id="cb30-32"><a href="#cb30-32" tabindex="-1"></a>final.loq <span class="ot">&lt;-</span> <span class="fu">cbind</span>(congener.list, loq)</span>
+<span id="cb30-33"><a href="#cb30-33" tabindex="-1"></a><span class="fu">colnames</span>(final.loq) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;Congener&#39;</span>, <span class="st">&#39;LOQ&#39;</span>)</span>
+<span id="cb30-34"><a href="#cb30-34" tabindex="-1"></a>final.loq<span class="sc">$</span>Congener <span class="ot">&lt;-</span> <span class="fu">factor</span>(final.loq<span class="sc">$</span>Congener, <span class="at">levels =</span> final.loq<span class="sc">$</span>Congener)</span>
+<span id="cb30-35"><a href="#cb30-35" tabindex="-1"></a><span class="fu">summary</span>(final.loq)</span></code></pre></div>
 <hr />
 </div>
 <div id="example-3-calculate-air-concentration" class="section level1" number="9">
@@ -2821,15 +2840,17 @@ cheat sheet for using ggplot2 available in the “Cheat Sheets”
 folder.</p>
 <div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb39-2"><a href="#cb39-2" tabindex="-1"></a></span>
-<span id="cb39-3"><a href="#cb39-3" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> my_data, <span class="fu">aes</span>(<span class="at">x =</span> variable_x, <span class="at">y =</span> variable_y)) <span class="sc">+</span></span>
-<span id="cb39-4"><a href="#cb39-4" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb39-5"><a href="#cb39-5" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">TRUE</span>, <span class="at">color =</span> <span class="st">&quot;darkred&quot;</span>) <span class="sc">+</span></span>
-<span id="cb39-6"><a href="#cb39-6" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb39-7"><a href="#cb39-7" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;My Plot Title&quot;</span>,</span>
-<span id="cb39-8"><a href="#cb39-8" tabindex="-1"></a>    <span class="at">x     =</span> <span class="st">&quot;X Axis Label&quot;</span>,</span>
-<span id="cb39-9"><a href="#cb39-9" tabindex="-1"></a>    <span class="at">y     =</span> <span class="st">&quot;Y Axis Label&quot;</span></span>
-<span id="cb39-10"><a href="#cb39-10" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb39-11"><a href="#cb39-11" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
+<span id="cb39-3"><a href="#cb39-3" tabindex="-1"></a><span class="co"># find data to plot</span></span>
+<span id="cb39-4"><a href="#cb39-4" tabindex="-1"></a></span>
+<span id="cb39-5"><a href="#cb39-5" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> my_data, <span class="fu">aes</span>(<span class="at">x =</span> variable_x, <span class="at">y =</span> variable_y)) <span class="sc">+</span></span>
+<span id="cb39-6"><a href="#cb39-6" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb39-7"><a href="#cb39-7" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">TRUE</span>, <span class="at">color =</span> <span class="st">&quot;darkred&quot;</span>) <span class="sc">+</span></span>
+<span id="cb39-8"><a href="#cb39-8" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb39-9"><a href="#cb39-9" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;My Plot Title&quot;</span>,</span>
+<span id="cb39-10"><a href="#cb39-10" tabindex="-1"></a>    <span class="at">x     =</span> <span class="st">&quot;X Axis Label&quot;</span>,</span>
+<span id="cb39-11"><a href="#cb39-11" tabindex="-1"></a>    <span class="at">y     =</span> <span class="st">&quot;Y Axis Label&quot;</span></span>
+<span id="cb39-12"><a href="#cb39-12" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb39-13"><a href="#cb39-13" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
 <p>This example introduces how to use ggplot2 with a boxplot
 example.</p>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
@@ -2851,74 +2872,75 @@ example.</p>
 <span id="cb40-17"><a href="#cb40-17" tabindex="-1"></a>high.sch <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;Bellows Falls UHS #27&#39;</span>, <span class="st">&#39;Brighton Elementary School&#39;</span>, <span class="st">&#39;Green Mountain UHS #35&#39;</span>,</span>
 <span id="cb40-18"><a href="#cb40-18" tabindex="-1"></a>              <span class="st">&#39;North Country UHS #22A&#39;</span>, <span class="st">&#39;Oak Grove School&#39;</span>, <span class="st">&#39;Soar Learning Center&#39;</span>, <span class="st">&#39;Twin Valley Elementary School&#39;</span>)</span>
 <span id="cb40-19"><a href="#cb40-19" tabindex="-1"></a></span>
-<span id="cb40-20"><a href="#cb40-20" tabindex="-1"></a><span class="fu">ggplot</span>(filtered, <span class="fu">aes</span>(<span class="at">x =</span> materials, <span class="at">y =</span> em, <span class="at">fill =</span> school_group)) <span class="sc">+</span></span>
-<span id="cb40-21"><a href="#cb40-21" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.8</span>), <span class="at">width =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb40-22"><a href="#cb40-22" tabindex="-1"></a>  <span class="fu">stat_compare_means</span>(</span>
-<span id="cb40-23"><a href="#cb40-23" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">&quot;wilcox.test&quot;</span>,</span>
-<span id="cb40-24"><a href="#cb40-24" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">&quot;p.format&quot;</span></span>
-<span id="cb40-25"><a href="#cb40-25" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb40-26"><a href="#cb40-26" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span>
-<span id="cb40-27"><a href="#cb40-27" tabindex="-1"></a>  <span class="er">)</span> </span>
-<span id="cb40-28"><a href="#cb40-28" tabindex="-1"></a></span>
-<span id="cb40-29"><a href="#cb40-29" tabindex="-1"></a><span class="fu">ggplot</span>(filtered, <span class="fu">aes</span>(<span class="at">x =</span> materials, <span class="at">y =</span> em, <span class="at">fill =</span> school_group)) <span class="sc">+</span></span>
-<span id="cb40-30"><a href="#cb40-30" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.8</span>), <span class="at">width =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb40-31"><a href="#cb40-31" tabindex="-1"></a>  <span class="fu">stat_compare_means</span>(</span>
-<span id="cb40-32"><a href="#cb40-32" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">&quot;wilcox.test&quot;</span>,</span>
-<span id="cb40-33"><a href="#cb40-33" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">&quot;p.format&quot;</span></span>
-<span id="cb40-34"><a href="#cb40-34" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb40-35"><a href="#cb40-35" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb40-36"><a href="#cb40-36" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">&#39;Emissions (ng m&#39;</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">2</span>}<span class="sc">*</span><span class="st">&#39; d&#39;</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">1</span>}<span class="sc">*</span><span class="st">&#39;)&#39;</span>))) <span class="sc">+</span></span>
-<span id="cb40-37"><a href="#cb40-37" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb40-38"><a href="#cb40-38" tabindex="-1"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb40-39"><a href="#cb40-39" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
-<span id="cb40-40"><a href="#cb40-40" tabindex="-1"></a>    <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb40-41"><a href="#cb40-41" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
-<span id="cb40-42"><a href="#cb40-42" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
-<span id="cb40-43"><a href="#cb40-43" tabindex="-1"></a>    <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">size =</span> <span class="dv">2</span>)</span>
-<span id="cb40-44"><a href="#cb40-44" tabindex="-1"></a>  ) </span>
-<span id="cb40-45"><a href="#cb40-45" tabindex="-1"></a>  </span>
-<span id="cb40-46"><a href="#cb40-46" tabindex="-1"></a> </span>
-<span id="cb40-47"><a href="#cb40-47" tabindex="-1"></a><span class="fu">ggplot</span>(filtered, <span class="fu">aes</span>(<span class="at">x =</span> materials, <span class="at">y =</span> em, <span class="at">fill =</span> school_group)) <span class="sc">+</span></span>
-<span id="cb40-48"><a href="#cb40-48" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.8</span>), <span class="at">width =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb40-49"><a href="#cb40-49" tabindex="-1"></a>  <span class="fu">stat_compare_means</span>(</span>
-<span id="cb40-50"><a href="#cb40-50" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">&quot;wilcox.test&quot;</span>,</span>
-<span id="cb40-51"><a href="#cb40-51" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">&quot;p.format&quot;</span></span>
-<span id="cb40-52"><a href="#cb40-52" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb40-53"><a href="#cb40-53" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb40-54"><a href="#cb40-54" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">&#39;Emissions (ng m&#39;</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">2</span>}<span class="sc">*</span><span class="st">&#39; d&#39;</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">1</span>}<span class="sc">*</span><span class="st">&#39;)&#39;</span>))) <span class="sc">+</span></span>
-<span id="cb40-55"><a href="#cb40-55" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb40-56"><a href="#cb40-56" tabindex="-1"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb40-57"><a href="#cb40-57" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
-<span id="cb40-58"><a href="#cb40-58" tabindex="-1"></a>    <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb40-59"><a href="#cb40-59" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
-<span id="cb40-60"><a href="#cb40-60" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
-<span id="cb40-61"><a href="#cb40-61" tabindex="-1"></a>    <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">size =</span> <span class="dv">2</span>)</span>
-<span id="cb40-62"><a href="#cb40-62" tabindex="-1"></a>  )</span>
-<span id="cb40-63"><a href="#cb40-63" tabindex="-1"></a>  <span class="er">)</span> </span>
-<span id="cb40-64"><a href="#cb40-64" tabindex="-1"></a></span>
-<span id="cb40-65"><a href="#cb40-65" tabindex="-1"></a><span class="fu">ggplot</span>(filtered, <span class="fu">aes</span>(<span class="at">x =</span> materials, <span class="at">y =</span> em, <span class="at">fill =</span> school_group)) <span class="sc">+</span></span>
-<span id="cb40-66"><a href="#cb40-66" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.8</span>), <span class="at">width =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb40-67"><a href="#cb40-67" tabindex="-1"></a>  <span class="fu">stat_compare_means</span>(</span>
-<span id="cb40-68"><a href="#cb40-68" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">&quot;wilcox.test&quot;</span>,</span>
-<span id="cb40-69"><a href="#cb40-69" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">&quot;p.format&quot;</span></span>
-<span id="cb40-70"><a href="#cb40-70" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb40-71"><a href="#cb40-71" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb40-72"><a href="#cb40-72" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">&#39;Emissions (ng m&#39;</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">2</span>}<span class="sc">*</span><span class="st">&#39; d&#39;</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">1</span>}<span class="sc">*</span><span class="st">&#39;)&#39;</span>))) <span class="sc">+</span></span>
-<span id="cb40-73"><a href="#cb40-73" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb40-74"><a href="#cb40-74" tabindex="-1"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb40-75"><a href="#cb40-75" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
-<span id="cb40-76"><a href="#cb40-76" tabindex="-1"></a>    <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb40-77"><a href="#cb40-77" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
-<span id="cb40-78"><a href="#cb40-78" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
-<span id="cb40-79"><a href="#cb40-79" tabindex="-1"></a>    <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">size =</span> <span class="dv">2</span>)</span>
-<span id="cb40-80"><a href="#cb40-80" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb40-81"><a href="#cb40-81" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">100000</span>), <span class="at">labels =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span></span>
-<span id="cb40-82"><a href="#cb40-82" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;Low&quot;</span> <span class="ot">=</span> <span class="st">&quot;#1f77b4&quot;</span>, <span class="st">&quot;High&quot;</span> <span class="ot">=</span> <span class="st">&quot;#ff7f0e&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb40-83"><a href="#cb40-83" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(</span>
-<span id="cb40-84"><a href="#cb40-84" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">&quot;&quot;</span>,</span>
-<span id="cb40-85"><a href="#cb40-85" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;Low&quot;</span> <span class="ot">=</span> <span class="st">&quot;#1f77b4&quot;</span>, <span class="st">&quot;High&quot;</span> <span class="ot">=</span> <span class="st">&quot;#ff7f0e&quot;</span>),</span>
-<span id="cb40-86"><a href="#cb40-86" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Low&quot;</span> <span class="ot">=</span> <span class="st">&quot;Schools Below SAL&quot;</span>, <span class="st">&quot;High&quot;</span> <span class="ot">=</span> <span class="st">&quot;Schools Above SAL&quot;</span>)</span>
-<span id="cb40-87"><a href="#cb40-87" tabindex="-1"></a>  ) </span></code></pre></div>
+<span id="cb40-20"><a href="#cb40-20" tabindex="-1"></a><span class="co"># check: filtered not found</span></span>
+<span id="cb40-21"><a href="#cb40-21" tabindex="-1"></a><span class="fu">ggplot</span>(filtered, <span class="fu">aes</span>(<span class="at">x =</span> materials, <span class="at">y =</span> em, <span class="at">fill =</span> school_group)) <span class="sc">+</span></span>
+<span id="cb40-22"><a href="#cb40-22" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.8</span>), <span class="at">width =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb40-23"><a href="#cb40-23" tabindex="-1"></a>  <span class="fu">stat_compare_means</span>(</span>
+<span id="cb40-24"><a href="#cb40-24" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">&quot;wilcox.test&quot;</span>,</span>
+<span id="cb40-25"><a href="#cb40-25" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">&quot;p.format&quot;</span></span>
+<span id="cb40-26"><a href="#cb40-26" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb40-27"><a href="#cb40-27" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span>
+<span id="cb40-28"><a href="#cb40-28" tabindex="-1"></a>  <span class="er">)</span> </span>
+<span id="cb40-29"><a href="#cb40-29" tabindex="-1"></a></span>
+<span id="cb40-30"><a href="#cb40-30" tabindex="-1"></a><span class="fu">ggplot</span>(filtered, <span class="fu">aes</span>(<span class="at">x =</span> materials, <span class="at">y =</span> em, <span class="at">fill =</span> school_group)) <span class="sc">+</span></span>
+<span id="cb40-31"><a href="#cb40-31" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.8</span>), <span class="at">width =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb40-32"><a href="#cb40-32" tabindex="-1"></a>  <span class="fu">stat_compare_means</span>(</span>
+<span id="cb40-33"><a href="#cb40-33" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">&quot;wilcox.test&quot;</span>,</span>
+<span id="cb40-34"><a href="#cb40-34" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">&quot;p.format&quot;</span></span>
+<span id="cb40-35"><a href="#cb40-35" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb40-36"><a href="#cb40-36" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb40-37"><a href="#cb40-37" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">&#39;Emissions (ng m&#39;</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">2</span>}<span class="sc">*</span><span class="st">&#39; d&#39;</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">1</span>}<span class="sc">*</span><span class="st">&#39;)&#39;</span>))) <span class="sc">+</span></span>
+<span id="cb40-38"><a href="#cb40-38" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb40-39"><a href="#cb40-39" tabindex="-1"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb40-40"><a href="#cb40-40" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
+<span id="cb40-41"><a href="#cb40-41" tabindex="-1"></a>    <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb40-42"><a href="#cb40-42" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
+<span id="cb40-43"><a href="#cb40-43" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
+<span id="cb40-44"><a href="#cb40-44" tabindex="-1"></a>    <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">size =</span> <span class="dv">2</span>)</span>
+<span id="cb40-45"><a href="#cb40-45" tabindex="-1"></a>  ) </span>
+<span id="cb40-46"><a href="#cb40-46" tabindex="-1"></a>  </span>
+<span id="cb40-47"><a href="#cb40-47" tabindex="-1"></a> </span>
+<span id="cb40-48"><a href="#cb40-48" tabindex="-1"></a><span class="fu">ggplot</span>(filtered, <span class="fu">aes</span>(<span class="at">x =</span> materials, <span class="at">y =</span> em, <span class="at">fill =</span> school_group)) <span class="sc">+</span></span>
+<span id="cb40-49"><a href="#cb40-49" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.8</span>), <span class="at">width =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb40-50"><a href="#cb40-50" tabindex="-1"></a>  <span class="fu">stat_compare_means</span>(</span>
+<span id="cb40-51"><a href="#cb40-51" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">&quot;wilcox.test&quot;</span>,</span>
+<span id="cb40-52"><a href="#cb40-52" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">&quot;p.format&quot;</span></span>
+<span id="cb40-53"><a href="#cb40-53" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb40-54"><a href="#cb40-54" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb40-55"><a href="#cb40-55" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">&#39;Emissions (ng m&#39;</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">2</span>}<span class="sc">*</span><span class="st">&#39; d&#39;</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">1</span>}<span class="sc">*</span><span class="st">&#39;)&#39;</span>))) <span class="sc">+</span></span>
+<span id="cb40-56"><a href="#cb40-56" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb40-57"><a href="#cb40-57" tabindex="-1"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb40-58"><a href="#cb40-58" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
+<span id="cb40-59"><a href="#cb40-59" tabindex="-1"></a>    <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb40-60"><a href="#cb40-60" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
+<span id="cb40-61"><a href="#cb40-61" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
+<span id="cb40-62"><a href="#cb40-62" tabindex="-1"></a>    <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">size =</span> <span class="dv">2</span>)</span>
+<span id="cb40-63"><a href="#cb40-63" tabindex="-1"></a>  )</span>
+<span id="cb40-64"><a href="#cb40-64" tabindex="-1"></a>  <span class="er">)</span> </span>
+<span id="cb40-65"><a href="#cb40-65" tabindex="-1"></a></span>
+<span id="cb40-66"><a href="#cb40-66" tabindex="-1"></a><span class="fu">ggplot</span>(filtered, <span class="fu">aes</span>(<span class="at">x =</span> materials, <span class="at">y =</span> em, <span class="at">fill =</span> school_group)) <span class="sc">+</span></span>
+<span id="cb40-67"><a href="#cb40-67" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.8</span>), <span class="at">width =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb40-68"><a href="#cb40-68" tabindex="-1"></a>  <span class="fu">stat_compare_means</span>(</span>
+<span id="cb40-69"><a href="#cb40-69" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">&quot;wilcox.test&quot;</span>,</span>
+<span id="cb40-70"><a href="#cb40-70" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">&quot;p.format&quot;</span></span>
+<span id="cb40-71"><a href="#cb40-71" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb40-72"><a href="#cb40-72" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb40-73"><a href="#cb40-73" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">&#39;Emissions (ng m&#39;</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">2</span>}<span class="sc">*</span><span class="st">&#39; d&#39;</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">1</span>}<span class="sc">*</span><span class="st">&#39;)&#39;</span>))) <span class="sc">+</span></span>
+<span id="cb40-74"><a href="#cb40-74" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb40-75"><a href="#cb40-75" tabindex="-1"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb40-76"><a href="#cb40-76" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
+<span id="cb40-77"><a href="#cb40-77" tabindex="-1"></a>    <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb40-78"><a href="#cb40-78" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
+<span id="cb40-79"><a href="#cb40-79" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.5</span>)),</span>
+<span id="cb40-80"><a href="#cb40-80" tabindex="-1"></a>    <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">size =</span> <span class="dv">2</span>)</span>
+<span id="cb40-81"><a href="#cb40-81" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb40-82"><a href="#cb40-82" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">100000</span>), <span class="at">labels =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span></span>
+<span id="cb40-83"><a href="#cb40-83" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;Low&quot;</span> <span class="ot">=</span> <span class="st">&quot;#1f77b4&quot;</span>, <span class="st">&quot;High&quot;</span> <span class="ot">=</span> <span class="st">&quot;#ff7f0e&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb40-84"><a href="#cb40-84" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(</span>
+<span id="cb40-85"><a href="#cb40-85" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">&quot;&quot;</span>,</span>
+<span id="cb40-86"><a href="#cb40-86" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;Low&quot;</span> <span class="ot">=</span> <span class="st">&quot;#1f77b4&quot;</span>, <span class="st">&quot;High&quot;</span> <span class="ot">=</span> <span class="st">&quot;#ff7f0e&quot;</span>),</span>
+<span id="cb40-87"><a href="#cb40-87" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Low&quot;</span> <span class="ot">=</span> <span class="st">&quot;Schools Below SAL&quot;</span>, <span class="st">&quot;High&quot;</span> <span class="ot">=</span> <span class="st">&quot;Schools Above SAL&quot;</span>)</span>
+<span id="cb40-88"><a href="#cb40-88" tabindex="-1"></a>  ) </span></code></pre></div>
 </div>
 <div id="congener-profile-plots" class="section level2" number="10.3">
 <h2><span class="header-section-number">10.3</span> Congener Profile
