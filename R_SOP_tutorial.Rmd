@@ -1053,9 +1053,12 @@ One of the most common libraries used in R is ggplot2. This library is a powerfu
 ```{r ggplot-example}
 library(ggplot2)
 
-# find data to plot
+x <- c(1, 2, 3, 4, 5)
+y <- c(2.3, 4.1, 3.8, 6.2, 5.9)
 
-ggplot(data = my_data, aes(x = variable_x, y = variable_y)) +
+my_data <- data.frame(x,y)
+
+ggplot(data = my_data, aes(x = x, y = y)) +
   geom_point(color = "steelblue", size = 2, alpha = 0.7) +
   geom_smooth(method = "lm", se = TRUE, color = "darkred") +
   labs(
@@ -1070,6 +1073,7 @@ This example introduces how to use ggplot2 with a boxplot example.
 
 ```{r ggplot-boxexample}
 library(ggplot2)
+library(dplyr)
 
 # all school concentration stats
 
@@ -1088,7 +1092,63 @@ low.sch <- c('C P Smith School', 'Cabot School', 'Cavendish Town Elem School',
 high.sch <- c('Bellows Falls UHS #27', 'Brighton Elementary School', 'Green Mountain UHS #35',
               'North Country UHS #22A', 'Oak Grove School', 'Soar Learning Center', 'Twin Valley Elementary School')
 
+
+boxplot.1 <- ggplot(all.conc, aes(x = school, y = Result)) +
+  geom_boxplot(fill = "lightgreen") +
+  theme_classic()
+
+boxplot.1
+
+boxplot.2 <- ggplot(all.conc, aes(x = Sampler, y = Result)) +
+  geom_boxplot(fill = "lightgreen") +
+  theme_classic()
+
+boxplot.2
+
+boxplot.2 <- ggplot(all.conc, aes(x = Sampler, y = Result)) +
+  geom_boxplot(fill = "lightgreen") +
+  theme_classic() +
+  scale_y_log10()
+
+boxplot.2
+
+boxplot.3 <- ggplot(ui.samp, aes(x = school, y = Result)) +
+  geom_boxplot(fill = "lightgreen") +
+  theme_classic() +
+  scale_y_log10()
+
+boxplot.3
+
+boxplot.3 <- ggplot(ui.samp, aes(x = school, y = Result)) +
+  geom_boxplot(fill = "lightgreen") +
+  theme_classic() +
+  scale_y_log10() +
+  labs(title = "",
+       x = "School",
+       y = "Concentration (ng/m3)")       # expression("Concentration (ng m"^{-3}*")"))
+
+boxplot.3
+
+boxplot.3 <- ggplot(ui.samp, aes(x = school, y = Result)) +
+  geom_boxplot(fill = "lightgreen") +
+  theme_classic() +
+  scale_y_log10() +
+  labs(title = "",
+       x = "School",
+       y = "Concentration (ng/m3)") +      # expression("Concentration (ng m"^{-3}*")"))
+  theme(axis.text.x = element_text(angle = 90))
+
+
+boxplot.3
+
+
+
+filtered <- 
+
+
+  
 # check: filtered not found
+  
 ggplot(filtered, aes(x = materials, y = em, fill = school_group)) +
   geom_boxplot(position = position_dodge(width = 0.8), width = 0.7) +
   stat_compare_means(
@@ -1097,6 +1157,9 @@ ggplot(filtered, aes(x = materials, y = em, fill = school_group)) +
   ) +
   theme_classic()
   ) 
+
+
+
 
 ggplot(filtered, aes(x = materials, y = em, fill = school_group)) +
   geom_boxplot(position = position_dodge(width = 0.8), width = 0.7) +
