@@ -1151,12 +1151,36 @@ my_data <- read.csv('./Example Data/Ex 4/schoolData.csv', header = T, fileEncodi
 
 my_data$sum <- rowSums(my_data[,c(7:length(my_data))])
 
+# basic box plot using ggplot2
+ggplot(my_data, aes(x = materials, y = sum, fill = school)) +
+  geom_boxplot(position = position_dodge(width = 0.8), width = 0.7)
+
+
+# adding a theme and stat test to the plot
 ggplot(my_data, aes(x = materials, y = sum, fill = school)) +
   geom_boxplot(position = position_dodge(width = 0.8), width = 0.7) +
   stat_compare_means(
     method = "wilcox.test",
     label = "p.format") +
   theme_classic()
+
+# cleaning up text throughout the plot
+ggplot(my_data, aes(x = materials, y = sum, fill = school)) +
+  geom_boxplot(position = position_dodge(width = 0.8), width = 0.7) +
+  stat_compare_means(
+    method = "wilcox.test",
+    label = "p.format") +
+  theme_classic() +
+  scale_y_log10() +
+  theme(axis.text.x = element_text(angle = 90))
+
+
+
+
+
+
+
+
 
 
 
